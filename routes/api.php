@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,9 +24,16 @@ Route::group(['middleware' => ['apiJwt']], function(){
     Route::get('/me', [AuthController::class, 'me']);
 
 
-    Route::get('/role', [RoleController::class, 'list']);
-    Route::get('/role/{id}', [RoleController::class, 'getById']);
-    Route::put('/role/{id}', [RoleController::class, 'update']);
-    Route::delete('/role/{id}', [RoleController::class, 'delete']);
-    Route::post('/role', [RoleController::class, 'create']);
+    Route::get('/roles', [RoleController::class, 'list']);
+    Route::get('/roles/{id}', [RoleController::class, 'getById']);
+    Route::put('/roles/{id}', [RoleController::class, 'update']);
+    Route::delete('/roles/{id}', [RoleController::class, 'delete']);
+    Route::post('/roles', [RoleController::class, 'create']);
+    Route::get('/roles/{id}/permissions', [RoleController::class, 'getRolePermissions']);
+
+    Route::get('/permissions', [PermissionController::class, 'list']);
+    Route::get('/permissions/{id}', [PermissionController::class, 'getById']);
+    Route::put('/permissions/{id}', [PermissionController::class, 'update']);
+    Route::delete('/permissions/{id}', [PermissionController::class, 'delete']);
+    Route::post('/permissions', [PermissionController::class, 'create']);
 });

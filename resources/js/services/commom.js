@@ -50,6 +50,25 @@ const commom = {
 
         const result = await axios.get('/api/me', {headers: {Authorization: 'Bearer ' + localStorage.getItem('auth_token')}})
         return result.data
+    },
+
+    errorMessages: (data='') => {
+        if (typeof data == 'string'){
+            return data
+        }
+
+        if( typeof data == 'array' || typeof data == 'object' ){
+
+            let str = ''
+            for( const key in data){
+                if ( typeof data[key] == 'string'){
+                    str += `- ${data[key]}<br>`
+                } else if ( typeof data[key] == 'array' || typeof data[key] == 'object' ){
+                    str += `- ${data[key][0]}\n`
+                }
+            }
+            return str
+        }
     }
 }
 

@@ -19,6 +19,7 @@ class PermissionSeed extends Seeder
                 'id' => 1,
                 'name' => 'Criar Usuário',
                 'slug' => 'create-user',
+                'topic' => 'user',
                 'description' => 'Pode criar usuários',
                 'active' => 1
             ],
@@ -26,6 +27,7 @@ class PermissionSeed extends Seeder
                 'id' => 2,
                 'name' => 'Editar Usuário',
                 'slug' => 'update-user',
+                'topic' => 'user',
                 'description' => 'Pode editar usuários',
                 'active' => 1
             ],
@@ -33,6 +35,7 @@ class PermissionSeed extends Seeder
                 'id' => 3,
                 'name' => 'Deletar Usuário',
                 'slug' => 'delete-user',
+                'topic' => 'user',
                 'description' => 'Pode deletar usuários',
                 'active' => 1
             ],

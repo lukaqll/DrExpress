@@ -5,7 +5,10 @@
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RoleResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class RoleController extends Controller
 {
@@ -22,6 +25,9 @@ class RoleController extends Controller
     public function list( Request $request )
     {
         try {
+
+            if( Gate::denies('edit-user-role') )
+                throw new HttpException(403, 'Sem autorização');
 
             $dataFilter = $request->all();
             $result = $this->roleService->list( $dataFilter, ['id'] );
@@ -65,7 +71,7 @@ class RoleController extends Controller
         try {
 
             $result = $this->roleService->get( ['id' => $id] );
-            $response = [ 'status' => 'success', 'data' => ($result) ];
+            $response = [ 'status' => 'success', 'data' => new RoleResource($result) ];
 
         } catch ( ValidationException $e ){
 
@@ -84,8 +90,12 @@ class RoleController extends Controller
         try {
 
             $validData = $request->validate([
-                'name' => 'required|string|unique:table',
+                'name' => 'required|string|unique:roles',
+                'slug' => 'required|string|unique:roles',
+                'description' => 'nullable|string',
             ]);
+
+            $validData['slug'] = Str::slug($validData['slug']);
             
             $created = $this->roleService->create( $validData );
             $response = [ 'status' => 'success', 'data' => ($created) ];
@@ -108,9 +118,23 @@ class RoleController extends Controller
         try {
             
             $validData = $request->validate([
-                'name' => 'required|string|unique:table,name,'.$id,
+                'name' => 'required|string|unique:roles,id,'.$id,
+                'slug' => 'required|string|unique:roles,id,'.$id,
+                'description' => 'nullable|string',
+
+                'id_permissions' => 'nullable|array',
+                'id_permissions.*' => 'nullable|numeric|exists:permissions,id',
             ]);
-            $updated = $this->roleService->updateById( $id, $validData);
+            $validData['slug'] = Str::slug($validData['slug']);
+
+            $updated = $this->roleService->updateById( $id, $validData );
+            
+            $updated->permissions()->detach( $updated->idPermissions() );
+
+            if( !empty($validData['id_permissions']) ){
+                $updated->permissions()->attach($validData['id_permissions']);
+            }
+
             $response = [ 'status' => 'success', 'data' => ($updated) ];
 
         } catch ( ValidationException $e ){
@@ -132,6 +156,25 @@ class RoleController extends Controller
 
             $deleted = $this->roleService->deleteById( $id );
             $response = [ 'status' => 'success', 'data' => ($deleted) ];
+
+        } catch ( ValidationException $e ){
+            
+            $response = [ 'status' => 'error', 'message' => $e->errors() ];
+        }
+
+        return response()->json( $response );
+    }
+
+    /**
+     * get role permissions
+     */
+    public function getRolePermissions($id){
+
+        try {
+
+            $role = $this->roleService->find($id);
+            $result = $this->roleService->getRolePermissions($role);
+            $response = [ 'status' => 'success', 'data' => ($result) ];
 
         } catch ( ValidationException $e ){
             

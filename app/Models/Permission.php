@@ -16,9 +16,23 @@ class Permission extends Model
         'id',
         'name',
         'slug',
+        'topic',
         'description',
         'active',
     ];
     
     public $timestamps = false;
+
+    public function topicText(){
+        $topics = [
+            'user' => 'Usuário',
+            'permissions' => 'Permissões',
+        ];
+
+        return !empty($topics[$this->topic]) ? $topics[$this->topic] : $this->topic;
+    }
+
+    public function roles(){
+        return $this->belongsToMany(Role::class, 'role_permissions', 'id_permission', 'id_role');
+    }
 }

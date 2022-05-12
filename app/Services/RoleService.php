@@ -12,4 +12,7 @@ class RoleService extends AbstractService
         $this->model = new Role;       
     }
 
+    public function getRolePermissions( Role $role ){
+        
+    }
 }

@@ -12,4 +12,18 @@ class PermissionService extends AbstractService
         $this->model = new Permission;       
     }
 
+    public function getTopicGroup(){
+
+        $groups = $this->model->groupBy('topic')->select('topic')->get();
+
+        $result = [];
+        foreach( $groups as $topic ){
+            $result[] = [
+                'topic' => $topic->topic,
+                'permissions' => $this->model->where('topic', $topic->topic)->get()
+            ];
+        }
+
+        return $result;
+    }
 }

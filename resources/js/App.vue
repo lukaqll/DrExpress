@@ -8,32 +8,19 @@
 
 <script>
     import Admin from './components/Layouts/Admin.vue'
-    import AuthBase from './components/Layouts/AuthBase.vue'
+    import Auth from './components/Layouts/Auth.vue'
     export default {
-        components: {Admin, AuthBase},
+        components: {Admin, Auth},
         data: () => ({
             userType: 1,
             user: {},
-            base: null
         }),
         mounted() {
-            this.verifyBase()
-            this.$root.$on('login', (data) => {
-                this.user = data
-                this.verifyBase()
-            });
-
         },
-        methods: {
-            verifyBase() {
-                
-                console.log(this.$route)
-                if( this.$route.name.split('.')[0] == 'auth' ){
-                    this.base = 'auth-base'
-                } else {
-                    this.base = 'admin'
-                }
+        computed: {
+            base: function () { 
+                return (this.$route.meta && this.$route.meta.base) ? this.$route.meta.base : 'auth'
             }
-        }
+        },
     }
 </script>

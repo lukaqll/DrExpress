@@ -41,8 +41,6 @@
 </template>
 
 <script>
-import commom from '../../../services/commom'
-
 export default {
     data: () => ({
         formData: {},
@@ -51,7 +49,7 @@ export default {
         errorMessage: '',
         rules: {
             email: [
-                v => !!v || 'Insira seu e-amil',
+                v => !!v || 'Insira seu e-mail',
                 v => /.+@.+/.test(v) || 'E-mail inválido',
             ],
             password: [
@@ -62,17 +60,16 @@ export default {
     }),
 
     watch: {
-            $user(newUser, oldUser){
-                console.log('user!!!', newUser, oldUser)
-            }
-
-        },
+        $user(newUser, oldUser){
+            console.log('user!!!', newUser, oldUser)
+        }
+    },
 
     methods: {
 
         login() {
             this.loading = false
-            commom.request({
+            this.$commom.request({
                 url: '/login',
                 type: 'post',
                 data: this.formData,
@@ -81,7 +78,6 @@ export default {
                     this.errorMessage = ''
                     localStorage.setItem('auth_token', resp.access_token)
                     this.$router.push("/admin/permissions")
-                    this.$root.$emit('login', resp.user)
                 }, 
                 error: (e) => {
                     this.loading = false

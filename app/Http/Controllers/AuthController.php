@@ -7,15 +7,7 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth:api', ['except' => ['login']]);
-    }
+
 
     /**
      * Get a JWT via given credentials.
@@ -68,7 +60,7 @@ class AuthController extends Controller
     {
         auth('api')->logout();
 
-        return response()->json(['message' => 'Logout realizado conm sucesso']);
+        return response()->json(['status' => 'success', 'message' => 'Logout realizado conm sucesso']);
     }
 
     /**
