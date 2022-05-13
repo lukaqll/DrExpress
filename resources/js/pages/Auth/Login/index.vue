@@ -3,7 +3,7 @@
         <v-card class="mx-auto" :loading="loading" >
             <v-card-text>
                 <h3 class="text-center">Login</h3>
-                <v-form @submit.prevent="login" v-model="valid">
+                <v-form ref="form" @submit.prevent="login" v-model="valid">
                     <div class="row">
                         <div class="col-12">
                             <v-text-field
@@ -31,7 +31,7 @@
                             <v-btn type='submit' class="float-right" color="primary">Entrar</v-btn>
                         </div>
                         <div v-if="errorMessage && errorMessage.length" class="col-12">
-                            <v-alert type="error">{{ errorMessage }}</v-alert>
+                            <v-alert type="error" v-html="errorMessage"/>
                         </div>
                     </div>
                 </v-form>
@@ -54,7 +54,7 @@ export default {
             ],
             password: [
                 v => !!v || 'Insira sua senha',
-                v => (v && v.length <= 6) || 'A senha deve conter pelo menos 6 caracteres',
+                v => (v && v.length >= 6) || 'A senha deve conter pelo menos 6 caracteres',
             ]
         }
     }),
@@ -66,24 +66,30 @@ export default {
     },
 
     methods: {
-
         login() {
-            this.loading = false
-            this.$commom.request({
-                url: '/login',
-                type: 'post',
-                data: this.formData,
-                success: (resp) => {
-                    this.loading = false
-                    this.errorMessage = ''
-                    localStorage.setItem('auth_token', resp.access_token)
-                    this.$router.push("/admin/permissions")
-                }, 
-                error: (e) => {
-                    this.loading = false
-                    this.errorMessage = e.response.data.message
-                }
-            })
+            if( this.$refs.form.validate() ){
+                this.loading = false
+                this.$commom.request({
+                    url: '/login',
+                    type: 'post',
+                    data: this.formData,
+                    success: (resp) => {
+                        this.setUser(resp)
+                        this.loading = false
+                        this.errorMessage = ''
+                        this.$router.push("/admin")
+                    }, 
+                    error: (e) => {
+                        this.loading = false
+                        this.errorMessage = e
+                    }
+                })
+            }
+        },
+
+        setUser( data ) {
+            localStorage.setItem('auth_token', data.access_token)
+            this.$useStore.user = {...data.user}
         }
     }
 }

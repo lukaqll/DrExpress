@@ -42,6 +42,7 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at',
         'created_at',
         'updated_at',
+        'password'
     ];
 
 
@@ -83,22 +84,44 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function roles(){
-        
+    public function roles(){ 
         return $this->belongsToMany(Role::class, 'user_roles', 'id_user', 'id_role');
     }
 
     public function hasPermission( Permission $permission ){
-
         return $this->hasAnyRoles($permission->roles);
     }
 
     public function hasAnyRoles( $roles ){
-
         if( is_array($roles) || is_object($roles) ){
             return !! $roles->intersect($this->roles)->count();
         }
 
         return $this->roles->contains('slug', $roles);
+    }
+
+    public function permissions(){
+        $roles = $this->roles()
+                    ->with('permissions')
+                    ->get();
+
+        $result = [];
+        foreach($roles as $role ){
+            foreach( $role->permissions as $permission ){
+                if( empty($result[ $permission->slug ]) )
+                    $result[] = $permission->slug;
+            }
+        }
+
+        return $result;
+    }
+
+    public function statusText(){
+        $status = [
+            'A' => 'Ativo',
+            'I' => 'Inativo',
+        ];
+
+        return !empty($status[$this->status]) ? $status[$this->status] : $this->status;
     }
 }

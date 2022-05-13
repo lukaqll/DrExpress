@@ -253,9 +253,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -337,6 +334,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }, {
         text: 'Descrição',
         value: 'description'
+      }, {
+        text: 'Slug',
+        value: 'slug'
       }, {
         text: '',
         value: 'actions',
@@ -1612,18 +1612,20 @@ var render = function () {
                       _vm._v(
                         "\n                        Funções\n                        "
                       ),
-                      _c(
-                        "v-btn",
-                        {
-                          staticClass: "float-right",
-                          on: {
-                            click: function () {
-                              return (_vm.modalRole = true)
+                      _vm.$can("create-permissions")
+                        ? _c(
+                            "v-btn",
+                            {
+                              staticClass: "float-right",
+                              on: {
+                                click: function () {
+                                  return (_vm.modalRole = true)
+                                },
+                              },
                             },
-                          },
-                        },
-                        [_vm._v("Nova Função")]
-                      ),
+                            [_vm._v("Nova Função")]
+                          )
+                        : _vm._e(),
                     ],
                     1
                   ),
@@ -1665,9 +1667,7 @@ var render = function () {
                           var item = ref.item
                           return [
                             _c("v-badge", {
-                              attrs: {
-                                content: "" + item.id_permissions.length,
-                              },
+                              attrs: { content: item.id_permissions.length },
                             }),
                           ]
                         },
@@ -1677,18 +1677,20 @@ var render = function () {
                         fn: function (ref) {
                           var item = ref.item
                           return [
-                            _c(
-                              "v-btn",
-                              {
-                                attrs: { text: "", color: "primary" },
-                                on: {
-                                  click: function () {
-                                    return _vm.getRole(item.id)
+                            _vm.$can("update-permissions")
+                              ? _c(
+                                  "v-btn",
+                                  {
+                                    attrs: { icon: "", color: "primary" },
+                                    on: {
+                                      click: function () {
+                                        return _vm.getRole(item.id)
+                                      },
+                                    },
                                   },
-                                },
-                              },
-                              [_c("i", { staticClass: "fa fa-edit" })]
-                            ),
+                                  [_c("i", { staticClass: "fa fa-edit" })]
+                                )
+                              : _vm._e(),
                           ]
                         },
                       },
@@ -1720,18 +1722,20 @@ var render = function () {
                       _vm._v(
                         "\n                        Permissões\n                        "
                       ),
-                      _c(
-                        "v-btn",
-                        {
-                          staticClass: "float-right",
-                          on: {
-                            click: function () {
-                              return (_vm.modalPermission = true)
+                      _vm.$can("create-permissions")
+                        ? _c(
+                            "v-btn",
+                            {
+                              staticClass: "float-right",
+                              on: {
+                                click: function () {
+                                  return (_vm.modalPermission = true)
+                                },
+                              },
                             },
-                          },
-                        },
-                        [_vm._v("Nova Permissão")]
-                      ),
+                            [_vm._v("Nova Permissão")]
+                          )
+                        : _vm._e(),
                     ],
                     1
                   ),
@@ -1772,18 +1776,20 @@ var render = function () {
                         fn: function (ref) {
                           var item = ref.item
                           return [
-                            _c(
-                              "v-btn",
-                              {
-                                attrs: { text: "", color: "primary" },
-                                on: {
-                                  click: function () {
-                                    return _vm.getPermission(item.id)
+                            _vm.$can("update-permissions")
+                              ? _c(
+                                  "v-btn",
+                                  {
+                                    attrs: { icon: "", color: "primary" },
+                                    on: {
+                                      click: function () {
+                                        return _vm.getPermission(item.id)
+                                      },
+                                    },
                                   },
-                                },
-                              },
-                              [_c("i", { staticClass: "fa fa-edit" })]
-                            ),
+                                  [_c("i", { staticClass: "fa fa-edit" })]
+                                )
+                              : _vm._e(),
                           ]
                         },
                       },
@@ -1799,778 +1805,861 @@ var render = function () {
         1
       ),
       _vm._v(" "),
-      _c("v-dialog", {
-        attrs: { transition: "dialog-top-transition", width: "700" },
-        scopedSlots: _vm._u([
-          {
-            key: "default",
-            fn: function (dialog) {
-              return [
-                _c(
-                  "v-card",
-                  [
-                    _c(
-                      "v-toolbar",
-                      { attrs: { color: "light", elevation: "1" } },
-                      [_vm._v("Nova Função")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-card-text",
-                      { staticClass: "pt-5" },
-                      [
-                        _c(
-                          "v-form",
-                          {
-                            attrs: { id: "create-role" },
-                            on: {
-                              submit: function ($event) {
-                                $event.preventDefault()
-                                return _vm.createRole.apply(null, arguments)
-                              },
-                            },
-                          },
-                          [
-                            _c("div", { staticClass: "row" }, [
+      _vm.$can("create-permissions")
+        ? _c("v-dialog", {
+            attrs: { width: "700" },
+            scopedSlots: _vm._u(
+              [
+                {
+                  key: "default",
+                  fn: function (dialog) {
+                    return [
+                      _c(
+                        "v-card",
+                        [
+                          _c(
+                            "v-toolbar",
+                            { attrs: { color: "light", elevation: "1" } },
+                            [_vm._v("Nova Função")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-card-text",
+                            { staticClass: "pt-5" },
+                            [
                               _c(
-                                "div",
-                                { staticClass: "col-md-6" },
-                                [
-                                  _c("v-text-field", {
-                                    attrs: { label: "Nome", autofocus: "" },
-                                    model: {
-                                      value: _vm.newRole.name,
-                                      callback: function ($$v) {
-                                        _vm.$set(_vm.newRole, "name", $$v)
-                                      },
-                                      expression: "newRole.name",
+                                "v-form",
+                                {
+                                  attrs: { id: "create-role" },
+                                  on: {
+                                    submit: function ($event) {
+                                      $event.preventDefault()
+                                      return _vm.createRole.apply(
+                                        null,
+                                        arguments
+                                      )
                                     },
-                                  }),
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "col-md-6" },
+                                  },
+                                },
                                 [
-                                  _c("v-text-field", {
-                                    attrs: { label: "Slug" },
-                                    model: {
-                                      value: _vm.newRole.slug,
-                                      callback: function ($$v) {
-                                        _vm.$set(_vm.newRole, "slug", $$v)
-                                      },
-                                      expression: "newRole.slug",
-                                    },
-                                  }),
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "col-md-12" },
-                                [
-                                  _c("v-text-field", {
-                                    attrs: { label: "Descrição" },
-                                    model: {
-                                      value: _vm.newRole.description,
-                                      callback: function ($$v) {
-                                        _vm.$set(
-                                          _vm.newRole,
-                                          "description",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "newRole.description",
-                                    },
-                                  }),
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _vm.roleError && _vm.roleError.length
-                                ? _c(
-                                    "div",
-                                    { staticClass: "col-12" },
-                                    [
-                                      _c(
-                                        "v-alert",
-                                        { attrs: { type: "error" } },
-                                        [_vm._v(_vm._s(_vm.roleError))]
-                                      ),
-                                    ],
-                                    1
-                                  )
-                                : _vm._e(),
-                            ]),
-                          ]
-                        ),
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-card-actions",
-                      { staticClass: "justify-end" },
-                      [
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: { text: "" },
-                            on: {
-                              click: function ($event) {
-                                dialog.value = false
-                              },
-                            },
-                          },
-                          [_vm._v("Fechar")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: {
-                              form: "create-role",
-                              type: "submit",
-                              color: "primary",
-                            },
-                          },
-                          [_vm._v("Salvar")]
-                        ),
-                      ],
-                      1
-                    ),
-                  ],
-                  1
-                ),
-              ]
-            },
-          },
-        ]),
-        model: {
-          value: _vm.modalRole,
-          callback: function ($$v) {
-            _vm.modalRole = $$v
-          },
-          expression: "modalRole",
-        },
-      }),
-      _vm._v(" "),
-      _c("v-dialog", {
-        attrs: { transition: "dialog-top-transition", width: "700" },
-        scopedSlots: _vm._u([
-          {
-            key: "default",
-            fn: function (dialog) {
-              return [
-                _c(
-                  "v-card",
-                  [
-                    _c(
-                      "v-toolbar",
-                      { attrs: { color: "light", elevation: "1" } },
-                      [_vm._v("Editar Função")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-card-text",
-                      { staticClass: "pt-5" },
-                      [
-                        _c(
-                          "v-form",
-                          {
-                            attrs: { id: "update-role" },
-                            on: {
-                              submit: function ($event) {
-                                $event.preventDefault()
-                                return _vm.updateRole.apply(null, arguments)
-                              },
-                            },
-                          },
-                          [
-                            _c("div", { staticClass: "row" }, [
-                              _c(
-                                "div",
-                                { staticClass: "col-md-6" },
-                                [
-                                  _c("v-text-field", {
-                                    attrs: { label: "Nome", autofocus: "" },
-                                    model: {
-                                      value: _vm.editRole.name,
-                                      callback: function ($$v) {
-                                        _vm.$set(_vm.editRole, "name", $$v)
-                                      },
-                                      expression: "editRole.name",
-                                    },
-                                  }),
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "col-md-6" },
-                                [
-                                  _c("v-text-field", {
-                                    attrs: { label: "Nome" },
-                                    model: {
-                                      value: _vm.editRole.slug,
-                                      callback: function ($$v) {
-                                        _vm.$set(_vm.editRole, "slug", $$v)
-                                      },
-                                      expression: "editRole.slug",
-                                    },
-                                  }),
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "col-md-12" },
-                                [
-                                  _c("v-text-field", {
-                                    attrs: { label: "Descrição" },
-                                    model: {
-                                      value: _vm.editRole.description,
-                                      callback: function ($$v) {
-                                        _vm.$set(
-                                          _vm.editRole,
-                                          "description",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "editRole.description",
-                                    },
-                                  }),
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "col-12" },
-                                [
-                                  _c("v-autocomplete", {
-                                    attrs: {
-                                      label: "Permissões",
-                                      items: _vm.permissionsOptions,
-                                      chips: "",
-                                      multiple: "",
-                                      solo: "",
-                                    },
-                                    scopedSlots: _vm._u(
+                                  _c("div", { staticClass: "row" }, [
+                                    _c(
+                                      "div",
+                                      { staticClass: "col-md-6" },
                                       [
-                                        {
-                                          key: "selection",
-                                          fn: function (data) {
-                                            return [
-                                              _c(
-                                                "v-chip",
-                                                _vm._b(
-                                                  {
-                                                    attrs: {
-                                                      "input-value":
-                                                        data.selected,
-                                                      close: "",
-                                                    },
-                                                    on: {
-                                                      click: data.select,
-                                                      "click:close": function (
-                                                        $event
-                                                      ) {
-                                                        return _vm.removePermission(
-                                                          data.item
-                                                        )
-                                                      },
-                                                    },
-                                                  },
-                                                  "v-chip",
-                                                  data.attrs,
-                                                  false
-                                                ),
-                                                [
-                                                  _vm._v(
-                                                    "\n                                        " +
-                                                      _vm._s(data.item.text) +
-                                                      "\n                                    "
-                                                  ),
-                                                ]
-                                              ),
-                                            ]
+                                        _c("v-text-field", {
+                                          attrs: {
+                                            label: "Nome",
+                                            autofocus: "",
                                           },
-                                        },
+                                          model: {
+                                            value: _vm.newRole.name,
+                                            callback: function ($$v) {
+                                              _vm.$set(_vm.newRole, "name", $$v)
+                                            },
+                                            expression: "newRole.name",
+                                          },
+                                        }),
                                       ],
-                                      null,
-                                      true
+                                      1
                                     ),
-                                    model: {
-                                      value: _vm.editRole.id_permissions,
-                                      callback: function ($$v) {
-                                        _vm.$set(
-                                          _vm.editRole,
-                                          "id_permissions",
-                                          $$v
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "col-md-6" },
+                                      [
+                                        _c("v-text-field", {
+                                          attrs: { label: "Slug" },
+                                          model: {
+                                            value: _vm.newRole.slug,
+                                            callback: function ($$v) {
+                                              _vm.$set(_vm.newRole, "slug", $$v)
+                                            },
+                                            expression: "newRole.slug",
+                                          },
+                                        }),
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "col-md-12" },
+                                      [
+                                        _c("v-text-field", {
+                                          attrs: { label: "Descrição" },
+                                          model: {
+                                            value: _vm.newRole.description,
+                                            callback: function ($$v) {
+                                              _vm.$set(
+                                                _vm.newRole,
+                                                "description",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "newRole.description",
+                                          },
+                                        }),
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _vm.roleError && _vm.roleError.length
+                                      ? _c(
+                                          "div",
+                                          { staticClass: "col-12" },
+                                          [
+                                            _c("v-alert", {
+                                              attrs: { type: "error" },
+                                              domProps: {
+                                                innerHTML: _vm._s(
+                                                  _vm.roleError
+                                                ),
+                                              },
+                                            }),
+                                          ],
+                                          1
                                         )
-                                      },
-                                      expression: "editRole.id_permissions",
+                                      : _vm._e(),
+                                  ]),
+                                ]
+                              ),
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-card-actions",
+                            { staticClass: "justify-end" },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { text: "" },
+                                  on: {
+                                    click: function ($event) {
+                                      dialog.value = false
                                     },
-                                  }),
-                                ],
-                                1
+                                  },
+                                },
+                                [_vm._v("Fechar")]
                               ),
                               _vm._v(" "),
-                              _vm.roleError && _vm.roleError.length
-                                ? _c(
-                                    "div",
-                                    { staticClass: "col-12" },
-                                    [
-                                      _c(
-                                        "v-alert",
-                                        { attrs: { type: "error" } },
-                                        [_vm._v(_vm._s(_vm.roleError))]
-                                      ),
-                                    ],
-                                    1
-                                  )
-                                : _vm._e(),
-                            ]),
-                          ]
-                        ),
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-card-actions",
-                      { staticClass: "justify-end" },
-                      [
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: { text: "" },
-                            on: {
-                              click: function ($event) {
-                                dialog.value = false
-                              },
-                            },
-                          },
-                          [_vm._v("Fechar")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: {
-                              form: "update-role",
-                              type: "submit",
-                              color: "primary",
-                            },
-                          },
-                          [_vm._v("Salvar")]
-                        ),
-                      ],
-                      1
-                    ),
-                  ],
-                  1
-                ),
-              ]
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: {
+                                    form: "create-role",
+                                    type: "submit",
+                                    color: "primary",
+                                  },
+                                },
+                                [_vm._v("Salvar")]
+                              ),
+                            ],
+                            1
+                          ),
+                        ],
+                        1
+                      ),
+                    ]
+                  },
+                },
+              ],
+              null,
+              false,
+              1850749465
+            ),
+            model: {
+              value: _vm.modalRole,
+              callback: function ($$v) {
+                _vm.modalRole = $$v
+              },
+              expression: "modalRole",
             },
-          },
-        ]),
-        model: {
-          value: _vm.modalEditRole,
-          callback: function ($$v) {
-            _vm.modalEditRole = $$v
-          },
-          expression: "modalEditRole",
-        },
-      }),
+          })
+        : _vm._e(),
       _vm._v(" "),
-      _c("v-dialog", {
-        attrs: { transition: "dialog-top-transition", width: "700" },
-        scopedSlots: _vm._u([
-          {
-            key: "default",
-            fn: function (dialog) {
-              return [
-                _c(
-                  "v-card",
-                  [
-                    _c(
-                      "v-toolbar",
-                      { attrs: { color: "light", elevation: "1" } },
-                      [_vm._v("Nova Permissão")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-card-text",
-                      { staticClass: "pt-5" },
-                      [
-                        _c(
-                          "v-form",
-                          {
-                            attrs: { id: "create-permission" },
-                            on: {
-                              submit: function ($event) {
-                                $event.preventDefault()
-                                return _vm.createPermission.apply(
-                                  null,
-                                  arguments
-                                )
-                              },
-                            },
-                          },
-                          [
-                            _c("div", { staticClass: "row" }, [
+      _vm.$can("create-permissions")
+        ? _c("v-dialog", {
+            attrs: { width: "700" },
+            scopedSlots: _vm._u(
+              [
+                {
+                  key: "default",
+                  fn: function (dialog) {
+                    return [
+                      _c(
+                        "v-card",
+                        [
+                          _c(
+                            "v-toolbar",
+                            { attrs: { color: "light", elevation: "1" } },
+                            [_vm._v("Editar Função")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-card-text",
+                            { staticClass: "pt-5" },
+                            [
                               _c(
-                                "div",
-                                { staticClass: "col-md-12" },
-                                [
-                                  _c("v-select", {
-                                    attrs: {
-                                      label: "Tópico",
-                                      items: _vm.permissionTopics,
+                                "v-form",
+                                {
+                                  attrs: { id: "update-role" },
+                                  on: {
+                                    submit: function ($event) {
+                                      $event.preventDefault()
+                                      return _vm.updateRole.apply(
+                                        null,
+                                        arguments
+                                      )
                                     },
-                                    model: {
-                                      value: _vm.newPermission.topic,
-                                      callback: function ($$v) {
-                                        _vm.$set(
-                                          _vm.newPermission,
-                                          "topic",
-                                          $$v
+                                  },
+                                },
+                                [
+                                  _c("div", { staticClass: "row" }, [
+                                    _c(
+                                      "div",
+                                      { staticClass: "col-md-6" },
+                                      [
+                                        _c("v-text-field", {
+                                          attrs: {
+                                            label: "Nome",
+                                            autofocus: "",
+                                          },
+                                          model: {
+                                            value: _vm.editRole.name,
+                                            callback: function ($$v) {
+                                              _vm.$set(
+                                                _vm.editRole,
+                                                "name",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "editRole.name",
+                                          },
+                                        }),
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "col-md-6" },
+                                      [
+                                        _c("v-text-field", {
+                                          attrs: { label: "Nome" },
+                                          model: {
+                                            value: _vm.editRole.slug,
+                                            callback: function ($$v) {
+                                              _vm.$set(
+                                                _vm.editRole,
+                                                "slug",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "editRole.slug",
+                                          },
+                                        }),
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "col-md-12" },
+                                      [
+                                        _c("v-text-field", {
+                                          attrs: { label: "Descrição" },
+                                          model: {
+                                            value: _vm.editRole.description,
+                                            callback: function ($$v) {
+                                              _vm.$set(
+                                                _vm.editRole,
+                                                "description",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "editRole.description",
+                                          },
+                                        }),
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "col-12" },
+                                      [
+                                        _c("v-autocomplete", {
+                                          attrs: {
+                                            label: "Permissões",
+                                            items: _vm.permissionsOptions,
+                                            chips: "",
+                                            multiple: "",
+                                          },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "selection",
+                                                fn: function (data) {
+                                                  return [
+                                                    _c(
+                                                      "v-chip",
+                                                      _vm._b(
+                                                        {
+                                                          attrs: {
+                                                            "input-value":
+                                                              data.selected,
+                                                            close: "",
+                                                          },
+                                                          on: {
+                                                            click: data.select,
+                                                            "click:close":
+                                                              function (
+                                                                $event
+                                                              ) {
+                                                                return _vm.removePermission(
+                                                                  data.item
+                                                                )
+                                                              },
+                                                          },
+                                                        },
+                                                        "v-chip",
+                                                        data.attrs,
+                                                        false
+                                                      ),
+                                                      [
+                                                        _vm._v(
+                                                          "\n                                        " +
+                                                            _vm._s(
+                                                              data.item.text
+                                                            ) +
+                                                            "\n                                    "
+                                                        ),
+                                                      ]
+                                                    ),
+                                                  ]
+                                                },
+                                              },
+                                            ],
+                                            null,
+                                            true
+                                          ),
+                                          model: {
+                                            value: _vm.editRole.id_permissions,
+                                            callback: function ($$v) {
+                                              _vm.$set(
+                                                _vm.editRole,
+                                                "id_permissions",
+                                                $$v
+                                              )
+                                            },
+                                            expression:
+                                              "editRole.id_permissions",
+                                          },
+                                        }),
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _vm.roleError && _vm.roleError.length
+                                      ? _c(
+                                          "div",
+                                          { staticClass: "col-12" },
+                                          [
+                                            _c("v-alert", {
+                                              attrs: { type: "error" },
+                                              domProps: {
+                                                innerHTML: _vm._s(
+                                                  _vm.roleError
+                                                ),
+                                              },
+                                            }),
+                                          ],
+                                          1
                                         )
-                                      },
-                                      expression: "newPermission.topic",
+                                      : _vm._e(),
+                                  ]),
+                                ]
+                              ),
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-card-actions",
+                            { staticClass: "justify-end" },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { text: "" },
+                                  on: {
+                                    click: function ($event) {
+                                      dialog.value = false
                                     },
-                                  }),
-                                ],
-                                1
+                                  },
+                                },
+                                [_vm._v("Fechar")]
                               ),
                               _vm._v(" "),
                               _c(
-                                "div",
-                                { staticClass: "col-md-6" },
-                                [
-                                  _c("v-text-field", {
-                                    attrs: { label: "Nome", autofocus: "" },
-                                    model: {
-                                      value: _vm.newPermission.name,
-                                      callback: function ($$v) {
-                                        _vm.$set(_vm.newPermission, "name", $$v)
-                                      },
-                                      expression: "newPermission.name",
-                                    },
-                                  }),
-                                ],
-                                1
+                                "v-btn",
+                                {
+                                  attrs: {
+                                    form: "update-role",
+                                    type: "submit",
+                                    color: "primary",
+                                  },
+                                },
+                                [_vm._v("Salvar")]
                               ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "col-md-6" },
-                                [
-                                  _c("v-text-field", {
-                                    attrs: { label: "Slug" },
-                                    model: {
-                                      value: _vm.newPermission.slug,
-                                      callback: function ($$v) {
-                                        _vm.$set(_vm.newPermission, "slug", $$v)
-                                      },
-                                      expression: "newPermission.slug",
-                                    },
-                                  }),
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "col-md-12" },
-                                [
-                                  _c("v-text-field", {
-                                    attrs: { label: "Descrição" },
-                                    model: {
-                                      value: _vm.newPermission.description,
-                                      callback: function ($$v) {
-                                        _vm.$set(
-                                          _vm.newPermission,
-                                          "description",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "newPermission.description",
-                                    },
-                                  }),
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _vm.permissionError && _vm.permissionError.length
-                                ? _c(
-                                    "div",
-                                    { staticClass: "col-12" },
-                                    [
-                                      _c(
-                                        "v-alert",
-                                        { attrs: { type: "error" } },
-                                        [_vm._v(_vm._s(_vm.permissionError))]
-                                      ),
-                                    ],
-                                    1
-                                  )
-                                : _vm._e(),
-                            ]),
-                          ]
-                        ),
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-card-actions",
-                      { staticClass: "justify-end" },
-                      [
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: { text: "" },
-                            on: {
-                              click: function ($event) {
-                                dialog.value = false
-                              },
-                            },
-                          },
-                          [_vm._v("Fechar")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: {
-                              form: "create-permission",
-                              type: "submit",
-                              color: "primary",
-                            },
-                          },
-                          [_vm._v("Salvar")]
-                        ),
-                      ],
-                      1
-                    ),
-                  ],
-                  1
-                ),
-              ]
+                            ],
+                            1
+                          ),
+                        ],
+                        1
+                      ),
+                    ]
+                  },
+                },
+              ],
+              null,
+              false,
+              3144376897
+            ),
+            model: {
+              value: _vm.modalEditRole,
+              callback: function ($$v) {
+                _vm.modalEditRole = $$v
+              },
+              expression: "modalEditRole",
             },
-          },
-        ]),
-        model: {
-          value: _vm.modalPermission,
-          callback: function ($$v) {
-            _vm.modalPermission = $$v
-          },
-          expression: "modalPermission",
-        },
-      }),
+          })
+        : _vm._e(),
       _vm._v(" "),
-      _c("v-dialog", {
-        attrs: { transition: "dialog-top-transition", width: "700" },
-        scopedSlots: _vm._u([
-          {
-            key: "default",
-            fn: function (dialog) {
-              return [
-                _c(
-                  "v-card",
-                  [
-                    _c(
-                      "v-toolbar",
-                      { attrs: { color: "light", elevation: "1" } },
-                      [_vm._v("Editar Permissão")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-card-text",
-                      { staticClass: "pt-5" },
-                      [
-                        _c(
-                          "v-form",
-                          {
-                            attrs: { id: "update-role" },
-                            on: {
-                              submit: function ($event) {
-                                $event.preventDefault()
-                                return _vm.updatePermission.apply(
-                                  null,
-                                  arguments
-                                )
-                              },
-                            },
-                          },
-                          [
-                            _c("div", { staticClass: "row" }, [
+      _vm.$can("update-permissions")
+        ? _c("v-dialog", {
+            attrs: { width: "700" },
+            scopedSlots: _vm._u(
+              [
+                {
+                  key: "default",
+                  fn: function (dialog) {
+                    return [
+                      _c(
+                        "v-card",
+                        [
+                          _c(
+                            "v-toolbar",
+                            { attrs: { color: "light", elevation: "1" } },
+                            [_vm._v("Nova Permissão")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-card-text",
+                            { staticClass: "pt-5" },
+                            [
                               _c(
-                                "div",
-                                { staticClass: "col-md-12" },
+                                "v-form",
+                                {
+                                  attrs: { id: "create-permission" },
+                                  on: {
+                                    submit: function ($event) {
+                                      $event.preventDefault()
+                                      return _vm.createPermission.apply(
+                                        null,
+                                        arguments
+                                      )
+                                    },
+                                  },
+                                },
                                 [
-                                  _c("v-select", {
-                                    attrs: {
-                                      label: "Tópico",
-                                      items: _vm.permissionTopics,
-                                    },
-                                    model: {
-                                      value: _vm.editPermission.topic,
-                                      callback: function ($$v) {
-                                        _vm.$set(
-                                          _vm.editPermission,
-                                          "topic",
-                                          $$v
+                                  _c("div", { staticClass: "row" }, [
+                                    _c(
+                                      "div",
+                                      { staticClass: "col-md-12" },
+                                      [
+                                        _c("v-select", {
+                                          attrs: {
+                                            label: "Tópico",
+                                            items: _vm.permissionTopics,
+                                          },
+                                          model: {
+                                            value: _vm.newPermission.topic,
+                                            callback: function ($$v) {
+                                              _vm.$set(
+                                                _vm.newPermission,
+                                                "topic",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "newPermission.topic",
+                                          },
+                                        }),
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "col-md-6" },
+                                      [
+                                        _c("v-text-field", {
+                                          attrs: {
+                                            label: "Nome",
+                                            autofocus: "",
+                                          },
+                                          model: {
+                                            value: _vm.newPermission.name,
+                                            callback: function ($$v) {
+                                              _vm.$set(
+                                                _vm.newPermission,
+                                                "name",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "newPermission.name",
+                                          },
+                                        }),
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "col-md-6" },
+                                      [
+                                        _c("v-text-field", {
+                                          attrs: { label: "Slug" },
+                                          model: {
+                                            value: _vm.newPermission.slug,
+                                            callback: function ($$v) {
+                                              _vm.$set(
+                                                _vm.newPermission,
+                                                "slug",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "newPermission.slug",
+                                          },
+                                        }),
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "col-md-12" },
+                                      [
+                                        _c("v-text-field", {
+                                          attrs: { label: "Descrição" },
+                                          model: {
+                                            value:
+                                              _vm.newPermission.description,
+                                            callback: function ($$v) {
+                                              _vm.$set(
+                                                _vm.newPermission,
+                                                "description",
+                                                $$v
+                                              )
+                                            },
+                                            expression:
+                                              "newPermission.description",
+                                          },
+                                        }),
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _vm.permissionError &&
+                                    _vm.permissionError.length
+                                      ? _c(
+                                          "div",
+                                          { staticClass: "col-12" },
+                                          [
+                                            _c("v-alert", {
+                                              attrs: { type: "error" },
+                                              domProps: {
+                                                innerHTML: _vm._s(
+                                                  _vm.permissionError
+                                                ),
+                                              },
+                                            }),
+                                          ],
+                                          1
                                         )
-                                      },
-                                      expression: "editPermission.topic",
+                                      : _vm._e(),
+                                  ]),
+                                ]
+                              ),
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-card-actions",
+                            { staticClass: "justify-end" },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { text: "" },
+                                  on: {
+                                    click: function ($event) {
+                                      dialog.value = false
                                     },
-                                  }),
-                                ],
-                                1
+                                  },
+                                },
+                                [_vm._v("Fechar")]
                               ),
                               _vm._v(" "),
                               _c(
-                                "div",
-                                { staticClass: "col-md-6" },
-                                [
-                                  _c("v-text-field", {
-                                    attrs: { label: "Nome", autofocus: "" },
-                                    model: {
-                                      value: _vm.editPermission.name,
-                                      callback: function ($$v) {
-                                        _vm.$set(
-                                          _vm.editPermission,
-                                          "name",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "editPermission.name",
-                                    },
-                                  }),
-                                ],
-                                1
+                                "v-btn",
+                                {
+                                  attrs: {
+                                    form: "create-permission",
+                                    type: "submit",
+                                    color: "primary",
+                                  },
+                                },
+                                [_vm._v("Salvar")]
                               ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "col-md-6" },
-                                [
-                                  _c("v-text-field", {
-                                    attrs: { label: "Slug" },
-                                    model: {
-                                      value: _vm.editPermission.slug,
-                                      callback: function ($$v) {
-                                        _vm.$set(
-                                          _vm.editPermission,
-                                          "slug",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "editPermission.slug",
-                                    },
-                                  }),
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "col-md-12" },
-                                [
-                                  _c("v-text-field", {
-                                    attrs: { label: "Descrição" },
-                                    model: {
-                                      value: _vm.editPermission.description,
-                                      callback: function ($$v) {
-                                        _vm.$set(
-                                          _vm.editPermission,
-                                          "description",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "editPermission.description",
-                                    },
-                                  }),
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _vm.permissionError && _vm.permissionError.length
-                                ? _c(
-                                    "div",
-                                    { staticClass: "col-12" },
-                                    [
-                                      _c(
-                                        "v-alert",
-                                        { attrs: { type: "error" } },
-                                        [_vm._v(_vm._s(_vm.permissionError))]
-                                      ),
-                                    ],
-                                    1
-                                  )
-                                : _vm._e(),
-                            ]),
-                          ]
-                        ),
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-card-actions",
-                      { staticClass: "justify-end" },
-                      [
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: { text: "" },
-                            on: {
-                              click: function ($event) {
-                                dialog.value = false
-                              },
-                            },
-                          },
-                          [_vm._v("Fechar")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: {
-                              form: "update-role",
-                              type: "submit",
-                              color: "primary",
-                            },
-                          },
-                          [_vm._v("Salvar")]
-                        ),
-                      ],
-                      1
-                    ),
-                  ],
-                  1
-                ),
-              ]
+                            ],
+                            1
+                          ),
+                        ],
+                        1
+                      ),
+                    ]
+                  },
+                },
+              ],
+              null,
+              false,
+              4101410613
+            ),
+            model: {
+              value: _vm.modalPermission,
+              callback: function ($$v) {
+                _vm.modalPermission = $$v
+              },
+              expression: "modalPermission",
             },
-          },
-        ]),
-        model: {
-          value: _vm.modalEditPermission,
-          callback: function ($$v) {
-            _vm.modalEditPermission = $$v
-          },
-          expression: "modalEditPermission",
-        },
-      }),
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.$can("update-permissions")
+        ? _c("v-dialog", {
+            attrs: { width: "700" },
+            scopedSlots: _vm._u(
+              [
+                {
+                  key: "default",
+                  fn: function (dialog) {
+                    return [
+                      _c(
+                        "v-card",
+                        [
+                          _c(
+                            "v-toolbar",
+                            { attrs: { color: "light", elevation: "1" } },
+                            [_vm._v("Editar Permissão")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-card-text",
+                            { staticClass: "pt-5" },
+                            [
+                              _c(
+                                "v-form",
+                                {
+                                  attrs: { id: "update-permission" },
+                                  on: {
+                                    submit: function ($event) {
+                                      $event.preventDefault()
+                                      return _vm.updatePermission.apply(
+                                        null,
+                                        arguments
+                                      )
+                                    },
+                                  },
+                                },
+                                [
+                                  _c("div", { staticClass: "row" }, [
+                                    _c(
+                                      "div",
+                                      { staticClass: "col-md-12" },
+                                      [
+                                        _c("v-select", {
+                                          attrs: {
+                                            label: "Tópico",
+                                            items: _vm.permissionTopics,
+                                          },
+                                          model: {
+                                            value: _vm.editPermission.topic,
+                                            callback: function ($$v) {
+                                              _vm.$set(
+                                                _vm.editPermission,
+                                                "topic",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "editPermission.topic",
+                                          },
+                                        }),
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "col-md-6" },
+                                      [
+                                        _c("v-text-field", {
+                                          attrs: {
+                                            label: "Nome",
+                                            autofocus: "",
+                                          },
+                                          model: {
+                                            value: _vm.editPermission.name,
+                                            callback: function ($$v) {
+                                              _vm.$set(
+                                                _vm.editPermission,
+                                                "name",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "editPermission.name",
+                                          },
+                                        }),
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "col-md-6" },
+                                      [
+                                        _c("v-text-field", {
+                                          attrs: { label: "Slug" },
+                                          model: {
+                                            value: _vm.editPermission.slug,
+                                            callback: function ($$v) {
+                                              _vm.$set(
+                                                _vm.editPermission,
+                                                "slug",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "editPermission.slug",
+                                          },
+                                        }),
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "col-md-12" },
+                                      [
+                                        _c("v-text-field", {
+                                          attrs: { label: "Descrição" },
+                                          model: {
+                                            value:
+                                              _vm.editPermission.description,
+                                            callback: function ($$v) {
+                                              _vm.$set(
+                                                _vm.editPermission,
+                                                "description",
+                                                $$v
+                                              )
+                                            },
+                                            expression:
+                                              "editPermission.description",
+                                          },
+                                        }),
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _vm.permissionError &&
+                                    _vm.permissionError.length
+                                      ? _c(
+                                          "div",
+                                          { staticClass: "col-12" },
+                                          [
+                                            _c("v-alert", {
+                                              attrs: { type: "error" },
+                                              domProps: {
+                                                innerHTML: _vm._s(
+                                                  _vm.permissionError
+                                                ),
+                                              },
+                                            }),
+                                          ],
+                                          1
+                                        )
+                                      : _vm._e(),
+                                  ]),
+                                ]
+                              ),
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-card-actions",
+                            { staticClass: "justify-end" },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { text: "" },
+                                  on: {
+                                    click: function ($event) {
+                                      dialog.value = false
+                                    },
+                                  },
+                                },
+                                [_vm._v("Fechar")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: {
+                                    form: "update-permission",
+                                    type: "submit",
+                                    color: "primary",
+                                  },
+                                },
+                                [_vm._v("Salvar")]
+                              ),
+                            ],
+                            1
+                          ),
+                        ],
+                        1
+                      ),
+                    ]
+                  },
+                },
+              ],
+              null,
+              false,
+              2593578457
+            ),
+            model: {
+              value: _vm.modalEditPermission,
+              callback: function ($$v) {
+                _vm.modalEditPermission = $$v
+              },
+              expression: "modalEditPermission",
+            },
+          })
+        : _vm._e(),
     ],
     1
   )

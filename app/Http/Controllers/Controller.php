@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\PermissionService;
 use App\Services\RoleService;
+use App\Services\UserService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -17,11 +18,13 @@ class Controller extends BaseController
 
     protected $roleService;
     protected $permissionService;
+    protected $userService;
 
     public function __construct()
     {
         $this->roleService = new RoleService;    
         $this->permissionService = new PermissionService;    
+        $this->userService = new UserService;    
     }
 
     protected function gate($slug, $attr=[]){

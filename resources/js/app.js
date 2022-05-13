@@ -8,11 +8,15 @@ import routes from '../js/routes.js'
 import App from '../js/App.vue'
 import vuetify from '../plugins/vuetify'
 import commom from './services/commom.js';
-import fa from '../plugins/fontawesome/js/all.min.js'
+import utils from './services/utils';
+import { createPinia, PiniaVuePlugin, storeToRefs } from 'pinia'
+import { useStore } from './services/store'
 
 Vue.use(VueRouter)
 Vue.component('app', App)
-Vue.prototype.$commom = commom
+Vue.use(PiniaVuePlugin)
+
+const pinia = createPinia()
 
 const router = new VueRouter({
     mode: 'history',
@@ -20,18 +24,30 @@ const router = new VueRouter({
     routes: routes
 })
 router.beforeEach( async (to, from, next) => {
-        
     if( to.meta.base == 'auth' )
         return next()
-    
+
     const result = await commom.verifyLogin()
+    const user = result.data
+
     if( result.status == 'success' ){
-        return next({authUser: result.user})
+        Vue.prototype.$useStore.user = {...user}
+
+        if( to.meta.can ){
+            if( utils.can( to.meta.can ) ){
+                return next()
+            } else {
+                return router.push({name: '403'})
+            }
+        } else {
+            return next()
+        }
+
     } else {
         if( to.meta.base == 'auth' ){
             return next()
         } else {
-            router.push({name: 'auth.login'})
+            return router.push({name: 'auth.login'})
         }
     }
 })
@@ -39,5 +55,10 @@ router.beforeEach( async (to, from, next) => {
 const app = new Vue({
     el: '#app',
     router,
-    vuetify
+    vuetify,
+    pinia
 });
+
+Vue.prototype.$can = utils.can
+Vue.prototype.$commom = commom
+Vue.prototype.$useStore = storeToRefs( useStore() )

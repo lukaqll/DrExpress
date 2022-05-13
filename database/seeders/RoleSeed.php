@@ -23,16 +23,22 @@ class RoleSeed extends Seeder
             ],
             [
                 'id' => 2,
+                'name' => 'Operador',
+                'slug' => 'operator',
+                'description' => 'Operador do sistema'
+            ],
+            [
+                'id' => 3,
                 'name' => 'Vendedor',
                 'slug' => 'seller',
                 'description' => ''
             ],
             [
-                'id' => 3,
+                'id' => 4,
                 'name' => 'Cliente',
                 'slug' => 'client',
                 'description' => ''
-            ]
+            ],
         ]);
     }
 }

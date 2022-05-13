@@ -43,8 +43,10 @@ const commom = {
             opt.log && console.error( e )
             opt.error && opt.error( e )
 
-            if( e.response.status == 403 ||  e.response.status == 401 )
-                window.location.href = '/403'
+            if( e.response.status == 403 ||  e.response.status == 401 ){
+                window.location.href = '/unauthorized'
+                // window.history.go(-1)
+            }
         })
     
     },
@@ -67,7 +69,7 @@ const commom = {
                 if ( typeof data[key] == 'string'){
                     str += `- ${data[key]}<br>`
                 } else if ( typeof data[key] == 'array' || typeof data[key] == 'object' ){
-                    str += `- ${data[key][0]}\n`
+                    str += `- ${data[key][0]}<br>`
                 }
             }
             return str

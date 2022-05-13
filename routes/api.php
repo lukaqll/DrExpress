@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,4 +37,13 @@ Route::group(['middleware' => ['apiJwt']], function(){
     Route::put('/permissions/{id}', [PermissionController::class, 'update']);
     Route::delete('/permissions/{id}', [PermissionController::class, 'delete']);
     Route::post('/permissions', [PermissionController::class, 'create']);
+
+    Route::get('/operators', [UserController::class, 'list']);
+    Route::put('/operators/{id}/password', [UserController::class, 'updatePassword']);
+    Route::put('/operators/{id}/toggle-status', [UserController::class, 'toggleStatus']);
+    Route::get('/operators/me', [UserController::class, 'getMe']);
+    Route::put('/operators/me/update', [UserController::class, 'updateMe']);
+    Route::get('/operators/{id}', [UserController::class, 'getById']);
+    Route::put('/operators/{id}', [UserController::class, 'update']);
+    Route::post('/operators', [UserController::class, 'create']);
 });

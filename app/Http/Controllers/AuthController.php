@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AuthUserResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -19,12 +21,12 @@ class AuthController extends Controller
         $credentials = $request->only(['email', 'password']);
 
         try {
-            if ( !$token = auth('api')->attempt($credentials) ) {
-                return response()->json(['status' => 'error', 'message' => 'E-mail ou senha incorretos'], 401);
+            if ( !$token = auth('api')->attempt($credentials, true) ) {
+                return response()->json(['status' => 'error', 'message' => 'E-mail ou senha incorretos']);
             }
             return $this->respondWithToken($token);
         } catch (ValidationException $e ){
-            return response()->json(['status' => 'error', 'message' => $e->errors()], 401);
+            return response()->json(['status' => 'error', 'message' => $e->errors()]);
         }
 
     }
@@ -71,7 +73,7 @@ class AuthController extends Controller
     public function me()
     {
         if( auth('api')->check() ){
-            $result = ['status' => 'success', 'data' => auth('api')->user()];
+            $result = ['status' => 'success', 'data' => new AuthUserResource( auth('api')->user())];
         } else {
             $result = ['status' => 'error', 'message' => 'Sem Autorização'];
         }

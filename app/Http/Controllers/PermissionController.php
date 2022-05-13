@@ -21,6 +21,9 @@ class PermissionController extends Controller
      */
     public function list( Request $request )
     {
+
+        $this->gate('view-permissions');
+
         try {
 
             $dataFilter = $request->all();
@@ -41,7 +44,9 @@ class PermissionController extends Controller
      * @return  json
      */
     public function get( Request $request ){
-
+        
+        $this->gate('view-permissions');
+        
         try {
 
             $dataFilter = $request->all();
@@ -62,6 +67,8 @@ class PermissionController extends Controller
      */
     public function getById( $id ){
 
+        $this->gate('view-permissions');
+
         try {
 
             $result = $this->permissionService->get( ['id' => $id] );
@@ -80,6 +87,8 @@ class PermissionController extends Controller
      * @return  json
      */
     public function create( Request $request ){
+
+        $this->gate('create-permissions');
 
         try {
 
@@ -110,6 +119,8 @@ class PermissionController extends Controller
      */
     public function update( Request $request, $id ){
 
+        $this->gate('update-permissions');
+
         try {
             
             $validData = $request->validate([
@@ -137,6 +148,8 @@ class PermissionController extends Controller
      * @return  json
      */
     public function delete( $id ){
+
+        $this->gate('delete-permissions');
 
         try {
 

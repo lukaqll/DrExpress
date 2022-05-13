@@ -6,7 +6,7 @@
                     <div class="row">
                         <div class="col-12">
                             Funções
-                            <v-btn class="float-right" @click="() => modalRole = true">Nova Função</v-btn> 
+                            <v-btn v-if="$can('create-permissions')" class="float-right" @click="() => modalRole = true">Nova Função</v-btn> 
                         </div>
                     </div>
                 </v-card-title>
@@ -21,10 +21,10 @@
                             <v-text-field v-model="roleSearch" label="Pesquisar"></v-text-field>
                         </template>
                         <template v-slot:item.permissions_header="{ item }">
-                            <v-badge :content="`${item.id_permissions.length}`"/>
+                            <v-badge :content="item.id_permissions.length"/>
                         </template>
                         <template v-slot:item.actions="{ item }">
-                            <v-btn text color="primary" @click="()=>getRole(item.id)">
+                            <v-btn v-if="$can('update-permissions')" icon color="primary" @click="()=>getRole(item.id)">
                                 <i class="fa fa-edit"></i>
                             </v-btn>
                         </template>
@@ -39,7 +39,7 @@
                     <div class="row">
                         <div class="col-12">
                             Permissões
-                            <v-btn class="float-right" @click="() => modalPermission = true">Nova Permissão</v-btn> 
+                            <v-btn v-if="$can('create-permissions')" class="float-right" @click="() => modalPermission = true">Nova Permissão</v-btn> 
                         </div>
                     </div>
                 </v-card-title>
@@ -54,7 +54,7 @@
                             <v-text-field v-model="permissionSearch" label="Pesquisar"></v-text-field>
                         </template>
                         <template v-slot:item.actions="{ item }">
-                            <v-btn text color="primary" @click="() => getPermission(item.id)">
+                            <v-btn v-if="$can('update-permissions')" icon color="primary" @click="() => getPermission(item.id)">
                                 <i class="fa fa-edit"></i>
                             </v-btn>
                         </template>
@@ -64,7 +64,7 @@
         </div>
 
         <!-- modal role -->
-        <v-dialog v-model="modalRole" transition="dialog-top-transition" width="700">
+        <v-dialog v-model="modalRole" v-if="$can('create-permissions')" width="700">
             <template v-slot:default="dialog">
                 <v-card>
                     <v-toolbar color="light" elevation="1">Nova Função</v-toolbar>
@@ -82,7 +82,7 @@
                                 </div>
 
                                 <div v-if="roleError && roleError.length" class="col-12">
-                                    <v-alert type="error">{{roleError}}</v-alert>
+                                    <v-alert type="error" v-html="roleError"></v-alert>
                                 </div>
                             </div>
                         </v-form>
@@ -96,7 +96,7 @@
         </v-dialog>
 
         <!-- edit role -->
-        <v-dialog v-model="modalEditRole" transition="dialog-top-transition" width="700">
+        <v-dialog v-model="modalEditRole" v-if="$can('create-permissions')" width="700">
             <template v-slot:default="dialog">
                 <v-card>
                     <v-toolbar color="light" elevation="1">Editar Função</v-toolbar>
@@ -119,8 +119,7 @@
                                         :items="permissionsOptions"
                                         v-model="editRole.id_permissions"
                                         chips 
-                                        multiple 
-                                        solo
+                                        multiple
                                     >
                                     <template v-slot:selection="data">
                                         <v-chip
@@ -136,10 +135,8 @@
                                     </v-autocomplete>
                                 </div>
 
-
-
                                 <div v-if="roleError && roleError.length" class="col-12">
-                                    <v-alert type="error">{{roleError}}</v-alert>
+                                    <v-alert type="error" v-html="roleError"></v-alert>
                                 </div>
                             </div>
                         </v-form>
@@ -153,7 +150,7 @@
         </v-dialog>
 
         <!-- modal permission -->
-        <v-dialog v-model="modalPermission" transition="dialog-top-transition" width="700">
+        <v-dialog v-model="modalPermission" v-if="$can('update-permissions')" width="700">
             <template v-slot:default="dialog">
                 <v-card>
                     <v-toolbar color="light" elevation="1">Nova Permissão</v-toolbar>
@@ -174,7 +171,7 @@
                                 </div>
 
                                 <div v-if="permissionError && permissionError.length" class="col-12">
-                                    <v-alert type="error">{{permissionError}}</v-alert>
+                                    <v-alert type="error" v-html="permissionError"></v-alert>
                                 </div>
                             </div>
                         </v-form>
@@ -188,12 +185,12 @@
         </v-dialog>
 
         <!-- modal edit permission -->
-        <v-dialog v-model="modalEditPermission" transition="dialog-top-transition" width="700">
+        <v-dialog v-model="modalEditPermission" v-if="$can('update-permissions')" width="700">
             <template v-slot:default="dialog">
                 <v-card>
                     <v-toolbar color="light" elevation="1">Editar Permissão</v-toolbar>
                     <v-card-text class="pt-5">
-                        <v-form id="update-role" @submit.prevent="updatePermission">
+                        <v-form id="update-permission" @submit.prevent="updatePermission">
                             <div class="row">
                                 <div class="col-md-12">
                                     <v-select v-model="editPermission.topic" label="Tópico" :items="permissionTopics"/>
@@ -209,14 +206,14 @@
                                 </div>
 
                                 <div v-if="permissionError && permissionError.length" class="col-12">
-                                    <v-alert type="error">{{permissionError}}</v-alert>
+                                    <v-alert type="error" v-html="permissionError"></v-alert>
                                 </div>
                             </div>
                         </v-form>
                     </v-card-text>
                     <v-card-actions class="justify-end">
                         <v-btn text @click="dialog.value = false">Fechar</v-btn>
-                        <v-btn form="update-role" type="submit" color="primary">Salvar</v-btn>
+                        <v-btn form="update-permission" type="submit" color="primary">Salvar</v-btn>
                     </v-card-actions>
                 </v-card>
             </template>
@@ -293,6 +290,7 @@ export default {
                 {text: 'Nome', value: 'name'},
                 {text: 'Tópico', value: 'topic_text'},
                 {text: 'Descrição', value: 'description'},
+                {text: 'Slug', value: 'slug'},
                 {text: '', value: 'actions', sortable: false},
             ]
         },

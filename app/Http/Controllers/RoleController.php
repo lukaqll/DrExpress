@@ -23,9 +23,7 @@ class RoleController extends Controller
      * @return  json
      */
     public function list( Request $request )
-    {
-        $this->gate('edit-user-role');
-         
+    {         
         try {
             $dataFilter = $request->all();
             $result = $this->roleService->list( $dataFilter, ['id'] );
@@ -45,6 +43,8 @@ class RoleController extends Controller
      * @return  json
      */
     public function get( Request $request ){
+
+        $this->gate('view-permissions');
 
         try {
 
@@ -66,6 +66,8 @@ class RoleController extends Controller
      */
     public function getById( $id ){
 
+        $this->gate('view-permissions');
+
         try {
 
             $result = $this->roleService->get( ['id' => $id] );
@@ -84,6 +86,8 @@ class RoleController extends Controller
      * @return  json
      */
     public function create( Request $request ){
+        
+        $this->gate('create-permissions');
 
         try {
 
@@ -112,6 +116,8 @@ class RoleController extends Controller
      * @return  json
      */
     public function update( Request $request, $id ){
+
+        $this->gate('update-permissions');
 
         try {
             
@@ -150,6 +156,8 @@ class RoleController extends Controller
      */
     public function delete( $id ){
 
+        $this->gate('delete-permissions');
+
         try {
 
             $deleted = $this->roleService->deleteById( $id );
@@ -167,6 +175,8 @@ class RoleController extends Controller
      * get role permissions
      */
     public function getRolePermissions($id){
+
+        $this->gate('view-permissions');
 
         try {
 

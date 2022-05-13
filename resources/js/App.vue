@@ -1,6 +1,6 @@
 <template>
     <div>
-        <component :user="user" v-bind:is="base" >
+        <component v-bind:is="base" >
             <router-view></router-view>
         </component>
     </div>
@@ -12,8 +12,7 @@
     export default {
         components: {Admin, Auth},
         data: () => ({
-            userType: 1,
-            user: {},
+            
         }),
         mounted() {
         },

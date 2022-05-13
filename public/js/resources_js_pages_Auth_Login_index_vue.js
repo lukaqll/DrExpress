@@ -11,6 +11,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -69,7 +75,7 @@ __webpack_require__.r(__webpack_exports__);
         password: [function (v) {
           return !!v || 'Insira sua senha';
         }, function (v) {
-          return v && v.length <= 6 || 'A senha deve conter pelo menos 6 caracteres';
+          return v && v.length >= 6 || 'A senha deve conter pelo menos 6 caracteres';
         }]
       }
     };
@@ -83,23 +89,30 @@ __webpack_require__.r(__webpack_exports__);
     login: function login() {
       var _this = this;
 
-      this.loading = false;
-      this.$commom.request({
-        url: '/login',
-        type: 'post',
-        data: this.formData,
-        success: function success(resp) {
-          _this.loading = false;
-          _this.errorMessage = '';
-          localStorage.setItem('auth_token', resp.access_token);
+      if (this.$refs.form.validate()) {
+        this.loading = false;
+        this.$commom.request({
+          url: '/login',
+          type: 'post',
+          data: this.formData,
+          success: function success(resp) {
+            _this.setUser(resp);
 
-          _this.$router.push("/admin/permissions");
-        },
-        error: function error(e) {
-          _this.loading = false;
-          _this.errorMessage = e.response.data.message;
-        }
-      });
+            _this.loading = false;
+            _this.errorMessage = '';
+
+            _this.$router.push("/admin");
+          },
+          error: function error(e) {
+            _this.loading = false;
+            _this.errorMessage = e;
+          }
+        });
+      }
+    },
+    setUser: function setUser(data) {
+      localStorage.setItem('auth_token', data.access_token);
+      this.$useStore.user = _objectSpread({}, data.user);
     }
   }
 });
@@ -584,6 +597,7 @@ var render = function () {
               _c(
                 "v-form",
                 {
+                  ref: "form",
                   on: {
                     submit: function ($event) {
                       $event.preventDefault()
@@ -670,9 +684,10 @@ var render = function () {
                           "div",
                           { staticClass: "col-12" },
                           [
-                            _c("v-alert", { attrs: { type: "error" } }, [
-                              _vm._v(_vm._s(_vm.errorMessage)),
-                            ]),
+                            _c("v-alert", {
+                              attrs: { type: "error" },
+                              domProps: { innerHTML: _vm._s(_vm.errorMessage) },
+                            }),
                           ],
                           1
                         )
