@@ -42,6 +42,9 @@ const commom = {
         .catch ( e => {
             opt.log && console.error( e )
             opt.error && opt.error( e )
+
+            if( e.response.status == 403 ||  e.response.status == 401 )
+                window.location.href = '/403'
         })
     
     },

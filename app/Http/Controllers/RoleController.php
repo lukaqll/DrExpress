@@ -24,11 +24,9 @@ class RoleController extends Controller
      */
     public function list( Request $request )
     {
+        $this->gate('edit-user-role');
+         
         try {
-
-            if( Gate::denies('edit-user-role') )
-                throw new HttpException(403, 'Sem autorização');
-
             $dataFilter = $request->all();
             $result = $this->roleService->list( $dataFilter, ['id'] );
 
