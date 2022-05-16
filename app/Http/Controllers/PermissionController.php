@@ -22,7 +22,7 @@ class PermissionController extends Controller
     public function list( Request $request )
     {
 
-        $this->gate('view-permissions');
+        $this->gate('view-permission');
 
         try {
 
@@ -45,7 +45,7 @@ class PermissionController extends Controller
      */
     public function get( Request $request ){
         
-        $this->gate('view-permissions');
+        $this->gate('view-permission');
         
         try {
 
@@ -67,7 +67,7 @@ class PermissionController extends Controller
      */
     public function getById( $id ){
 
-        $this->gate('view-permissions');
+        $this->gate('view-permission');
 
         try {
 
@@ -88,7 +88,7 @@ class PermissionController extends Controller
      */
     public function create( Request $request ){
 
-        $this->gate('create-permissions');
+        $this->gate('create-permission');
 
         try {
 
@@ -119,7 +119,7 @@ class PermissionController extends Controller
      */
     public function update( Request $request, $id ){
 
-        $this->gate('update-permissions');
+        $this->gate('update-permission');
 
         try {
             
@@ -149,7 +149,7 @@ class PermissionController extends Controller
      */
     public function delete( $id ){
 
-        $this->gate('delete-permissions');
+        $this->gate('delete-permission');
 
         try {
 

@@ -11,10 +11,14 @@ import commom from './services/commom.js';
 import utils from './services/utils';
 import { createPinia, PiniaVuePlugin, storeToRefs } from 'pinia'
 import { useStore } from './services/store'
+import { VueMaskDirective } from 'v-mask'
+import VueSweetalert2 from 'vue-sweetalert2';
 
 Vue.use(VueRouter)
 Vue.component('app', App)
+Vue.directive('mask', VueMaskDirective); 
 Vue.use(PiniaVuePlugin)
+Vue.use(VueSweetalert2);
 
 const pinia = createPinia()
 

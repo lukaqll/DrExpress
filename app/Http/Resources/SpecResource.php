@@ -14,6 +14,11 @@ class SpecResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'is_required' => $this->is_required,
+            'children' => $this->items,
+        ];
     }
 }

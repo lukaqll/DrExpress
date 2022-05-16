@@ -21,4 +21,12 @@ class Category extends Model
     ];
 
     public $timestamps = false;
+
+    public function children(){
+        return $this->hasMany(Category::class, 'id_category', 'id');
+    }
+
+    public function specs(){
+        return $this->hasMany(Spec::class, 'id_category', 'id');
+    }
 }

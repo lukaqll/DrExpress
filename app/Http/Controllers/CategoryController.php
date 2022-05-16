@@ -3,6 +3,8 @@
  namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CategoryResource;
+use App\Http\Resources\CategoryTreeResource;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -35,6 +37,26 @@ class CategoryController extends Controller
     }
 
     /**
+     * list all
+     * 
+     * @return  json
+     */
+    public function treeList( Request $request )
+    {
+        try {
+
+            $result = $this->categoryService->treeList();
+
+            $response = [ 'status' => 'success', 'data' => CategoryTreeResource::collection($result) ];
+            
+        } catch ( ValidationException $e ){
+
+            $response = [ 'status' => 'error', 'message' => $e->errors() ];
+        }
+        return response()->json( $response );
+    }
+
+    /**
      * get by key and value
      * 
      * @return  json
@@ -46,7 +68,7 @@ class CategoryController extends Controller
             $dataFilter = $request->all();
             $result = $this->categoryService->get( $dataFilter );
     
-            $response = [ 'status' => 'success', 'data' => ($result) ];
+            $response = [ 'status' => 'success', 'data' => new CategoryResource($result) ];
         } catch ( ValidationException $e ){
 
             $response = [ 'status' => 'error', 'message' => $e->errors() ];
@@ -64,7 +86,7 @@ class CategoryController extends Controller
         try {
 
             $result = $this->categoryService->get( ['id' => $id] );
-            $response = [ 'status' => 'success', 'data' => ($result) ];
+            $response = [ 'status' => 'success', 'data' => new CategoryResource($result) ];
 
         } catch ( ValidationException $e ){
 
@@ -83,8 +105,14 @@ class CategoryController extends Controller
         try {
 
             $validData = $request->validate([
-                'name' => 'required|string|unique:table',
+                'name' => 'required|string|unique:categories',
+                'required_cro' => 'nullable',
+                'id_category'  => 'nullable|numeric|exists:categories,id',
+                'linkable'     => 'nullable',
             ]);
+
+            if( empty($validData['id_category']) )
+                $validData['linkable'] = 1;
             
             $created = $this->categoryService->create( $validData );
             $response = [ 'status' => 'success', 'data' => ($created) ];
@@ -107,8 +135,31 @@ class CategoryController extends Controller
         try {
             
             $validData = $request->validate([
-                'name' => 'required|string|unique:table,name,'.$id,
+                'name' => 'required|string|unique:categories,id,'.$id,
+                'required_cro' => 'nullable',
+                'id_category'  => 'nullable|numeric|exists:categories,id',
+                'linkable'     => 'nullable',
             ]);
+
+            $category = $this->categoryService->find($id);
+
+            // verify parent
+            if( !empty($validData['id_category']) ){
+                $parent = $this->categoryService->find($id);
+                if( empty($parent->linkable) )
+                    throw ValidationException::withMessages(['A categoria pai selecionada nã é linkável']);
+            }
+
+            // verify children
+            if( !empty($category->children) && count($category->children) > 0 && empty($validData['linkable']) ){
+                throw ValidationException::withMessages(['Esta categoria possui filhos, não é possível colocá-la como não linkável']);
+            }
+
+            // verify absolut linkable
+            if( (empty($validData['linkable']) && empty($category->id_category)) || empty($validData['id_category']) ){
+                $validData['linkable'] = 1;
+            }
+
             $updated = $this->categoryService->updateById( $id, $validData);
             $response = [ 'status' => 'success', 'data' => ($updated) ];
 

@@ -20,4 +20,8 @@ class Spec extends Model
     ];
     
     public $timestamps = false;
+
+    public function items(){
+        return $this->hasMany(SpecItem::class, 'id_spec', 'id');
+    }
 }

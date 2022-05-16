@@ -12,22 +12,62 @@
                             <v-text-field type="email" label="E-mail" v-model="user.email" :rules="rules.email"/>
                         </div>
                         <div class="col-md-6">
-                            <v-text-field label="CPF" v-model="user.doc_number"/>
+                            <v-text-field 
+                                v-mask="user.doc_number && user.doc_number.length > 14 ? '##.###.###/####-##' : '###.###.###-##'" 
+                                label="CPF" 
+                                v-model="user.doc_number"
+                            />
                         </div>
                         <div class="col-md-6">
                             <v-text-field type="date" label="Nascimento" v-model="user.birthdate"/>
                         </div>
-
+                        <div class="col-md-6">
+                            <v-text-field label="Telefone" v-model="user.phone" v-mask="'(##) #####-####'"/>
+                        </div>
+                        <div class="col-md-12">
+                            <h5>Funções</h5>
+                            <v-badge v-for="(role, i) in user.roles" :key="i" :content="role.name"/>
+                        </div>
                         <div class="col-md-12" v-if="errors && errors.length">
                             <v-alert v-html="errors" type="error"></v-alert>
                         </div>
                     </div>
                 </v-card-text>
                 <v-card-actions class="justify-end">
+                    <v-btn text color="primary" @click="passwordModal = true">Alterar Senha</v-btn>
                     <v-btn type="submit" color="primary">Salvar Alterações</v-btn>
                 </v-card-actions>
             </v-card>
         </v-form>
+
+        <!-- update password -->
+        <v-dialog max-width="400" v-model="passwordModal">
+            <template v-slot:default="dialog">
+                <v-card>
+                    <v-card-title>Alterar senha</v-card-title>
+                    <v-card-text>
+                        <v-form ref="passwordForm" id="update-password" @submit.prevent="updatePassword">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <v-text-field type="password" :rules="rules.password" v-model="password.password" label="Senha"/>
+                                </div>
+                                <div class="col-md-12">
+                                    <v-text-field type="password" :rules="rules.password_confirmation" v-model="password.password_confirmation" label="Confirme a Senha"/>
+                                </div>
+
+                                <div class="col-md-12" v-if="passwordErrors && passwordErrors.length">
+                                    <v-alert v-html="passwordErrors" type="error"></v-alert>
+                                </div>
+                            </div>
+                        </v-form>
+                    </v-card-text>
+                    <v-card-actions class="justify-end">
+                        <v-btn text @click="dialog.value = false">Fechar</v-btn>
+                        <v-btn form="update-password" :loading="passwordLoading" type="submit" color="primary">Salvar</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </template>
+        </v-dialog>
     </div>
 </template>
 
@@ -37,6 +77,10 @@ export default {
         user: {},
         loading: false,
         errors: '',
+        passwordErrors: '',
+        passwordModal: '',
+        password: {},
+        passwordLoading: false,
         rules: {
             name: [v => !!v || 'Informe o nome'],
             email: [
@@ -79,6 +123,7 @@ export default {
                     type: 'put',
                     auth: true,
                     data: this.user,
+                    successAlert: true,
                     success: resp => {
                         this.get()
                         this.loading = false
@@ -88,6 +133,29 @@ export default {
                     error: e => {
                         this.errors = this.$commom.errorMessages(e)
                         this.loading = false
+                    }
+                })
+            }
+        },
+
+        updatePassword(){
+            if( this.$refs.passwordForm.validate() ){
+                this.passwordLoading = true
+                this.$commom.request({
+                    url: '/operators/me/update-password',
+                    type: 'put',
+                    auth: true,
+                    data: this.password,
+                    successAlert: true,
+                    success: resp => {
+                        this.passwordLoading = false
+                        this.passwordErrors = ''
+                        this.password = {}
+                        this.passwordModal = false
+                    }, 
+                    error: e => {
+                        this.passwordErrors = this.$commom.errorMessages(e)
+                        this.passwordLoading = false
                     }
                 })
             }

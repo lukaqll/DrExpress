@@ -2,18 +2,13 @@
     <div>
         <v-app-bar 
             color="deep-purple accent-4"
-            dark
-            style="z-index: 999"
+            dark app
+            absolute
         >
             <v-app-bar-nav-icon @click.stop="mini = !mini"></v-app-bar-nav-icon>
             <v-toolbar-title>{{ $useStore.user.name }}</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn icon>
-                <v-icon>mdi-magnify</v-icon>
-            </v-btn>
-            <v-btn icon>
-                <v-icon>mdi-filter</v-icon>
-            </v-btn>
+
             <v-btn icon @click="logout">
                <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>
@@ -22,8 +17,8 @@
             <v-navigation-drawer
                 v-model="drawer"
                 :mini-variant.sync="mini"
-                class="pt-16"
                 app
+                class="pt-5"
             >
                 <v-list-item class="px-2">
                     <v-list-item-avatar>
@@ -64,8 +59,10 @@
                     </router-link>
                 </v-list>
             </v-navigation-drawer>
-            <v-main scroll app class="py-15 container">
-                <slot />
+            <v-main scroll app style="padding-top: 100px">
+                <v-container>
+                    <slot />
+                </v-container>
             </v-main>
         </div>
     </div>
@@ -94,7 +91,7 @@ export default {
                     title: "Permissões", 
                     icon: "fas fa-unlock",
                     link: '/admin/permissions',
-                    can: ['view-permissions']
+                    can: ['view-permission']
                 },
                 { 
                     title: "Endereços", 

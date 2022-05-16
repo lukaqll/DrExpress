@@ -1458,6 +1458,7 @@ var render = function () {
                     "v-btn",
                     {
                       staticClass: "float-right",
+                      attrs: { small: "" },
                       on: {
                         click: function ($event) {
                           _vm.newUserModal = true
@@ -1981,7 +1982,7 @@ var render = function () {
       }),
       _vm._v(" "),
       _c("v-dialog", {
-        attrs: { "max-width": "800" },
+        attrs: { "max-width": "400" },
         scopedSlots: _vm._u([
           {
             key: "default",
@@ -2013,7 +2014,7 @@ var render = function () {
                             _c("div", { staticClass: "row" }, [
                               _c(
                                 "div",
-                                { staticClass: "col-md-6" },
+                                { staticClass: "col-md-12" },
                                 [
                                   _c("v-text-field", {
                                     attrs: {
@@ -2035,7 +2036,7 @@ var render = function () {
                               _vm._v(" "),
                               _c(
                                 "div",
-                                { staticClass: "col-md-6" },
+                                { staticClass: "col-md-12" },
                                 [
                                   _c("v-text-field", {
                                     attrs: {

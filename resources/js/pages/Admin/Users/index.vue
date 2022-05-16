@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-12">
                         Usuários Operadores
-                        <v-btn class="float-right" @click="newUserModal = true">Novo Usuário</v-btn>
+                        <v-btn small class="float-right" @click="newUserModal = true">Novo Usuário</v-btn>
                     </div>
                 </div>
             </v-card-title>
@@ -120,17 +120,17 @@
         </v-dialog>
 
         <!-- update password -->
-        <v-dialog max-width="800" v-model="passwordModal">
+        <v-dialog max-width="400" v-model="passwordModal">
             <template v-slot:default="dialog">
                 <v-card>
                     <v-card-title>Alterar senha de {{editUser.name}}</v-card-title>
                     <v-card-text>
                         <v-form ref="passwordForm" id="update-password" @submit.prevent="updatePassword">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <v-text-field type="password" :rules="userRules.password" v-model="editUser.password" label="Senha"/>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <v-text-field type="password" :rules="userRules.password_confirmation" v-model="editUser.password_confirmation" label="Confirme a Senha"/>
                                 </div>
 

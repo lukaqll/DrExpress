@@ -89,8 +89,9 @@ class UserController extends Controller
             $validData = $request->validate([
                 'name' => 'required|string',
                 'email' => 'required|string|unique:users,id,'.$user->id,
-                'doc_number' => 'nullable|string',
+                'doc_number' => 'nullable|string|min:14',
                 'birthdate' => 'nullable|string',
+                'phone' => 'nullable|string|min:15',
                 'picture' => 'nullable|image',
             ]);
             $updated = $this->userService->updateById( $user->id, $validData);
@@ -138,8 +139,9 @@ class UserController extends Controller
                 'email' => 'required|string|unique:users',
                 'password' => 'required|string|min:6',
                 'password_confirmation' => 'required|string|min:6',
-                'doc_number' => 'nullable|string',
+                'doc_number' => 'nullable|string|min:14',
                 'birthdate' => 'nullable|string',
+                'phone' => 'nullable|string|min:15',
                 'picture' => 'nullable|image',
             ]);
             
@@ -170,7 +172,8 @@ class UserController extends Controller
                 'doc_number' => 'nullable|string',
                 'birthdate' => 'nullable|string',
                 'picture' => 'nullable|image',
-                
+                'phone' => 'nullable|string|min:15',
+
                 'id_roles' => 'required|array',
                 'id_roles.*' => 'required|numeric|exists:roles,id'
             ]);
@@ -217,6 +220,31 @@ class UserController extends Controller
         return response()->json( $response );
     }
     
+    /**
+     * update self pass
+     */
+    public function updateMePassword( Request $request ){
+        $this->gate('update-users');
+        try {
+            
+            $user = auth('api')->user();
+            $validData = $request->validate([
+                'password' => 'required|string|min:6',
+                'password_confirmation' => 'required|string|min:6',
+            ]);
+
+            $this->userService->passwordValidation($validData);
+            $updated = $this->userService->updateById( $user->id, ['password' => bcrypt($validData['password'])] );
+
+            $response = [ 'status' => 'success', 'data' => new OperatorResource($updated) ];
+
+        } catch ( ValidationException $e ){
+            
+            $response = [ 'status' => 'error', 'message' => $e->errors() ];
+        }
+
+        return response()->json( $response );
+    }
 
     /**
      * update

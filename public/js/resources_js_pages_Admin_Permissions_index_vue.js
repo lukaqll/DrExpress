@@ -253,6 +253,21 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -277,8 +292,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         text: 'Usuário',
         value: 'user'
       }, {
-        text: 'Permissões',
-        value: 'permissions'
+        text: 'Permissão',
+        value: 'permission'
       }]
     };
   },
@@ -305,25 +320,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     }
   },
   computed: {
-    rolesHeaders: function rolesHeaders() {
-      return [{
-        text: 'Nome',
-        value: 'name'
-      }, {
-        text: 'Slug',
-        value: 'slug'
-      }, {
-        text: 'Descrição',
-        value: 'description'
-      }, {
-        text: 'Permissões',
-        value: 'permissions_header'
-      }, {
-        text: '',
-        value: 'actions',
-        sortable: false
-      }];
-    },
     permissionsHeaders: function permissionsHeaders() {
       return [{
         text: 'Nome',
@@ -1598,107 +1594,130 @@ var render = function () {
     [
       _c(
         "div",
-        { staticClass: "col-md-6" },
+        { staticClass: "col-md-12" },
         [
           _c(
             "v-card",
             [
               _c("v-card-title", [
                 _c("div", { staticClass: "row" }, [
-                  _c(
-                    "div",
-                    { staticClass: "col-12" },
-                    [
-                      _vm._v(
-                        "\n                        Funções\n                        "
-                      ),
-                      _vm.$can("create-permissions")
-                        ? _c(
-                            "v-btn",
-                            {
-                              staticClass: "float-right",
-                              on: {
-                                click: function () {
-                                  return (_vm.modalRole = true)
-                                },
-                              },
-                            },
-                            [_vm._v("Nova Função")]
-                          )
-                        : _vm._e(),
-                    ],
-                    1
-                  ),
+                  _c("div", { staticClass: "col-12" }, [
+                    _vm._v(
+                      "\n                        Funções\n                    "
+                    ),
+                  ]),
                 ]),
               ]),
               _vm._v(" "),
-              _c(
-                "v-card-text",
-                [
-                  _c("v-data-table", {
-                    attrs: {
-                      headers: _vm.rolesHeaders,
-                      items: _vm.roles,
-                      search: _vm.roleSearch,
-                      "item-key": "id",
-                    },
-                    scopedSlots: _vm._u([
-                      {
-                        key: "top",
-                        fn: function () {
-                          return [
-                            _c("v-text-field", {
-                              attrs: { label: "Pesquisar" },
-                              model: {
-                                value: _vm.roleSearch,
-                                callback: function ($$v) {
-                                  _vm.roleSearch = $$v
-                                },
-                                expression: "roleSearch",
-                              },
-                            }),
-                          ]
-                        },
-                        proxy: true,
-                      },
-                      {
-                        key: "item.permissions_header",
-                        fn: function (ref) {
-                          var item = ref.item
-                          return [
-                            _c("v-badge", {
-                              attrs: { content: item.id_permissions.length },
-                            }),
-                          ]
-                        },
-                      },
-                      {
-                        key: "item.actions",
-                        fn: function (ref) {
-                          var item = ref.item
-                          return [
-                            _vm.$can("update-permissions")
-                              ? _c(
-                                  "v-btn",
-                                  {
-                                    attrs: { icon: "", color: "primary" },
-                                    on: {
-                                      click: function () {
-                                        return _vm.getRole(item.id)
-                                      },
+              _c("v-card-text", [
+                _c("div", { staticClass: "table-responsive" }, [
+                  _c("table", { staticClass: "table" }, [
+                    _c("thead", [
+                      _c("tr", [
+                        _c("th", [_vm._v("Nome")]),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("Slug")]),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("Descrição")]),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("Permissões")]),
+                        _vm._v(" "),
+                        _c("th"),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      [
+                        _vm._l(_vm.roles, function (role, i) {
+                          return _c(
+                            "tr",
+                            { key: i, staticClass: "table-hover" },
+                            [
+                              _c("td", [_vm._v(_vm._s(role.name))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(role.slug))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(role.description))]),
+                              _vm._v(" "),
+                              _c(
+                                "td",
+                                [
+                                  _c("v-badge", {
+                                    attrs: {
+                                      color: "primary",
+                                      content: role.permissions.length || "0",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "td",
+                                [
+                                  _vm.$can("update-permission")
+                                    ? _c(
+                                        "v-btn",
+                                        {
+                                          attrs: { icon: "", color: "primary" },
+                                          on: {
+                                            click: function () {
+                                              return _vm.getRole(role.id)
+                                            },
+                                          },
+                                        },
+                                        [_c("i", { staticClass: "fa fa-edit" })]
+                                      )
+                                    : _vm._e(),
+                                ],
+                                1
+                              ),
+                            ]
+                          )
+                        }),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c(
+                            "td",
+                            { attrs: { colspan: "5" } },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: {
+                                    small: "",
+                                    block: "",
+                                    text: "",
+                                    elevation: "0",
+                                    color: "purple",
+                                  },
+                                  on: {
+                                    click: function () {
+                                      return (_vm.modalRole = true)
                                     },
                                   },
-                                  [_c("i", { staticClass: "fa fa-edit" })]
-                                )
-                              : _vm._e(),
-                          ]
-                        },
-                      },
-                    ]),
-                  }),
-                ],
-                1
-              ),
+                                },
+                                [
+                                  _c("v-icon", { attrs: { small: "" } }, [
+                                    _vm._v("fa fa-plus"),
+                                  ]),
+                                  _vm._v(
+                                    "\n                                        Adicionar Função\n                                    "
+                                  ),
+                                ],
+                                1
+                              ),
+                            ],
+                            1
+                          ),
+                        ]),
+                      ],
+                      2
+                    ),
+                  ]),
+                ]),
+              ]),
             ],
             1
           ),
@@ -1708,7 +1727,7 @@ var render = function () {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "col-md-6" },
+        { staticClass: "col-md-12" },
         [
           _c(
             "v-card",
@@ -1722,11 +1741,12 @@ var render = function () {
                       _vm._v(
                         "\n                        Permissões\n                        "
                       ),
-                      _vm.$can("create-permissions")
+                      _vm.$can("create-permission")
                         ? _c(
                             "v-btn",
                             {
                               staticClass: "float-right",
+                              attrs: { small: "" },
                               on: {
                                 click: function () {
                                   return (_vm.modalPermission = true)
@@ -1776,7 +1796,7 @@ var render = function () {
                         fn: function (ref) {
                           var item = ref.item
                           return [
-                            _vm.$can("update-permissions")
+                            _vm.$can("update-permission")
                               ? _c(
                                   "v-btn",
                                   {
@@ -1805,9 +1825,9 @@ var render = function () {
         1
       ),
       _vm._v(" "),
-      _vm.$can("create-permissions")
+      _vm.$can("create-permission")
         ? _c("v-dialog", {
-            attrs: { width: "700" },
+            attrs: { scrollable: true, width: "700" },
             scopedSlots: _vm._u(
               [
                 {
@@ -1980,9 +2000,9 @@ var render = function () {
           })
         : _vm._e(),
       _vm._v(" "),
-      _vm.$can("create-permissions")
+      _vm.$can("create-permission")
         ? _c("v-dialog", {
-            attrs: { width: "700" },
+            attrs: { scrollable: true, width: "700" },
             scopedSlots: _vm._u(
               [
                 {
@@ -2131,11 +2151,11 @@ var render = function () {
                                                       ),
                                                       [
                                                         _vm._v(
-                                                          "\n                                        " +
+                                                          "\n                                            " +
                                                             _vm._s(
                                                               data.item.text
                                                             ) +
-                                                            "\n                                    "
+                                                            "\n                                        "
                                                         ),
                                                       ]
                                                     ),
@@ -2227,7 +2247,7 @@ var render = function () {
               ],
               null,
               false,
-              3144376897
+              2703883841
             ),
             model: {
               value: _vm.modalEditRole,
@@ -2239,9 +2259,9 @@ var render = function () {
           })
         : _vm._e(),
       _vm._v(" "),
-      _vm.$can("update-permissions")
+      _vm.$can("update-permission")
         ? _c("v-dialog", {
-            attrs: { width: "700" },
+            attrs: { scrollable: true, width: "700" },
             scopedSlots: _vm._u(
               [
                 {
@@ -2450,9 +2470,9 @@ var render = function () {
           })
         : _vm._e(),
       _vm._v(" "),
-      _vm.$can("update-permissions")
+      _vm.$can("update-permission")
         ? _c("v-dialog", {
-            attrs: { width: "700" },
+            attrs: { scrollable: true, width: "700" },
             scopedSlots: _vm._u(
               [
                 {
@@ -2696,9 +2716,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VDataTable */ "./node_modules/vuetify/lib/components/VDataTable/VDataTable.js");
 /* harmony import */ var vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VDialog */ "./node_modules/vuetify/lib/components/VDialog/VDialog.js");
 /* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/VForm.js");
-/* harmony import */ var vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VSelect */ "./node_modules/vuetify/lib/components/VSelect/VSelect.js");
-/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
-/* harmony import */ var vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuetify/lib/components/VToolbar */ "./node_modules/vuetify/lib/components/VToolbar/VToolbar.js");
+/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
+/* harmony import */ var vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VSelect */ "./node_modules/vuetify/lib/components/VSelect/VSelect.js");
+/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
+/* harmony import */ var vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vuetify/lib/components/VToolbar */ "./node_modules/vuetify/lib/components/VToolbar/VToolbar.js");
 
 
 
@@ -2734,7 +2755,8 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAlert: vuetify_lib_components_VAlert__WEBPACK_IMPORTED_MODULE_4__["default"],VAutocomplete: vuetify_lib_components_VAutocomplete__WEBPACK_IMPORTED_MODULE_5__["default"],VBadge: vuetify_lib_components_VBadge__WEBPACK_IMPORTED_MODULE_6__["default"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_7__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__["default"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__.VCardActions,VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__.VCardText,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__.VCardTitle,VChip: vuetify_lib_components_VChip__WEBPACK_IMPORTED_MODULE_10__["default"],VDataTable: vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_11__["default"],VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_12__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_13__["default"],VSelect: vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_14__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_15__["default"],VToolbar: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_16__["default"]})
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAlert: vuetify_lib_components_VAlert__WEBPACK_IMPORTED_MODULE_4__["default"],VAutocomplete: vuetify_lib_components_VAutocomplete__WEBPACK_IMPORTED_MODULE_5__["default"],VBadge: vuetify_lib_components_VBadge__WEBPACK_IMPORTED_MODULE_6__["default"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_7__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__["default"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__.VCardActions,VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__.VCardText,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__.VCardTitle,VChip: vuetify_lib_components_VChip__WEBPACK_IMPORTED_MODULE_10__["default"],VDataTable: vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_11__["default"],VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_12__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_13__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_14__["default"],VSelect: vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_15__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_16__["default"],VToolbar: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_17__["default"]})
 
 
 /* hot reload */

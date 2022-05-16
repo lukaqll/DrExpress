@@ -1,4 +1,5 @@
 import axios from "axios";
+import SweetAlert from 'sweetalert2'
 
 const commom = {
 
@@ -26,8 +27,8 @@ const commom = {
             if( resp.data.status == 'success' ){
                 opt.success && opt.success( resp.data.data )
 
-                //savedAlert is true
-                // opt.savedAlert && common.success({title: 'Salvo!'})
+                //successAlert is true
+                opt.successAlert && commom.success({title: 'Salvo!'})
             } 
 
             // error
@@ -35,15 +36,16 @@ const commom = {
                 opt.error && opt.error( resp.data.message )
 
                 //if set error is true
-                // opt.setError && common.setError({message: common.formatRequiredError(resp.data.message) || 'Ops! Houve algum erro.'})
+                opt.setError && commom.setError({message: commom.errorMessages(resp.data.message) || 'Ops! Houve algum erro.'})
             }
     
         })
         .catch ( e => {
+            console.log(e)
             opt.log && console.error( e )
             opt.error && opt.error( e )
 
-            if( e.response.status == 403 ||  e.response.status == 401 ){
+            if( e.response && (e.response.status == 403 ||  e.response.status == 401) ){
                 window.location.href = '/unauthorized'
                 // window.history.go(-1)
             }
@@ -74,7 +76,41 @@ const commom = {
             }
             return str
         }
-    }
+    },
+
+
+    setError: function(opt = {}){
+        SweetAlert.fire({
+            icon: opt.type ? opt.type : 'error',
+            title: opt.title,
+            html: opt.message ? opt.message : ''
+        })
+    },
+    success: function(opt = {}){
+        SweetAlert.fire({
+            icon: 'success',
+            title: opt.title,
+            html: '<p>' + (opt.message || '') + '</p>',
+            timer: opt.timer || 1000,
+            showConfirmButton: false,
+        })
+    },
+    confirm: function(opt = {}){
+        SweetAlert.fire({
+            icon: opt.type || 'warning',
+            title: opt.title || '',
+            html: '<p>' + (opt.message || '') + '</p>',
+            showCancelButton: true,
+            confirmButtonText: opt.confirmButtonText || 'Sim',
+            cancelButtonText: opt.cancelButtonText || 'Cancelar',
+        }).then((result)=>{
+            if(result.value) {
+                opt.onConfirm && opt.onConfirm()
+            } else {
+                opt.onCancel && opt.onCancel()
+            }
+        })
+    },
 }
 
 export default commom

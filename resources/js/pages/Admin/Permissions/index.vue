@@ -1,45 +1,60 @@
 <template>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <v-card>
                 <v-card-title>
                     <div class="row">
                         <div class="col-12">
                             Funções
-                            <v-btn v-if="$can('create-permissions')" class="float-right" @click="() => modalRole = true">Nova Função</v-btn> 
                         </div>
                     </div>
                 </v-card-title>
                 <v-card-text>
-                    <v-data-table 
-                        :headers="rolesHeaders"
-                        :items="roles"
-                        :search="roleSearch"
-                        item-key="id"
-                    >
-                        <template v-slot:top>
-                            <v-text-field v-model="roleSearch" label="Pesquisar"></v-text-field>
-                        </template>
-                        <template v-slot:item.permissions_header="{ item }">
-                            <v-badge :content="item.id_permissions.length"/>
-                        </template>
-                        <template v-slot:item.actions="{ item }">
-                            <v-btn v-if="$can('update-permissions')" icon color="primary" @click="()=>getRole(item.id)">
-                                <i class="fa fa-edit"></i>
-                            </v-btn>
-                        </template>
-                    </v-data-table>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Slug</th>
+                                    <th>Descrição</th>
+                                    <th>Permissões</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(role,i) in roles" :key="i" class="table-hover">
+                                    <td>{{ role.name }}</td>
+                                    <td>{{ role.slug }}</td>
+                                    <td>{{ role.description }}</td>
+                                    <td><v-badge color="primary" :content="role.permissions.length || '0'"/></td>
+                                    <td>
+                                        <v-btn v-if="$can('update-permission')" icon color="primary" @click="() => getRole(role.id)">
+                                            <i class="fa fa-edit"></i>
+                                        </v-btn>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
+                                        <v-btn @click="() => modalRole = true" small block text elevation="0" color="purple">
+                                            <v-icon small>fa fa-plus</v-icon>
+                                            Adicionar Função
+                                        </v-btn>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </v-card-text>
             </v-card>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-12">
             <v-card>
                 <v-card-title>
                     <div class="row">
                         <div class="col-12">
                             Permissões
-                            <v-btn v-if="$can('create-permissions')" class="float-right" @click="() => modalPermission = true">Nova Permissão</v-btn> 
+                            <v-btn small v-if="$can('create-permission')" class="float-right" @click="() => modalPermission = true">Nova Permissão</v-btn> 
                         </div>
                     </div>
                 </v-card-title>
@@ -54,7 +69,7 @@
                             <v-text-field v-model="permissionSearch" label="Pesquisar"></v-text-field>
                         </template>
                         <template v-slot:item.actions="{ item }">
-                            <v-btn v-if="$can('update-permissions')" icon color="primary" @click="() => getPermission(item.id)">
+                            <v-btn v-if="$can('update-permission')" icon color="primary" @click="() => getPermission(item.id)">
                                 <i class="fa fa-edit"></i>
                             </v-btn>
                         </template>
@@ -64,7 +79,7 @@
         </div>
 
         <!-- modal role -->
-        <v-dialog v-model="modalRole" v-if="$can('create-permissions')" width="700">
+        <v-dialog :scrollable="true" v-model="modalRole" v-if="$can('create-permission')" width="700">
             <template v-slot:default="dialog">
                 <v-card>
                     <v-toolbar color="light" elevation="1">Nova Função</v-toolbar>
@@ -96,7 +111,7 @@
         </v-dialog>
 
         <!-- edit role -->
-        <v-dialog v-model="modalEditRole" v-if="$can('create-permissions')" width="700">
+        <v-dialog :scrollable="true" v-model="modalEditRole" v-if="$can('create-permission')" width="700">
             <template v-slot:default="dialog">
                 <v-card>
                     <v-toolbar color="light" elevation="1">Editar Função</v-toolbar>
@@ -121,17 +136,17 @@
                                         chips 
                                         multiple
                                     >
-                                    <template v-slot:selection="data">
-                                        <v-chip
-                                            v-bind="data.attrs"
-                                            :input-value="data.selected"
-                                            close
-                                            @click="data.select"
-                                            @click:close="removePermission(data.item)"
-                                        >
-                                            {{ data.item.text }}
-                                        </v-chip>
-                                    </template>
+                                        <template v-slot:selection="data">
+                                            <v-chip
+                                                v-bind="data.attrs"
+                                                :input-value="data.selected"
+                                                close
+                                                @click="data.select"
+                                                @click:close="removePermission(data.item)"
+                                            >
+                                                {{ data.item.text }}
+                                            </v-chip>
+                                        </template>
                                     </v-autocomplete>
                                 </div>
 
@@ -150,7 +165,7 @@
         </v-dialog>
 
         <!-- modal permission -->
-        <v-dialog v-model="modalPermission" v-if="$can('update-permissions')" width="700">
+        <v-dialog :scrollable="true" v-model="modalPermission" v-if="$can('update-permission')" width="700">
             <template v-slot:default="dialog">
                 <v-card>
                     <v-toolbar color="light" elevation="1">Nova Permissão</v-toolbar>
@@ -185,7 +200,7 @@
         </v-dialog>
 
         <!-- modal edit permission -->
-        <v-dialog v-model="modalEditPermission" v-if="$can('update-permissions')" width="700">
+        <v-dialog :scrollable="true" v-model="modalEditPermission" v-if="$can('update-permission')" width="700">
             <template v-slot:default="dialog">
                 <v-card>
                     <v-toolbar color="light" elevation="1">Editar Permissão</v-toolbar>
@@ -248,7 +263,7 @@ export default {
 
         permissionTopics: [
             {text: 'Usuário', value: 'user'},
-            {text: 'Permissões', value: 'permissions'},
+            {text: 'Permissão', value: 'permission'},
         ]
 
     }),
@@ -275,16 +290,6 @@ export default {
         },
     },
     computed: {
-        rolesHeaders() { 
-            return [
-                {text: 'Nome', value: 'name'},
-                {text: 'Slug', value: 'slug'},
-                {text: 'Descrição', value: 'description'},
-                {text: 'Permissões', value: 'permissions_header'},
-                {text: '', value: 'actions', sortable: false},
-            ]
-        },
-
         permissionsHeaders() { 
             return [
                 {text: 'Nome', value: 'name'},

@@ -42,7 +42,7 @@ const routes = [
         component: page('Admin/Permissions'),
         meta: {
             base: 'admin',
-            can: ['view-permissions']
+            can: ['view-permission']
         }
     },
     {
@@ -59,6 +59,22 @@ const routes = [
         path: '/admin/profile',
         name: 'admin.profile',
         component: page('Admin/Profile'),
+        meta: {
+            base: 'admin'
+        }
+    },
+    {
+        path: '/admin/categories',
+        name: 'admin.categories',
+        component: page('Admin/Categories'),
+        meta: {
+            base: 'admin'
+        }
+    },
+    {
+        path: '/admin/categories/:id/specs',
+        name: 'admin.specs',
+        component: page('Admin/Categories/Specs'),
         meta: {
             base: 'admin'
         }

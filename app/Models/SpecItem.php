@@ -19,4 +19,8 @@ class SpecItem extends Model
     ];
     
     public $timestamps = false;
+
+    public function products(){
+        return $this->belongsToMany(Product::class, 'product_specs', 'id_product', 'id_spec_item');
+    }
 }

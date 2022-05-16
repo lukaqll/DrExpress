@@ -26,7 +26,7 @@ class Permission extends Model
     public function topicText(){
         $topics = [
             'user' => 'Usuário',
-            'permissions' => 'Permissões',
+            'permission' => 'Permissão',
         ];
 
         return !empty($topics[$this->topic]) ? $topics[$this->topic] : $this->topic;
