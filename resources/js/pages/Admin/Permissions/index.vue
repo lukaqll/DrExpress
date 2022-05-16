@@ -1,6 +1,6 @@
 <template>
-    <div class="row">
-        <div class="col-md-12">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
             <v-card>
                 <v-card-title>
                     <div class="row">
@@ -11,7 +11,7 @@
                 </v-card-title>
                 <v-card-text>
                     <div class="table-responsive">
-                        <table class="table">
+                        <v-simple-table>
                             <thead>
                                 <tr>
                                     <th>Nome</th>
@@ -42,13 +42,13 @@
                                     </td>
                                 </tr>
                             </tbody>
-                        </table>
+                        </v-simple-table>
                     </div>
                 </v-card-text>
             </v-card>
         </div>
 
-        <div class="col-md-12">
+        <div class="col-md-10">
             <v-card>
                 <v-card-title>
                     <div class="row">
@@ -264,6 +264,7 @@ export default {
         permissionTopics: [
             {text: 'Usuário', value: 'user'},
             {text: 'Permissão', value: 'permission'},
+            {text: 'Categoria', value: 'category'},
         ]
 
     }),

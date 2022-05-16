@@ -78,7 +78,7 @@ class SpecController extends Controller
      * @return  json
      */
     public function create( $idCategory, Request $request ){
-
+        $this->gate('create-category');
         try {
 
             $validData = $request->validate([
@@ -109,7 +109,7 @@ class SpecController extends Controller
      * @return  json
      */
     public function update( Request $request, $id ){
-
+        $this->gate('update-category');
         try {
             
             $validData = $request->validate([
@@ -133,7 +133,7 @@ class SpecController extends Controller
      * @return  json
      */
     public function delete( $id ){
-
+        $this->gate('delete-category');
         try {
 
             $spec = $this->specService->find($id);
@@ -161,7 +161,7 @@ class SpecController extends Controller
      * @return  json
      */
     public function deleteItem( $id ){
-
+        $this->gate('delete-category');
         try {
 
             $item = $this->specItemService->find($id);
@@ -188,7 +188,7 @@ class SpecController extends Controller
      * @return  json
      */
     public function createItem( $idSpec, Request $request ){
-
+        $this->gate('create-category');
         try {
 
             $validData = $request->validate([
@@ -213,7 +213,7 @@ class SpecController extends Controller
      * @return  json
      */
     public function updateItem( Request $request, $id ){
-
+        $this->gate('update-category');
         try {
             
             $validData = $request->validate([

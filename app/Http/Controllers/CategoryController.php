@@ -83,6 +83,7 @@ class CategoryController extends Controller
      */
     public function getById( $id ){
 
+        $this->gate('view-category');
         try {
 
             $result = $this->categoryService->get( ['id' => $id] );
@@ -101,7 +102,7 @@ class CategoryController extends Controller
      * @return  json
      */
     public function create( Request $request ){
-
+        $this->gate('create-category');
         try {
 
             $validData = $request->validate([
@@ -131,7 +132,7 @@ class CategoryController extends Controller
      * @return  json
      */
     public function update( Request $request, $id ){
-
+        $this->gate('update-category');
         try {
             
             $validData = $request->validate([
@@ -143,11 +144,14 @@ class CategoryController extends Controller
 
             $category = $this->categoryService->find($id);
 
+            if( !empty($validData['linkable']) && !empty($category->specs) && count($category->specs) > 0 )
+                throw ValidationException::withMessages(['Existem especificações vinculados à esta categoria, não possível marcá-la como Linkável']);
+
             // verify parent
             if( !empty($validData['id_category']) ){
-                $parent = $this->categoryService->find($id);
+                $parent = $this->categoryService->find($validData['id_category']);
                 if( empty($parent->linkable) )
-                    throw ValidationException::withMessages(['A categoria pai selecionada nã é linkável']);
+                    throw ValidationException::withMessages(['A categoria pai selecionada não é linkável']);
             }
 
             // verify children
@@ -177,7 +181,7 @@ class CategoryController extends Controller
      * @return  json
      */
     public function delete( $id ){
-
+        $this->gate('delete-category');
         try {
 
             $deleted = $this->categoryService->deleteById( $id );

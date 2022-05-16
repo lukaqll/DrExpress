@@ -23,11 +23,9 @@
     
 </head>
 <body >
-    <div id="app">
-        <v-app id="inspire" class="bg-light">
-            <app></app>
-        </v-app>
-    </div>
+    <v-app id="app">
+        <app></app>
+    </v-app>
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

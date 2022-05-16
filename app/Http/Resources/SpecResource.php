@@ -18,7 +18,7 @@ class SpecResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'is_required' => $this->is_required,
-            'children' => $this->items,
+            'items' => $this->items,
         ];
     }
 }

@@ -7,9 +7,6 @@
                         <v-breadcrumbs v-if="category.id" :items="links" />
                     </div>
                     <div class="col-md-6">
-                        <v-btn class="float-right" small @click="form = 'createSpec'">
-                            Nova Espec.
-                        </v-btn>
                         <v-btn text class="float-right" small @click="$router.back()">
                             <v-icon small>fa fa-chevron-left</v-icon>
                             Voltar
@@ -21,38 +18,71 @@
 
                 <div class="row">
                     <div class="col-md-7">
-                        <v-text-field
-                            v-model="search"
-                            label="Buscar"
-                            flat
-                            clearable
-                            clear-icon="mdi-close-circle-outline"
-                        ></v-text-field>
 
-                        <!-- treeview -->
-                        <v-treeview 
-                            :items="category.specs"
-                            rounded
-                            hoverable
-                            transition
-                            dense
-                            open-on-click
-                            :search="search"
-                            expand-icon="mdi-chevron-down"
-                        >
-                            <template v-slot:label="{ item }">
-                                <v-btn text small @click="() => item.children ? getSpec(item.id) : getItem(item)">{{item.name}}</v-btn>
-                                <span x-small v-if="item.children" class="badge bg-primary rounded-xl">{{item.children.length || '0'}}</span>
-                                <span x-small v-if="item.is_required" class="badge bg-success rounded-xl">
-                                    <v-icon x-small v-if="item.is_required" dark>fa fa-check</v-icon>
-                                </span>
-                            </template>
-                            <template v-slot:append="{ item }">
-                                <v-btn v-if="item.children" small icon color="success" @click="() => addItem(item.id)">
-                                    <v-icon small >fa fa-plus</v-icon>
-                                </v-btn>
-                            </template>
-                        </v-treeview>
+                        <v-expansion-panels multiple>
+                            <v-expansion-panel
+                                v-for="(spec, i) in category.specs"
+                                :key="i" 
+                            >
+                                <v-expansion-panel-header class="py-0">
+                                    <div>
+                                        <v-btn text small @click="() => getSpec(spec.id)">{{spec.name}}</v-btn>
+                                        <span x-small v-if="spec.items" class="badge bg-primary rounded-xl">{{spec.items.length || '0'}}</span>
+                                        <span x-small v-if="spec.is_required" class="badge bg-success rounded-xl">
+                                            <v-icon x-small v-if="spec.is_required" dark>fa fa-check</v-icon>
+                                        </span>
+                                    </div>
+                                </v-expansion-panel-header>
+
+                                <v-expansion-panel-content>
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <v-chip
+                                                v-for="(item, i) in spec.items" :key="i"
+                                                class="ma-2"
+                                                :close="$can('delete-category')"
+                                                @click:close="() => deleteItem(spec.id, item.id)"
+                                                @click="() => itemsToUpdate[spec.id] && itemsToUpdate[spec.id].id == item.id ? cancelItemUpdate(spec.id) : getItem(item)"
+                                                :color="itemsToUpdate[spec.id] && itemsToUpdate[spec.id].id == item.id ? 'primary' : 'default'"
+                                            >
+                                                {{item.name}}
+                                            </v-chip>
+                                        </div>
+                                        <div class="col-12" v-if="$can('create-category') && !itemsToUpdate[spec.id]">
+                                            <v-form @submit.prevent="() => createItem(spec.id)">
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <v-text-field v-model="itemsToCreate[spec.id]" label="Adicionar Item" />
+                                                    </div>
+                                                    <div class="col-md-4 d-flex align-items-center">
+                                                        <v-btn type="submit" color="primary">Salvar</v-btn>
+                                                    </div>
+                                                </div>
+                                            </v-form>
+                                        </div>
+                                        <div class="col-12" v-else-if="$can('update-category') && itemsToUpdate[spec.id]">
+                                            <v-form @submit.prevent="() => updateItem(spec.id)">
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <v-text-field v-model="itemsToUpdate[spec.id].name" label="Editar Item" />
+                                                    </div>
+                                                    <div class="col-md-4 d-flex align-items-center">
+                                                        <v-btn type="submit" color="primary">Salvar</v-btn>
+                                                        <v-btn color="error" text @click="() => cancelItemUpdate(spec.id)">Cancelar</v-btn>
+                                                    </div>
+                                                </div>
+                                            </v-form>
+                                        </div>
+                                    </div>
+                                </v-expansion-panel-content>
+                            </v-expansion-panel>
+                        </v-expansion-panels>
+                        <v-btn v-if="$can('create-category')" @click="() => form = 'createSpec'" class="mt-3" block text elevation="0" color="purple">
+                            <v-icon small>fa fa-plus</v-icon>
+                            Adicionar Especificação
+                        </v-btn>
+
                     </div>
                     <div class="col-md-5" style="border-left: solid 1px #ddd">
                         <div v-if="form == 'updateSpec'">
@@ -67,12 +97,17 @@
                                     </div>
                                 </div>
                             </v-form>
-                            <div class="d-flex justify-end">
-                                <v-btn text @click="deleteSpec" color="error">Excluir</v-btn>
-                                <v-btn form="update-spec" :loading="saveLoading" type="submit" color="primary">Salvar</v-btn>
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <v-btn class="float-left" text @click="() => {this.form='createSpec'; this.editSpec={}}" color="error">Cancelar</v-btn>
+                                </div>
+                                <div>
+                                    <v-btn v-if="$can('delete-category')" text @click="deleteSpec" color="error">Excluir</v-btn>
+                                    <v-btn v-if="$can('update-category')" form="update-spec" :loading="saveLoading" type="submit" color="primary">Salvar</v-btn>
+                                </div>
                             </div>
                         </div>
-                        <div v-if="form == 'createSpec'">
+                        <div v-if="form == 'createSpec' && $can('create-category')">
                             <h5>Nova Especificação</h5>
                             <v-form ref="createForm" id="new-spec" @submit.prevent="createSpec">
                                 <div class="row">
@@ -86,33 +121,6 @@
                             </v-form>
                             <div class="d-flex justify-end">
                                 <v-btn form="new-spec" :loading="saveLoading" type="submit" color="primary">Salvar</v-btn>
-                            </div>
-                        </div>
-                        <div v-if="form == 'createItem'">
-                            <h5>Adicionar Item ({{ category.specs.find(s => s.id == item.id_spec).name }})</h5>
-                            <v-form ref="createItemForm" id="create-item" @submit.prevent="createItem">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <v-text-field autofocus v-model="item.name" label="nome"/>
-                                    </div>
-                                </div>
-                            </v-form>
-                            <div class="d-flex justify-end">
-                                <v-btn form="create-item" :loading="saveLoading" type="submit" color="primary">Salvar</v-btn>
-                            </div>
-                        </div>
-                        <div v-if="form == 'updateItem'">
-                            <h5>Editar Item ({{ category.specs.find(s => s.id == item.id_spec).name }} / {{item.name}})</h5>
-                            <v-form ref="updateItemForm" id="update-item" @submit.prevent="updateItem">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <v-text-field autofocus v-model="item.name" label="nome"/>
-                                    </div>
-                                </div>
-                            </v-form>
-                            <div class="d-flex justify-end">
-                                <v-btn text @click="deleteItem" color="error">Excluir</v-btn>
-                                <v-btn form="update-item" :loading="saveLoading" type="submit" color="primary">Salvar</v-btn>
                             </div>
                         </div>
                     </div>
@@ -129,12 +137,12 @@ export default {
         category: {},
         loading: false,
         specsTree: [],
-        search: '',
         saveLoading: false,
         form: 'createSpec',
         spec: {},
         editSpec: {},
-        item: {},
+        itemsToCreate: {},
+        itemsToUpdate: {},
     }),
 
     computed: {
@@ -153,7 +161,10 @@ export default {
 
     methods: {
 
-        getCategory( id ) {
+        getCategory() {
+            if( !this.$can('view-category') )
+                return 
+
             this.loading = true
             this.$commom.request({
                 url: '/category/'+this.$route.params.id,
@@ -175,6 +186,9 @@ export default {
         },
 
         createSpec(){
+            if( !this.$can('create-category') )
+                return 
+
             this.saveLoading = true
             this.$commom.request({
                 url: `/category/${this.category.id}/specs`,
@@ -186,7 +200,6 @@ export default {
                     this.getCategory()
                     this.spec = {}
                     this.saveLoading = false
-                    this.addItem(resp.id)
                 },
                 error: e => {
                     this.saveLoading = false
@@ -195,6 +208,9 @@ export default {
         },
 
         updateSpec(){
+            if( !this.$can('update-category') )
+                return 
+
             this.saveLoading = true
             this.$commom.request({
                 url: `/spec/${this.editSpec.id}`,
@@ -205,7 +221,6 @@ export default {
                 success: resp => {
                     this.getCategory()
                     this.saveLoading = false
-                    this.editSpecModal = false
                     this.editSpec = {}
                 },
                 error: e => {
@@ -215,6 +230,9 @@ export default {
         },
 
         deleteSpec(){
+            if( !this.$can('delete-category') )
+                return 
+
             this.$commom.confirm({
                 title: 'Deseja deletar esta especificação?',
                 onConfirm: () => {
@@ -228,7 +246,6 @@ export default {
                             this.getCategory()
                             this.form = 'createSpec'
                             this.saveLoading = false
-                            this.editSpecModal = false
                             this.editSpec = {}
                         },
                         error: e => {
@@ -239,28 +256,33 @@ export default {
             })
         },
 
-        addItem(id){
-            this.form = 'createItem'
-            this.item = {id_spec: id}
-        },
 
         getItem(item){
-            this.form = 'updateItem'
-            this.item = {...item}
+            const itemToTupdate = this.itemsToUpdate
+            itemToTupdate[item.id_spec] = {...item}
+            this.itemsToUpdate = {...itemToTupdate}
         },
 
-        createItem(){
+        cancelItemUpdate(idSpec){
+            const itemToTupdate = this.itemsToUpdate
+            itemToTupdate[idSpec] = null
+            this.itemsToUpdate = {...itemToTupdate}
+        },
+
+        createItem(idSpec){
+            if( !this.$can('create-category') )
+                return 
             this.saveLoading = true
             this.$commom.request({
-                url: `/spec/${this.item.id_spec}/item`,
+                url: `/spec/${idSpec}/item`,
                 type: 'post',
                 auth: true,
-                data: this.item,
+                data: {name: this.itemsToCreate[idSpec]},
                 setError: true,
                 success: resp => {
                     this.getCategory()
                     this.saveLoading = false
-                    this.item = {...this.item, name: ''}
+                    this.itemsToCreate[idSpec] = ''
                 },
                 error: e => {
                     this.saveLoading = false
@@ -268,19 +290,24 @@ export default {
             })
         },
 
-        updateItem(){
+        updateItem(idSpec){
+            if( !this.$can('update-category') )
+                return 
+            const item = this.itemsToUpdate[idSpec]
+
             this.saveLoading = true
             this.$commom.request({
-                url: `/spec-item/${this.item.id}`,
+                url: `/spec-item/${item.id}`,
                 type: 'put',
                 auth: true,
-                data: this.item,
+                data: item,
                 setError: true,
                 success: resp => {
                     this.getCategory()
                     this.saveLoading = false
-                    this.form = 'createItem'
-                    this.item = {...this.item, name: ''}
+                    const itemToTupdate = this.itemsToUpdate
+                    itemToTupdate[item.id_spec] = null
+                    this.itemsToUpdate = {...itemToTupdate}
                 },
                 error: e => {
                     this.saveLoading = false
@@ -288,13 +315,15 @@ export default {
             })
         },
 
-        deleteItem(){
+        deleteItem(idSpec, id){
+            if( !this.$can('delete-category') )
+                return 
             this.$commom.confirm({
                 title: 'Deseja deletar este item?',
                 onConfirm: () => {
                     this.saveLoading = true
                     this.$commom.request({
-                        url: `/spec-item/${this.item.id}`,
+                        url: `/spec-item/${id}`,
                         type: 'delete',
                         auth: true,
                         setError: true,
@@ -302,8 +331,7 @@ export default {
                             this.getCategory()
                             this.form = 'createSpec'
                             this.saveLoading = false
-                            this.editSpecModal = false
-                            this.item = {}
+                            this.cancelItemUpdate(idSpec)
                         },
                         error: e => {
                             this.saveLoading = false

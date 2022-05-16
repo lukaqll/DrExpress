@@ -52,7 +52,6 @@ const routes = [
         meta: {
             base: 'admin',
             can: ['view-users']
-
         }
     },
     {
@@ -68,13 +67,32 @@ const routes = [
         name: 'admin.categories',
         component: page('Admin/Categories'),
         meta: {
-            base: 'admin'
+            base: 'admin',
+            can: ['view-category']
         }
     },
     {
         path: '/admin/categories/:id/specs',
         name: 'admin.specs',
         component: page('Admin/Categories/Specs'),
+        meta: {
+            base: 'admin'
+        }
+    },
+
+    // adresses
+    {
+        path: '/admin/adresses',
+        name: 'admin.adresses',
+        component: page('Admin/Adresses/Ufs'),
+        meta: {
+            base: 'admin'
+        }
+    },
+    {
+        path: '/admin/adresses/{:idUf}/cities',
+        name: 'admin.adresses',
+        component: page('Admin/Adresses/Cities'),
         meta: {
             base: 'admin'
         }

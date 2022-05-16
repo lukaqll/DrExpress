@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         Categorias
-                        <v-btn small class="float-right" @click="editCategoryModal = false; category = {}">Nova Categoria</v-btn>
+                        <v-btn v-if="$can('create-category')" small class="float-right" @click="editCategoryModal = false; category = {}">Nova Categoria</v-btn>
                     </div>
                 </div>
             </v-card-title>
@@ -38,6 +38,8 @@
                                 <span x-small v-if="item.required_cro" class="badge bg-primary rounded-xl p-1">
                                     <small>CRO</small>
                                 </span>
+
+                                <v-badge x-small v-if="item.specs && item.specs.length" color="primary" :content="item.specs.length"/>
                             </template>
 
                             <template v-slot:append="{ item }">
@@ -70,16 +72,16 @@
                                             label="Categoria Pai"
                                             :items="categoriesOptions"
                                             clearable clear-icon="mdi-close-circle-outline"
-                                        ></v-autocomplete>
+                                        />
                                     </div>
                                 </div>
                             </v-form>
                             <div class="d-flex justify-end">
-                                <v-btn text @click="deleteCategory" color="error">Excluir</v-btn>
-                                <v-btn form="update-category" :loading="saveLoading" type="submit" color="primary">Salvar</v-btn>
+                                <v-btn v-if="$can('delete-category')" text @click="deleteCategory" color="error">Excluir</v-btn>
+                                <v-btn v-if="$can('update-category')" form="update-category" :loading="saveLoading" type="submit" color="primary">Salvar</v-btn>
                             </div>
                         </div>
-                        <div v-else>
+                        <div v-else-if="$can('create-category')">
                             <h5>Nova Categoria</h5>
                             <v-form ref="createForm" id="new-category" @submit.prevent="createCategory">
                                 <div class="row">
@@ -95,13 +97,13 @@
                                             v-model="category.id_category" 
                                             label="Categoria Pai"
                                             :items="categoriesOptions"
-                                        >
-                                        </v-autocomplete>
+                                            clearable clear-icon="mdi-close-circle-outline"
+                                        />
                                     </div>
                                 </div>
                             </v-form>
                             <div class="d-flex justify-end">
-                                <v-btn form="new-category" :loading="saveLoading" type="submit" color="primary">Salvar</v-btn>
+                                <v-btn v-if="$can('create-category')" form="new-category" :loading="saveLoading" type="submit" color="primary">Salvar</v-btn>
                             </div>
                         </div>
                     </div>
@@ -210,6 +212,9 @@ export default {
         },
 
         createCategory(){
+            if( !this.$can('create-category') )
+                return 
+
             this.saveLoading = true
             this.$commom.request({
                 url: '/category',
@@ -230,6 +235,9 @@ export default {
         },
 
         updateCategory(){
+            if( !this.$can('update-category') )
+                return 
+
             this.saveLoading = true
             this.$commom.request({
                 url: '/category/'+this.editCategory.id,
@@ -251,6 +259,9 @@ export default {
         },
 
         deleteCategory(){
+            if( !this.$can('delete-category') )
+                return 
+
             this.saveLoading = true
             this.$commom.request({
                 url: '/category/'+this.editCategory.id,

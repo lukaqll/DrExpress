@@ -17,6 +17,7 @@ class CategoryResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'id_category' => $this->id_category,
             'required_cro' => $this->required_cro,
             'linkable' => $this->linkable,
             'specs' =>  !$this->linkable ? SpecResource::collection($this->specs) : null,

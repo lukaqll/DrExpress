@@ -15,6 +15,7 @@
             
         }),
         mounted() {
+            console.log(this.$vuetify.theme)
         },
         computed: {
             base: function () { 

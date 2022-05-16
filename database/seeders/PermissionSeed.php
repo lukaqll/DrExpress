@@ -45,6 +45,7 @@ class PermissionSeed extends Seeder
                 'active' => 1
             ],
 
+            // permissions
             [
                 'name' => 'Ver Permissão',
                 'slug' => 'view-permission',
@@ -71,6 +72,36 @@ class PermissionSeed extends Seeder
                 'slug' => 'delete-permission',
                 'topic' => 'permission',
                 'description' => 'Pode deletar permissões',
+                'active' => 1
+            ],
+
+            // category
+            [
+                'name' => 'Ver Categoria',
+                'slug' => 'view-category',
+                'topic' => 'category',
+                'description' => 'Pode ver categorias',
+                'active' => 1
+            ],
+            [
+                'name' => 'Criar Categoria',
+                'slug' => 'create-category',
+                'topic' => 'category',
+                'description' => 'Pode criar categorias',
+                'active' => 1
+            ],
+            [
+                'name' => 'Editar Categoria',
+                'slug' => 'update-category',
+                'topic' => 'category',
+                'description' => 'Pode editar categorias',
+                'active' => 1
+            ],
+            [
+                'name' => 'Deletar Categoria',
+                'slug' => 'delete-category',
+                'topic' => 'category',
+                'description' => 'Pode deletar categorias',
                 'active' => 1
             ],
             

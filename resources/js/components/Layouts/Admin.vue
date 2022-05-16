@@ -1,17 +1,37 @@
 <template>
     <div>
         <v-app-bar 
-            color="deep-purple accent-4"
-            dark app
+            app
             absolute
         >
-            <v-app-bar-nav-icon @click.stop="mini = !mini"></v-app-bar-nav-icon>
-            <v-toolbar-title>{{ $useStore.user.name }}</v-toolbar-title>
+            <v-app-bar-nav-icon @click="toggleMenu"></v-app-bar-nav-icon>
+            <v-toolbar-title>Dr. Express</v-toolbar-title>
             <v-spacer></v-spacer>
 
-            <v-btn icon @click="logout">
-               <v-icon>mdi-dots-vertical</v-icon>
-            </v-btn>
+            <v-menu
+                offset-x
+                :nudge-width="150"
+                rounded="lg"
+                bottom 
+                offset-y
+            >
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                    icon
+                    v-bind="attrs"
+                    v-on="on"
+              >
+                <v-icon>mdi-dots-vertical</v-icon>
+              </v-btn>
+            </template>
+                <v-list>
+                    <v-list-item @click="logout" link>
+                        <v-icon small class="mr-3">fa fa-sign-out-alt</v-icon>
+                        Sair
+                    </v-list-item>
+                </v-list>
+          </v-menu>
+          
         </v-app-bar>
         <div>
             <v-navigation-drawer
@@ -19,8 +39,10 @@
                 :mini-variant.sync="mini"
                 app
                 class="pt-5"
+                color="deep-purple accent-2"
+                dark
             >
-                <v-list-item class="px-2">
+                <v-list-item class="px-2" color="deep-purple accent-2">
                     <v-list-item-avatar>
                         <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
                     </v-list-item-avatar>
@@ -30,16 +52,9 @@
                         <small>{{$useStore.user.email}}</small>
                     </v-list-item-title>
 
-                    <v-btn 
-                        x-small fab dark
-                        color="deep-purple accent-4" 
-                        @click.stop="mini = !mini"
-                    >
-                        <v-icon>mdi-chevron-left</v-icon>
-                    </v-btn>
                 </v-list-item>
                 <v-divider></v-divider>
-                <v-list dense>
+                <v-list color="deep-purple accent-2" >
                     <router-link 
                         v-for="item in getMenu()" :key="item.title"
                         is="v-list-item"
@@ -57,10 +72,29 @@
                             <v-list-item-title>{{ item.title }}</v-list-item-title>
                         </v-list-item-content>
                     </router-link>
+                    <v-list-item v-if="!mini || (mini && !drawer)">
+                        <v-switch 
+                            color="light"
+                            inset
+                            v-model="$vuetify.theme.isDark" 
+                            :label="$vuetify.theme.isDark ? 'Dark Mode' : 'Light Mode'"
+                        >
+                            <template v-slot:label>
+                                <span v-if="!$vuetify.theme.isDark">
+                                    <v-icon color="orange" class="mr-2">fa fa-sun</v-icon>
+                                    Light Mode
+                                </span>
+                                <span v-else>
+                                    <v-icon class="mr-2">fa fa-moon</v-icon>
+                                    Dark Mode
+                                </span>
+                            </template>
+                        </v-switch>
+                    </v-list-item>
                 </v-list>
             </v-navigation-drawer>
-            <v-main scroll app style="padding-top: 100px">
-                <v-container>
+            <v-main app style="padding-top: 100px">
+                <v-container fluid>
                     <slot />
                 </v-container>
             </v-main>
@@ -73,7 +107,10 @@ import utils from '../../services/utils'
 export default {
     data() {
         return {
-            drawer: true,
+            drawer: this.initialDrawer,
+            mini: false,
+            topbarMenu: false,
+            windowWidth: window.innerWidth,
             menu: [
                 { 
                     title: "Home", 
@@ -106,7 +143,8 @@ export default {
                 { 
                     title: "Categorias", 
                     icon: "fa fa-boxes",
-                    link: '/admin/categories'
+                    link: '/admin/categories',
+                    can: ['view-category']
                 },
                 { 
                     title: "Minha Conta", 
@@ -114,8 +152,19 @@ export default {
                     link: '/admin/profile'
                 },
             ],
-            mini: false,
         };
+    },
+
+    computed: {
+        initialDrawer(v){
+            return this.windowWidth <= 1250 ? true : false
+        },
+    },
+    watch: {
+        '$vuetify.theme.isDark': function(isDark){
+            localStorage.setItem('darkmode', isDark?'1':'0')
+            window.location.reload()
+        }
     },
     methods: {
         logout() {
@@ -137,7 +186,18 @@ export default {
 
         getMenu(){
             return utils.getMenu(this.menu)
-        }
+        },
+
+        toggleMenu(){
+            if( this.windowWidth <= 1250 ){
+                this.drawer = !this.drawer
+                this.mini = false
+            } else {
+                this.drawer = true;
+                this.mini = !this.mini
+            }
+        },
+
     },
 };
 </script>

@@ -1,44 +1,48 @@
 <template>
     <div>
-        <v-form ref='from' @submit.prevent="update">
-            <v-card :loading="loading">
-                <v-card-title>Minha Conta</v-card-title>
-                <v-card-text>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <v-text-field label="Nome" v-model="user.name" :rules="rules.name"/>
-                        </div>
-                        <div class="col-md-6">
-                            <v-text-field type="email" label="E-mail" v-model="user.email" :rules="rules.email"/>
-                        </div>
-                        <div class="col-md-6">
-                            <v-text-field 
-                                v-mask="user.doc_number && user.doc_number.length > 14 ? '##.###.###/####-##' : '###.###.###-##'" 
-                                label="CPF" 
-                                v-model="user.doc_number"
-                            />
-                        </div>
-                        <div class="col-md-6">
-                            <v-text-field type="date" label="Nascimento" v-model="user.birthdate"/>
-                        </div>
-                        <div class="col-md-6">
-                            <v-text-field label="Telefone" v-model="user.phone" v-mask="'(##) #####-####'"/>
-                        </div>
-                        <div class="col-md-12">
-                            <h5>Funções</h5>
-                            <v-badge v-for="(role, i) in user.roles" :key="i" :content="role.name"/>
-                        </div>
-                        <div class="col-md-12" v-if="errors && errors.length">
-                            <v-alert v-html="errors" type="error"></v-alert>
-                        </div>
-                    </div>
-                </v-card-text>
-                <v-card-actions class="justify-end">
-                    <v-btn text color="primary" @click="passwordModal = true">Alterar Senha</v-btn>
-                    <v-btn type="submit" color="primary">Salvar Alterações</v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-form>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <v-form ref='from' @submit.prevent="update">
+                    <v-card :loading="loading">
+                        <v-card-title>Minha Conta</v-card-title>
+                        <v-card-text>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <v-text-field label="Nome" v-model="user.name" :rules="rules.name"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <v-text-field type="email" label="E-mail" v-model="user.email" :rules="rules.email"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <v-text-field 
+                                        v-mask="user.doc_number && user.doc_number.length > 14 ? '##.###.###/####-##' : '###.###.###-##'" 
+                                        label="CPF" 
+                                        v-model="user.doc_number"
+                                    />
+                                </div>
+                                <div class="col-md-6">
+                                    <v-text-field type="date" label="Nascimento" v-model="user.birthdate"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <v-text-field label="Telefone" v-model="user.phone" v-mask="'(##) #####-####'"/>
+                                </div>
+                                <div class="col-md-12">
+                                    <h5>Funções</h5>
+                                    <v-badge v-for="(role, i) in user.roles" :key="i" :content="role.name"/>
+                                </div>
+                                <div class="col-md-12" v-if="errors && errors.length">
+                                    <v-alert v-html="errors" type="error"></v-alert>
+                                </div>
+                            </div>
+                        </v-card-text>
+                        <v-card-actions class="justify-end">
+                            <v-btn text color="primary" @click="passwordModal = true">Alterar Senha</v-btn>
+                            <v-btn type="submit" color="primary">Salvar Alterações</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-form>
+            </div>
+        </div>
 
         <!-- update password -->
         <v-dialog max-width="400" v-model="passwordModal">

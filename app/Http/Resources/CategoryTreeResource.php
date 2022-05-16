@@ -20,7 +20,7 @@ class CategoryTreeResource extends JsonResource
             'required_cro' => $this->required_cro,
             'linkable' => $this->linkable,
             'children' =>  $this->linkable ? CategoryTreeResource::collection($this->children) : null,
-            'specs' =>  $this->linkable ? SpecResource::collection($this->specs) : null,
+            'specs' =>  !$this->linkable ? SpecResource::collection($this->specs) : null,
         ];
     }
 }
