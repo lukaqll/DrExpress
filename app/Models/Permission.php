@@ -28,6 +28,7 @@ class Permission extends Model
             'user' => 'Usuário',
             'permission' => 'Permissão',
             'category' => 'Categoria',
+            'address' => 'Endereço',
         ];
 
         return !empty($topics[$this->topic]) ? $topics[$this->topic] : $this->topic;

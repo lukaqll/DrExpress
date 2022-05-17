@@ -2,9 +2,12 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CityController;
+use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SpecController;
+use App\Http\Controllers\UfController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -64,4 +67,29 @@ Route::group(['middleware' => ['apiJwt']], function(){
     Route::put('/spec/{id}', [SpecController::class, 'update']);
     Route::delete('/spec/{id}', [SpecController::class, 'delete']);
     Route::delete('/spec-item/{id}', [SpecController::class, 'deleteItem']);
+
+    /**
+     * address
+     */
+    Route::get('/uf', [UfController::class, 'list']);
+    Route::get('/uf/{id}', [UfController::class, 'getById']);
+    Route::put('/uf/{id}', [UfController::class, 'update']);
+    Route::post('/uf', [UfController::class, 'create']);
+    // Route::delete('/uf/{id}', [UfController::class, 'delete']);
+    
+    Route::get('/uf/{id}/cities', [UfController::class, 'getCities']);
+    Route::post('/uf/{id}/city', [CityController::class, 'create']);
+    Route::get('/city', [CityController::class, 'list']);
+    Route::get('/city/{id}', [CityController::class, 'getById']);
+    Route::put('/city/{id}', [CityController::class, 'update']);
+    // Route::delete('/city/{id}', [CityController::class, 'delete']);
+    
+    Route::get('/city/{id}/district', [CityController::class, 'getDistricts']);
+    Route::post('/city/{id}/district', [DistrictController::class, 'create']);
+    Route::get('/district', [DistrictController::class, 'list']);
+    Route::get('/district/{id}', [DistrictController::class, 'getById']);
+    Route::put('/district/{id}', [DistrictController::class, 'update']);
+    // Route::delete('/district/{id}', [DistrictController::class, 'delete']);
+
+
 });

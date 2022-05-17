@@ -84,17 +84,28 @@ const routes = [
     {
         path: '/admin/adresses',
         name: 'admin.adresses',
-        component: page('Admin/Adresses/Ufs'),
+        component: page('Admin/Adresses'),
         meta: {
-            base: 'admin'
+            base: 'admin',
+            can: ['view-address']
         }
     },
     {
-        path: '/admin/adresses/{:idUf}/cities',
+        path: '/admin/uf/:id/cities',
         name: 'admin.adresses',
         component: page('Admin/Adresses/Cities'),
         meta: {
-            base: 'admin'
+            base: 'admin',
+            can: ['view-address']
+        }
+    },
+    {
+        path: '/admin/city/:id/districts',
+        name: 'admin.adresses',
+        component: page('Admin/Adresses/Districts'),
+        meta: {
+            base: 'admin',
+            can: ['view-address']
         }
     },
 ]

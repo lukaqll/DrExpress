@@ -3,6 +3,8 @@
  namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CityDistrictsResource;
+use App\Http\Resources\CityResource;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -25,7 +27,7 @@ class CityController extends Controller
             $dataFilter = $request->all();
             $result = $this->cityService->list( $dataFilter, ['id'] );
 
-            $response = [ 'status' => 'success', 'data' => ($result) ];
+            $response = [ 'status' => 'success', 'data' => CityResource::collection($result) ];
             
         } catch ( ValidationException $e ){
 
@@ -46,7 +48,7 @@ class CityController extends Controller
             $dataFilter = $request->all();
             $result = $this->cityService->get( $dataFilter );
     
-            $response = [ 'status' => 'success', 'data' => ($result) ];
+            $response = [ 'status' => 'success', 'data' => new CityResource($result) ];
         } catch ( ValidationException $e ){
 
             $response = [ 'status' => 'error', 'message' => $e->errors() ];
@@ -64,7 +66,26 @@ class CityController extends Controller
         try {
 
             $result = $this->cityService->get( ['id' => $id] );
-            $response = [ 'status' => 'success', 'data' => ($result) ];
+            $response = [ 'status' => 'success', 'data' => new CityResource($result) ];
+
+        } catch ( ValidationException $e ){
+
+            $response = [ 'status' => 'error', 'message' => $e->errors() ];
+        }
+        return response()->json( $response ); 
+    }
+
+    /**
+     * get by id
+     * 
+     * @return  json
+     */
+    public function getDistricts( $id ){
+
+        try {
+
+            $result = $this->cityService->get( ['id' => $id] );
+            $response = [ 'status' => 'success', 'data' => new CityDistrictsResource($result) ];
 
         } catch ( ValidationException $e ){
 
@@ -78,13 +99,16 @@ class CityController extends Controller
      * 
      * @return  json
      */
-    public function create( Request $request ){
-
+    public function create( Request $request, $id ){
+        $this->gate('create-address');
         try {
 
             $validData = $request->validate([
-                'name' => 'required|string|unique:table',
+                'name' => 'required|string',
+                'ibge_code' => 'required|string',
+                'cep' => 'required|string|min:9',
             ]);
+            $validData['id_uf'] = $id;
             
             $created = $this->cityService->create( $validData );
             $response = [ 'status' => 'success', 'data' => ($created) ];
@@ -103,11 +127,13 @@ class CityController extends Controller
      * @return  json
      */
     public function update( Request $request, $id ){
-
+        $this->gate('update-address');
         try {
             
             $validData = $request->validate([
-                'name' => 'required|string|unique:table,name,'.$id,
+                'name' => 'required|string',
+                'ibge_code' => 'required|string',
+                'cep' => 'required|string|min:9',
             ]);
             $updated = $this->cityService->updateById( $id, $validData);
             $response = [ 'status' => 'success', 'data' => ($updated) ];
@@ -126,7 +152,7 @@ class CityController extends Controller
      * @return  json
      */
     public function delete( $id ){
-
+        $this->gate('delete-address');
         try {
 
             $deleted = $this->cityService->deleteById( $id );

@@ -11295,6 +11295,9 @@ textarea.form-control-lg {
 .theme--light .v-application--wrap {
   background-color: #f1f1f1 !important;
 }
+.theme--light .v-app-bar.v-toolbar.v-sheet {
+  background-color: #fff !important;
+}
 
 .theme--dark .v-application--wrap {
   background-color: #141b2d !important;

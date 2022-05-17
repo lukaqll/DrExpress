@@ -14,6 +14,13 @@ class CityResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'ibge_code' => $this->ibge_code,
+            'cep' => $this->cep,
+            'uf' => $this->uf,
+            'districts' => $this->districts
+        ];
     }
 }

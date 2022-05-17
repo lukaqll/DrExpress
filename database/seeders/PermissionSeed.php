@@ -15,7 +15,8 @@ class PermissionSeed extends Seeder
      */
     public function run()
     {
-        Permission::insert([
+
+        $permissions = [
             [
                 'name' => 'Ver Usuários',
                 'slug' => 'view-user',
@@ -104,7 +105,45 @@ class PermissionSeed extends Seeder
                 'description' => 'Pode deletar categorias',
                 'active' => 1
             ],
+
+            // adresses
+            [
+                'name' => 'Ver Endereço',
+                'slug' => 'view-address',
+                'topic' => 'address',
+                'description' => 'Pode ver endereços',
+                'active' => 1
+            ],
+            [
+                'name' => 'Criar Endereço',
+                'slug' => 'create-address',
+                'topic' => 'address',
+                'description' => 'Pode criar endereços',
+                'active' => 1
+            ],
+            [
+                'name' => 'Editar Endereço',
+                'slug' => 'update-address',
+                'topic' => 'address',
+                'description' => 'Pode editar endereços',
+                'active' => 1
+            ],
+            [
+                'name' => 'Deletar Endereço',
+                'slug' => 'delete-address',
+                'topic' => 'address',
+                'description' => 'Pode deletar endereços',
+                'active' => 1
+            ],
             
-        ]);
+        ];
+
+        foreach($permissions as $permission){
+            $exists = Permission::where('slug', $permission['slug'])->first();
+            if( empty($exists) ){
+                Permission::insert($permission);
+            }
+        }
+        
     }
 }

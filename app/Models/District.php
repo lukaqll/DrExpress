@@ -16,6 +16,7 @@ class District extends Model
         'id',
         'id_city',
         'name',
+        'cep',
     ];
 
     public $timestamps = false;

@@ -297,6 +297,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }, {
         text: 'Categoria',
         value: 'category'
+      }, {
+        text: 'Endereço',
+        value: 'address'
       }]
     };
   },

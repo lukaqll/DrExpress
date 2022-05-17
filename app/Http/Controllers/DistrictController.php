@@ -78,13 +78,15 @@ class DistrictController extends Controller
      * 
      * @return  json
      */
-    public function create( Request $request ){
-
+    public function create( Request $request, $id ){
+        $this->gate('create-address');
         try {
 
             $validData = $request->validate([
-                'name' => 'required|string|unique:table',
+                'name' => 'required|string',
+                'cep' => 'required|string|min:9',
             ]);
+            $validData['id_city'] = $id;
             
             $created = $this->districtService->create( $validData );
             $response = [ 'status' => 'success', 'data' => ($created) ];
@@ -103,11 +105,12 @@ class DistrictController extends Controller
      * @return  json
      */
     public function update( Request $request, $id ){
-
+        $this->gate('update-address');
         try {
             
             $validData = $request->validate([
-                'name' => 'required|string|unique:table,name,'.$id,
+                'name' => 'required|string',
+                'cep' => 'required|string|min:9',
             ]);
             $updated = $this->districtService->updateById( $id, $validData);
             $response = [ 'status' => 'success', 'data' => ($updated) ];
@@ -126,7 +129,7 @@ class DistrictController extends Controller
      * @return  json
      */
     public function delete( $id ){
-
+        $this->gate('delete-address');
         try {
 
             $deleted = $this->districtService->deleteById( $id );

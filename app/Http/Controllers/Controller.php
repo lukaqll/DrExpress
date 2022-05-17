@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Services\CategoryService;
+use App\Services\CityService;
+use App\Services\DistrictService;
 use App\Services\PermissionService;
 use App\Services\ProductService;
 use App\Services\RoleService;
 use App\Services\SpecItemService;
 use App\Services\SpecService;
+use App\Services\UfService;
 use App\Services\UserService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -27,6 +30,9 @@ class Controller extends BaseController
     protected $specService;
     protected $specItemService;
     protected $productService;
+    protected $ufService;
+    protected $cityService;
+    protected $districtService;
 
     public function __construct()
     {
@@ -37,6 +43,9 @@ class Controller extends BaseController
         $this->specService = new SpecService;    
         $this->specItemService = new SpecItemService;    
         $this->productService = new ProductService;    
+        $this->ufService = new UfService;    
+        $this->cityService = new CityService;    
+        $this->districtService = new DistrictService;    
     }
 
     protected function gate($slug, $attr=[]){

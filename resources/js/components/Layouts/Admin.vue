@@ -115,7 +115,7 @@ export default {
                 { 
                     title: "Home", 
                     icon: "fa fa-home",
-                    link: '/admin'
+                    link: '/admin',
                 },
                 
                 { 
@@ -134,11 +134,14 @@ export default {
                     title: "Endereços", 
                     icon: "fas fa-map-marker-alt",
                     link: '/admin/adresses',
+                    can: ['view-address']
                 },
                 { 
                     title: "Métodos de Pagamento", 
                     icon: "fas fa-credit-card",
                     link: '/admin/adresses',
+                    can: ['view-address']
+
                 },
                 { 
                     title: "Categorias", 

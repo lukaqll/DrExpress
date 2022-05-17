@@ -265,6 +265,7 @@ export default {
             {text: 'Usuário', value: 'user'},
             {text: 'Permissão', value: 'permission'},
             {text: 'Categoria', value: 'category'},
+            {text: 'Endereço', value: 'address'},
         ]
 
     }),

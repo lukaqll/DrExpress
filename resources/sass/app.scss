@@ -17,8 +17,14 @@ $color-darkmode-card : #292f45;
 $color-darkmode-card-header : #353d54;
 $color-darkmode-card-light : #636d89;
 
-.theme--light .v-application--wrap{
-    background-color: #f1f1f1 !important;
+.theme--light {
+    .v-application--wrap{
+        background-color: #f1f1f1 !important;
+    }
+
+    .v-app-bar.v-toolbar.v-sheet{
+        background-color: #fff !important;
+    }
 }
 
 .theme--dark {
