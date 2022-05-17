@@ -17,6 +17,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Controller extends BaseController
@@ -51,5 +52,17 @@ class Controller extends BaseController
     protected function gate($slug, $attr=[]){
         if( Gate::denies($slug, $attr) )
             throw new HttpException(403, 'Ação não autorizada');
+    }
+
+    protected function throwException($message=''){
+        if( is_string($message) )
+            throw ValidationException::withMessages([$message]);
+        
+        if( is_array($message) )
+            throw ValidationException::withMessages($message);
+
+        throw ValidationException::withMessages(['Ops... Houve um erro!']);
+        
+
     }
 }

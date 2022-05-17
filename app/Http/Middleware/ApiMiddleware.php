@@ -33,6 +33,7 @@ class ApiMiddleware extends BaseMiddleware
                 $response = ['status' => 'error', 'message' => $e->getMessage()];
             }
 
+            throw new HttpException(403, $response['message']);
             return response()->json($response);
         }
 

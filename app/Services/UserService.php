@@ -25,6 +25,18 @@ class UserService extends AbstractService
                            ->get();
     }
 
+    public function listSellers(){
+
+        return $this->model->join('user_roles AS ur', 'ur.id_user', 'users.id')
+                           ->join('roles AS r', function($join){
+                               $join->on('r.id', 'ur.id_role')
+                                    ->whereIn('r.slug', ['seller']);
+                           })
+                           ->select('users.*')
+                           ->groupBy('users.id')
+                           ->get();
+    }
+
     public function createOperator( $data ){
 
         
@@ -45,6 +57,29 @@ class UserService extends AbstractService
             
         return $user;
     }
+
+
+    public function createSeller( $data ){
+
+        
+        $this->passwordValidation($data);
+
+        $roleService = new RoleService;
+        
+        $data['password'] = bcrypt($data['password']);
+        $data['status'] = 'A';
+        $user = $this->create( $data );
+
+        $sellerRole = $roleService->get(['slug' => 'seller']);
+
+        if( empty($sellerRole) )
+            throw ValidationException::withMessages(['Função de operador não cadastrada, entre em contato com o administrador do sistema']);
+
+        $user->roles()->attach($sellerRole);
+            
+        return $user;
+    }
+
 
     public function passwordValidation( $data ){
 

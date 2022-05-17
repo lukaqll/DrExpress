@@ -22,7 +22,7 @@ class UserController extends Controller
      */
     public function list( Request $request )
     {
-        $this->gate('view-users');
+        $this->gate('view-user');
         try {
 
             $dataFilter = $request->all();
@@ -110,7 +110,7 @@ class UserController extends Controller
      * @return  json
      */
     public function getById( $id ){
-        $this->gate('view-users');
+        $this->gate('view-user');
         try {
 
             $result = $this->userService->get( ['id' => $id] );
@@ -129,7 +129,7 @@ class UserController extends Controller
      * @return  json
      */
     public function create( Request $request ){
-        $this->gate('crate-users');
+        $this->gate('crate-user');
         try {
 
             DB::beginTransaction();
@@ -163,7 +163,7 @@ class UserController extends Controller
      * @return  json
      */
     public function update( Request $request, $id ){
-        $this->gate('update-users');
+        $this->gate('update-user');
         try {
             
             $validData = $request->validate([
@@ -199,7 +199,7 @@ class UserController extends Controller
      * @return  json
      */
     public function updatePassword( Request $request, $id ){
-        $this->gate('update-users');
+        $this->gate('update-user');
         try {
             
             $validData = $request->validate([
@@ -224,7 +224,6 @@ class UserController extends Controller
      * update self pass
      */
     public function updateMePassword( Request $request ){
-        $this->gate('update-users');
         try {
             
             $user = auth('api')->user();
@@ -252,7 +251,7 @@ class UserController extends Controller
      * @return  json
      */
     public function toggleStatus( $id ){
-        $this->gate('update-users');
+        $this->gate('update-user');
         try {
 
             $user = $this->userService->find($id);

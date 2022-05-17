@@ -87,6 +87,10 @@ class DistrictController extends Controller
                 'cep' => 'required|string|min:9',
             ]);
             $validData['id_city'] = $id;
+
+            $isDistrictExists = $this->districtService->get(['name' => $validData['name'], 'id_city' => $id]);
+            if(!empty($isDistrictExists))
+                $this->throwException("Bairro {$validData['name']} já cadastrado para esta cidade");
             
             $created = $this->districtService->create( $validData );
             $response = [ 'status' => 'success', 'data' => ($created) ];
@@ -108,10 +112,17 @@ class DistrictController extends Controller
         $this->gate('update-address');
         try {
             
+            $district = $this->districtService->find($id);
+
             $validData = $request->validate([
                 'name' => 'required|string',
                 'cep' => 'required|string|min:9',
             ]);
+
+            $isDistrictExists = $this->districtService->get(['name' => $validData['name'], 'id_city' => $district->id_city]);
+            if(!empty($isDistrictExists) && $isDistrictExists->id != $id)
+                $this->throwException("Bairro {$validData['name']} já cadastrado para esta cidade");
+
             $updated = $this->districtService->updateById( $id, $validData);
             $response = [ 'status' => 'success', 'data' => ($updated) ];
 

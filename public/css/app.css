@@ -11306,7 +11306,9 @@ textarea.form-control-lg {
 .theme--dark .v-navigation-drawer,
 .theme--dark .v-expansion-panel-content,
 .theme--dark .v-data-table,
-.theme--dark .v-list {
+.theme--dark .v-list,
+.theme--dark .v-slide-group__wrapper,
+.theme--dark .v-item-group {
   background-color: #292f45 !important;
 }
 .theme--dark .v-toolbar,
@@ -11314,7 +11316,4 @@ textarea.form-control-lg {
 .theme--dark .v-data-table tr:hover,
 .theme--dark .v-btn--has-bg {
   background-color: #353d54 !important;
-}
-.theme--dark .v-list-item--active::before {
-  background-color: #636d89 !important;
 }

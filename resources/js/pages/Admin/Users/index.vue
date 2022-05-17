@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-12">
                         Usuários Operadores
-                        <v-btn small class="float-right" @click="newUserModal = true">Novo Usuário</v-btn>
+                        <v-btn v-if="$can('create-user')" small class="float-right" @click="newUserModal = true">Novo Usuário</v-btn>
                     </div>
                 </div>
             </v-card-title>
@@ -18,13 +18,13 @@
                         <span class="badge rounded-full bg-primary mr-1" v-for="(role, i) in item.roles" :key="i">{{role.name}}</span>
                     </template>
                     <template v-slot:item.actions_header="{ item }">
-                        <v-btn v-if="$can('update-users')" icon color="primary" @click="() => getUser(item.id)">
+                        <v-btn v-if="$can('update-user')" icon color="primary" @click="() => getUser(item.id)">
                             <v-icon small>fa fa-edit</v-icon>
                         </v-btn>
-                        <v-btn v-if="$can('update-users')" icon color="primary" @click="() => getUser(item.id, true)">
+                        <v-btn v-if="$can('update-user')" icon color="primary" @click="() => getUser(item.id, true)">
                             <v-icon small>fa fa-key</v-icon>
                         </v-btn>
-                        <v-btn v-if="$can('update-users')" @click="() => toggleStatus(item.id)" icon :color="item.status == 'A' ? 'success' : 'error'" data-toggle="tooltip" :title="item.status == 'A' ? 'Desativar' : 'Ativar'">
+                        <v-btn v-if="$can('update-user')" @click="() => toggleStatus(item.id)" icon :color="item.status == 'A' ? 'success' : 'error'" data-toggle="tooltip" :title="item.status == 'A' ? 'Desativar' : 'Ativar'">
                             <v-icon small>fa fa-power-off</v-icon>
                         </v-btn>
                     </template>
@@ -175,11 +175,11 @@ export default {
         userRules: {
             name: [v => !!v || 'Informe o nome'],
             email: [
-                v => !!v || 'Insira seu e-mail',
+                v => !!v || 'Insira o e-mail',
                 v => /.+@.+/.test(v) || 'E-mail inválido',
             ],
             password: [
-                v => !!v || 'Insira sua senha',
+                v => !!v || 'Insira a senha',
                 v => (v && v.length >= 6) || 'A senha deve conter pelo menos 6 caracteres',
             ],
             password_confirmation: [
@@ -211,7 +211,7 @@ export default {
             return this.roles.map(p => ({
                 text: p.name, value: p.id
             }))
-        }
+        },
     },
 
     methods: {

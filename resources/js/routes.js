@@ -51,7 +51,7 @@ const routes = [
         component: page('Admin/Users'),
         meta: {
             base: 'admin',
-            can: ['view-users']
+            can: ['view-user']
         }
     },
     {
@@ -92,7 +92,7 @@ const routes = [
     },
     {
         path: '/admin/uf/:id/cities',
-        name: 'admin.adresses',
+        name: 'admin.cities',
         component: page('Admin/Adresses/Cities'),
         meta: {
             base: 'admin',
@@ -101,11 +101,40 @@ const routes = [
     },
     {
         path: '/admin/city/:id/districts',
-        name: 'admin.adresses',
+        name: 'admin.districts',
         component: page('Admin/Adresses/Districts'),
         meta: {
             base: 'admin',
             can: ['view-address']
+        }
+    },
+
+    {
+        path: '/admin/sellers',
+        name: 'admin.sellers',
+        component: page('Admin/Sellers'),
+        meta: {
+            base: 'admin',
+            can: ['view-seller']
+        }
+    },
+
+
+
+
+
+
+
+
+    /**
+     * dashboard
+     */
+     {
+        path: '/dashboard',
+        name: 'dash.sellers',
+        component: page('Dashboard/Home'),
+        meta: {
+            base: 'dashboard',
         }
     },
 ]

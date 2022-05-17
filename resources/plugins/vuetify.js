@@ -13,6 +13,8 @@ const opts = {
         themes: {
             light: {
                 background: '#f1f1f1',
+                petrol: '#17a499',
+
             },
 
             dark: {

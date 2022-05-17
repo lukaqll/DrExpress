@@ -30,10 +30,11 @@
                         <div class="col-12">
                             <v-btn type='submit' class="float-right" color="primary">Entrar</v-btn>
                         </div>
-                        <div v-if="errorMessage && errorMessage.length" class="col-12">
-                            <v-alert type="error" v-html="errorMessage"/>
+                        <div v-if="(errorMessage && errorMessage.length) || $route.query.message" class="col-12">
+                            <v-alert type="error" v-html="errorMessage || $route.query.message"/>
                         </div>
                     </div>
+
                 </v-form>
             </v-card-text>
         </v-card>
@@ -59,12 +60,6 @@ export default {
         }
     }),
 
-    watch: {
-        $user(newUser, oldUser){
-            console.log('user!!!', newUser, oldUser)
-        }
-    },
-
     methods: {
         login() {
             if( this.$refs.form.validate() ){
@@ -74,22 +69,44 @@ export default {
                     type: 'post',
                     data: this.formData,
                     success: (resp) => {
-                        this.setUser(resp)
+
                         this.loading = false
                         this.errorMessage = ''
-                        this.$router.push("/admin")
+
+                        this.setUser(resp).then((user) => {
+                            this.redirectAfterLogin()
+                        })
                     }, 
                     error: (e) => {
                         this.loading = false
-                        this.errorMessage = e
+                        this.errorMessage = this.$commom.errorMessages(e)
                     }
                 })
             }
         },
 
-        setUser( data ) {
+        async setUser( data ) {
             localStorage.setItem('auth_token', data.access_token)
-            this.$useStore.user = {...data.user}
+            return await this.$useStore.setUser(data.user)
+        },
+
+        redirectAfterLogin() {
+
+            let redirectTo = '/login?message=Falha%20ao%20redirecionar'
+            if( this.$route.query && this.$route.query.redirectTo ){
+                redirectTo = this.$route.query.redirectTo
+            } else {
+
+                if( this.$hasRole(['admin', 'operator']) ){
+                    redirectTo = '/admin'
+                } else if ( this.$hasRole(['seller']) ){
+                    redirectTo = '/dashboard'
+                }
+            }
+
+            if( this.$route.fullPath != redirectTo ){
+                this.$router.push({ path: redirectTo, replace: true })
+            }
         }
     }
 }

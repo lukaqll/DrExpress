@@ -1,8 +1,9 @@
 <template>
-    <div>
+    <div v-if="$useStore.user">
         <v-app-bar 
             app
             absolute
+            elevation="1"
         >
             <v-app-bar-nav-icon @click="toggleMenu"></v-app-bar-nav-icon>
             <v-toolbar-title>Dr. Express</v-toolbar-title>
@@ -39,10 +40,10 @@
                 :mini-variant.sync="mini"
                 app
                 class="pt-5"
-                color="deep-purple accent-2"
+                color="primary accent-4"
                 dark
             >
-                <v-list-item class="px-2" color="deep-purple accent-2">
+                <v-list-item class="px-2" color="primary accent-4">
                     <v-list-item-avatar>
                         <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
                     </v-list-item-avatar>
@@ -54,7 +55,7 @@
 
                 </v-list-item>
                 <v-divider></v-divider>
-                <v-list color="deep-purple accent-2" >
+                <v-list color="primary accent-4" >
                     <router-link 
                         v-for="item in getMenu()" :key="item.title"
                         is="v-list-item"
@@ -117,19 +118,13 @@ export default {
                     icon: "fa fa-home",
                     link: '/admin',
                 },
+                { 
+                    title: "Vendedores", 
+                    icon: "fas fa-store",
+                    link: '/admin/sellers',
+                    can: ['view-seller']
+                },
                 
-                { 
-                    title: "Usuários", 
-                    icon: "fas fa-users",
-                    link: '/admin/users',
-                    can: ['view-users']
-                },
-                { 
-                    title: "Permissões", 
-                    icon: "fas fa-unlock",
-                    link: '/admin/permissions',
-                    can: ['view-permission']
-                },
                 { 
                     title: "Endereços", 
                     icon: "fas fa-map-marker-alt",
@@ -137,9 +132,9 @@ export default {
                     can: ['view-address']
                 },
                 { 
-                    title: "Métodos de Pagamento", 
+                    title: "Meios de Pagamento", 
                     icon: "fas fa-credit-card",
-                    link: '/admin/adresses',
+                    link: '/admin/paymento-methods',
                     can: ['view-address']
 
                 },
@@ -150,6 +145,18 @@ export default {
                     can: ['view-category']
                 },
                 { 
+                    title: "Permissões", 
+                    icon: "fas fa-unlock",
+                    link: '/admin/permissions',
+                    can: ['view-permission']
+                },
+                { 
+                    title: "Usuários", 
+                    icon: "fas fa-users",
+                    link: '/admin/users',
+                    can: ['view-user']
+                },
+                { 
                     title: "Minha Conta", 
                     icon: "far fa-user",
                     link: '/admin/profile'
@@ -158,6 +165,10 @@ export default {
         };
     },
 
+    mounted(){
+        if( !this.$hasRole(['admin', 'operator']) )
+            this.$router.push('/login?message=Sem Permissão')
+    },
     computed: {
         initialDrawer(v){
             return this.windowWidth <= 1250 ? true : false
@@ -177,7 +188,7 @@ export default {
                 auth: true,
                 success: (resp) => {
                     localStorage.removeItem("auth_token");
-                    this.$useStore.user = null
+                    this.$useStore.setUser(null)
                     this.$router.push("/login");
                 },
                 error: () => {

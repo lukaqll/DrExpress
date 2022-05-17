@@ -1,6 +1,6 @@
 <template>
     <div class="text-center">
-        <h1>403 | Sem Autorização</h1>
+        <h1>403 | {{ $route.query.message || 'Sem Autorização'}}</h1>
         <div class="row">
             <div class="col-12 d-flex justify-content-between">
                 <v-btn color="primary center" @click="$router.back(-2)">
@@ -14,3 +14,10 @@
         </div>
     </div>
 </template>
+<script>
+export default {
+    mounted(){
+        
+    }
+}
+</script>

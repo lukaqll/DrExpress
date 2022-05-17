@@ -6,6 +6,7 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SellerController;
 use App\Http\Controllers\SpecController;
 use App\Http\Controllers\UfController;
 use App\Http\Controllers\UserController;
@@ -90,6 +91,19 @@ Route::group(['middleware' => ['apiJwt']], function(){
     Route::get('/district/{id}', [DistrictController::class, 'getById']);
     Route::put('/district/{id}', [DistrictController::class, 'update']);
     // Route::delete('/district/{id}', [DistrictController::class, 'delete']);
+
+    /**
+     * sellers
+     */
+    Route::get('/seller', [SellerController::class, 'list']);
+    Route::put('/seller/{id}/password', [SellerController::class, 'updatePassword']);
+    Route::put('/seller/{id}/toggle-status', [SellerController::class, 'toggleStatus']);
+    Route::get('/seller/me', [SellerController::class, 'getMe']);
+    Route::put('/seller/me/update', [SellerController::class, 'updateMe']);
+    Route::put('/seller/me/update-password', [SellerController::class, 'updateMePassword']);
+    Route::get('/seller/{id}', [SellerController::class, 'getById']);
+    Route::put('/seller/{id}', [SellerController::class, 'update']);
+    Route::post('/seller', [SellerController::class, 'create']);
 
 
 });

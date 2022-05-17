@@ -38,9 +38,6 @@
                                             <td>{{city.ibge_code}}</td>
                                             <td>{{city.cep}}</td>
                                             <td>
-                                                <v-btn v-if="$can('update-address')" icon color="primary" @click="() => getCity(city.id)">
-                                                    <v-icon small>fa fa-edit</v-icon>
-                                                </v-btn>
                                                 <router-link 
                                                     v-if="$can('view-address')"
                                                     is='v-btn' text
@@ -48,6 +45,9 @@
                                                 >
                                                     {{city.districts.length}} Bairros
                                                 </router-link>
+                                                <v-btn v-if="$can('update-address')" icon color="primary" @click="() => getCity(city.id)">
+                                                    <v-icon small>fa fa-edit</v-icon>
+                                                </v-btn>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -90,7 +90,7 @@
                 <v-card-text>
                     <v-form @submit.prevent="updateCity">
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <v-text-field autofocus v-model="editCity.name" label="Nome" />
                             </div>
                             <div class="col-md-6">

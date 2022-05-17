@@ -127,8 +127,8 @@ class UfController extends Controller
         try {
             
             $validData = $request->validate([
-                'name' => 'required|string|unique:ufs,name,'.$id,
-                'initials' => 'required|string|unique:ufs,name,'.$id,
+                'name' => 'required|string|unique:ufs,id,'.$id,
+                'initials' => 'required|string|unique:ufs,id,'.$id,
             ]);
             $updated = $this->ufService->updateById( $id, $validData);
             $response = [ 'status' => 'success', 'data' => ($updated) ];

@@ -109,6 +109,13 @@ class CityController extends Controller
                 'cep' => 'required|string|min:9',
             ]);
             $validData['id_uf'] = $id;
+
+            $isCityExist = $this->cityService->get([
+                'name' => $validData['name'],
+                'id_uf' => $validData['id_uf'],
+            ]);
+            if( !empty($isCityExist) )
+                throw ValidationException::withMessages(["Cidade {$validData['name']} já cadastrada para este estado"]);
             
             $created = $this->cityService->create( $validData );
             $response = [ 'status' => 'success', 'data' => ($created) ];
@@ -130,12 +137,22 @@ class CityController extends Controller
         $this->gate('update-address');
         try {
             
+            $city = $this->cityService->find($id);
+
             $validData = $request->validate([
                 'name' => 'required|string',
                 'ibge_code' => 'required|string',
                 'cep' => 'required|string|min:9',
             ]);
-            $updated = $this->cityService->updateById( $id, $validData);
+
+            $isCityExist = $this->cityService->get([
+                'name' => $validData['name'],
+                'id_uf' => $city->id_uf,
+            ]);
+            if( !empty($isCityExist) && $isCityExist->id != $id )
+                throw ValidationException::withMessages(["Cidade {$validData['name']} já cadastrada para este estado"]);
+
+            $updated = $this->cityService->updateById( $id, $validData );
             $response = [ 'status' => 'success', 'data' => ($updated) ];
 
         } catch ( ValidationException $e ){

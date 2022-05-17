@@ -36,7 +36,9 @@ $color-darkmode-card-light : #636d89;
     .v-navigation-drawer,
     .v-expansion-panel-content,
     .v-data-table,
-    .v-list
+    .v-list,
+    .v-slide-group__wrapper,
+    .v-item-group
     {
         background-color: $color-darkmode-card !important;
     }
@@ -49,9 +51,9 @@ $color-darkmode-card-light : #636d89;
         background-color: $color-darkmode-card-header !important;
     }
 
-    .v-list-item--active::before
-    {
-        background-color: $color-darkmode-card-light !important;
-    }
+    // .v-list-item--active::before
+    // {
+    //     background-color: $color-darkmode-card-light !important;
+    // }
 
 }

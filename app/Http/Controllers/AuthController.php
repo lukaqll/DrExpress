@@ -21,9 +21,21 @@ class AuthController extends Controller
         $credentials = $request->only(['email', 'password']);
 
         try {
+
+            $user = $this->userService->get(['email' => $credentials['email']]);
+
+            if( empty($user) )
+                $this->throwException('E-mail ou senha incorretos'); 
+
+            if( $user->status == 'I' )
+                $this->throwException('Usuário inativo'); 
+
             if ( !$token = auth('api')->attempt($credentials, true) ) {
                 return response()->json(['status' => 'error', 'message' => 'E-mail ou senha incorretos']);
             }
+
+            
+
             return $this->respondWithToken($token);
         } catch (ValidationException $e ){
             return response()->json(['status' => 'error', 'message' => $e->errors()]);
@@ -45,7 +57,7 @@ class AuthController extends Controller
         return response()->json([
             'status' => 'success',
             'data' => [
-                'user' => $user,
+                'user' => new AuthUserResource($user),
                 'access_token' => $token,
                 'token_type' => 'bearer',
                 'expires_in' => auth('api')->factory()->getTTL() * 60

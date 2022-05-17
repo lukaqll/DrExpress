@@ -14,10 +14,10 @@
                                     <v-text-field type="email" label="E-mail" v-model="user.email" :rules="rules.email"/>
                                 </div>
                                 <div class="col-md-6">
-                                    <v-text-field 
-                                        v-mask="user.doc_number && user.doc_number.length > 14 ? '##.###.###/####-##' : '###.###.###-##'" 
-                                        label="CPF" 
+                                    <v-text-field-simplemask
+                                        label="CPF/CNPJ"
                                         v-model="user.doc_number"
+                                        :options="{inputMask: docNumberMask, outputMask: docNumberMask}"
                                     />
                                 </div>
                                 <div class="col-md-6">
@@ -99,8 +99,16 @@ export default {
                 v => !!v || 'Confirme a senha',
                 v => (v && v.length >= 6) || 'A senha deve conter pelo menos 6 caracteres'
             ],
-        }
+        },
+        docNumberMask: '###.###.###-##'
     }),
+
+
+    watch: {
+        'user.doc_number': function(v){
+            this.docNumberMask = (v && v.length > 14) ? '##.###.###/####-##' : '###.###.###-###'
+        }
+    },
 
     mounted(){
         this.get()

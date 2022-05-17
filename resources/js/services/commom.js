@@ -1,6 +1,5 @@
 import axios from "axios";
 import SweetAlert from 'sweetalert2'
-
 const commom = {
 
     request:  ( opt = {url, type, data, auth, log, success, savedAlert, error, setError, file, load} ) => {
@@ -41,22 +40,26 @@ const commom = {
     
         })
         .catch ( e => {
-            console.log(e)
             opt.log && console.error( e )
             opt.error && opt.error( e )
 
             if( e.response && (e.response.status == 403 ||  e.response.status == 401) ){
-                window.location.href = '/unauthorized'
-                // window.history.go(-1)
+                commom.loginRedirect(e.response.data.message)
             }
         })
     
     },
 
     verifyLogin: async () => {
+        try {
+            const result = await axios.get('/api/me', {headers: {Authorization: 'Bearer ' + localStorage.getItem('auth_token')}})
+            return result.data
 
-        const result = await axios.get('/api/me', {headers: {Authorization: 'Bearer ' + localStorage.getItem('auth_token')}})
-        return result.data
+        } catch( e ){
+            if( e.response && (e.response.status == 403 ||  e.response.status == 401) ){
+                commom.loginRedirect(e.response.data.message)
+            }
+        }
     },
 
     errorMessages: (data='') => {
@@ -111,6 +114,14 @@ const commom = {
             }
         })
     },
+
+    loginRedirect: (message) => {
+        const query = {
+            redirectTo: window.location.pathname,
+            message: commom.errorMessages(message)
+        }
+        window.location.href = `/login?`+new URLSearchParams(query)
+    }
 }
 
 export default commom

@@ -13,6 +13,7 @@ import { createPinia, PiniaVuePlugin, storeToRefs } from 'pinia'
 import { useStore } from './services/store'
 import { VueMaskDirective } from 'v-mask'
 import VueSweetalert2 from 'vue-sweetalert2';
+import "../plugins/vuetify-mask";
 
 Vue.use(VueRouter)
 Vue.component('app', App)
@@ -27,7 +28,9 @@ const router = new VueRouter({
     linkActiveClass: 'active',
     routes: routes
 })
+
 router.beforeEach( async (to, from, next) => {
+
     if( to.meta.base == 'auth' )
         return next()
 
@@ -64,5 +67,6 @@ const app = new Vue({
 });
 
 Vue.prototype.$can = utils.can
+Vue.prototype.$hasRole = utils.hasRole
 Vue.prototype.$commom = commom
-Vue.prototype.$useStore = storeToRefs( useStore() )
+Vue.prototype.$useStore = useStore()

@@ -9,13 +9,14 @@
 <script>
     import Admin from './components/Layouts/Admin.vue'
     import Auth from './components/Layouts/Auth.vue'
+    import Dashboard from './components/Layouts/Dashboard.vue'
     export default {
-        components: {Admin, Auth},
+        components: {Admin, Auth, Dashboard},
         data: () => ({
             
         }),
         mounted() {
-            console.log(this.$vuetify.theme)
+            
         },
         computed: {
             base: function () { 

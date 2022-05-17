@@ -124,4 +124,8 @@ class User extends Authenticatable implements JWTSubject
 
         return !empty($status[$this->status]) ? $status[$this->status] : $this->status;
     }
+
+    public function city(){
+        return $this->hasOne(City::class, 'id', 'id_city');
+    }
 }
