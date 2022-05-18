@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -127,5 +128,21 @@ class User extends Authenticatable implements JWTSubject
 
     public function city(){
         return $this->hasOne(City::class, 'id', 'id_city');
+    }
+
+    public function defaultPicture(){
+        
+        $fileExists = Storage::disk('public')->exists($this->picture);
+        if( $fileExists ){
+            return '/storage/'.$this->picture;
+        }
+        return '/defaultImages/default-picture.png';
+    }
+    public function defaultBanner(){
+        $fileExists = Storage::disk('public')->exists($this->banner);
+        if( $fileExists ){
+            return '/storage/'.$this->banner;
+        }
+        return '/defaultImages/default-banner.jpg';
     }
 }

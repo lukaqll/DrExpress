@@ -3,6 +3,7 @@
  namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AddressResource;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -64,7 +65,26 @@ class AddressController extends Controller
         try {
 
             $result = $this->addressService->get( ['id' => $id] );
-            $response = [ 'status' => 'success', 'data' => ($result) ];
+            $response = [ 'status' => 'success', 'data' => new AddressResource($result) ];
+
+        } catch ( ValidationException $e ){
+
+            $response = [ 'status' => 'error', 'message' => $e->errors() ];
+        }
+        return response()->json( $response ); 
+    }
+
+    /**
+     * get by user id
+     * 
+     * @return  json
+     */
+    public function getByUser( $idUser ){
+        $this->gate('view-user-address');
+
+        try {
+            $result = $this->addressService->list( ['id_user' => $idUser] );
+            $response = [ 'status' => 'success', 'data' => AddressResource::collection($result) ];
 
         } catch ( ValidationException $e ){
 
@@ -78,14 +98,21 @@ class AddressController extends Controller
      * 
      * @return  json
      */
-    public function create( Request $request ){
+    public function create( Request $request, $id ){
+        $this->gate('create-user-address');
 
         try {
 
             $validData = $request->validate([
-                'name' => 'required|string|unique:table',
+                'id_district' => 'required|exists:districts,id',
+                'street'      => 'required|string',
+                'cep'         => 'required|string',
+                'number'      => 'nullable|string',
+                'complement'  => 'nullable|string',
+                'reference'   => 'nullable|string',
             ]);
-            
+            $validData['id_user'] = $id;
+
             $created = $this->addressService->create( $validData );
             $response = [ 'status' => 'success', 'data' => ($created) ];
 
@@ -103,11 +130,16 @@ class AddressController extends Controller
      * @return  json
      */
     public function update( Request $request, $id ){
-
+        $this->gate('create-user-address');
         try {
             
             $validData = $request->validate([
-                'name' => 'required|string|unique:table,name,'.$id,
+                'id_district' => 'required|exists:districts,id',
+                'street'      => 'required|string',
+                'cep'         => 'required|string',
+                'number'      => 'nullable|string',
+                'complement'  => 'nullable|string',
+                'reference'   => 'nullable|string',
             ]);
             $updated = $this->addressService->updateById( $id, $validData);
             $response = [ 'status' => 'success', 'data' => ($updated) ];

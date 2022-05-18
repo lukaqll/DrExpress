@@ -135,6 +135,21 @@ class PermissionSeed extends Seeder
                 'description' => 'Pode deletar endereços',
                 'active' => 1
             ],
+            [
+                'name' => 'Ver Endereço de Usuários',
+                'slug' => 'view-user-address',
+                'topic' => 'address',
+                'description' => 'Pode ver endereços de usuários',
+                'active' => 1
+            ],
+            [
+                'name' => 'Edita Endereço de Usuários',
+                'slug' => 'update-user-address',
+                'topic' => 'address',
+                'description' => 'Pode editar endereços de usuários',
+                'active' => 1
+            ],
+
             
         ];
 

@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-12">
                         Vendedores
-                        <v-btn small class="float-right" @click="newUserModal = true">Novo Vendedor</v-btn>
+                        <v-btn small class="float-right" @click="$router.push('/admin/sellers/create')">Novo Vendedor</v-btn>
                     </div>
                 </div>
             </v-card-title>
@@ -20,7 +20,7 @@
                         <span class="badge rounded-full bg-primary mr-1" v-for="(role, i) in item.roles" :key="i">{{role.name}}</span>
                     </template>
                     <template v-slot:item.actions_header="{ item }">
-                        <v-btn v-if="$can('update-users')" icon color="primary" @click="() => getUser(item.id)">
+                        <v-btn v-if="$can('update-users')" icon color="primary" @click="$router.push(`/admin/sellers/${item.id}/update`)">
                             <v-icon small>fa fa-edit</v-icon>
                         </v-btn>
                         <v-btn v-if="$can('update-users')" @click="() => toggleStatus(item.id)" icon :color="item.status == 'A' ? 'success' : 'error'" data-toggle="tooltip" :title="item.status == 'A' ? 'Desativar' : 'Ativar'">
@@ -30,113 +30,6 @@
                 </v-data-table>
             </v-card-text>
         </v-card>
-
-        <!-- create user -->
-        <v-dialog max-width="1000" v-model="newUserModal">
-            <template v-slot:default="dialog">
-                <v-card>
-                    <v-card-title>
-                        Novo vendedor
-                        <v-tabs
-                            v-model="creationTab"
-                        >
-                            <v-tabs-slider color="primary"></v-tabs-slider>
-                            <v-tab>Login</v-tab>
-                            <v-tab>Dados</v-tab>
-                            <v-tab>Endereço</v-tab>
-                        </v-tabs>
-                    </v-card-title>
-                    <v-card-text>
-                        <v-form ref="createForm" id="new-user" @submit.prevent="createUser">
-
-                            <v-tabs-items v-model="creationTab">
-                                <v-tab-item>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <v-text-field autofocus :rules="userRules.name" v-model="user.name" label="nome"/>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <v-text-field type="email" :rules="userRules.email" v-model="user.email" label="E-mail"/>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <v-text-field type="password" :rules="userRules.password" v-model="user.password" label="Senha"/>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <v-text-field type="password" :rules="userRules.password_confirmation" v-model="user.password_confirmation" label="Confirme a Senha"/>
-                                        </div>
-                                    </div>
-                                </v-tab-item>
-                                <v-tab-item>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <v-text-field-simplemask
-                                                label="CPF/CNPJ"
-                                                v-model="user.doc_number"
-                                                :options="{inputMask: docNumberMask, outputMask: docNumberMask}"
-                                                :rules="userRules.doc_number"
-                                            />
-                                        </div>
-                                        <div class="col-md-6">
-                                            <v-text-field label="Telefone" v-model="user.phone" v-mask="'(##) #####-####'"/>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <v-text-field type="date" v-model="user.birthdate" label="Nascimento"/>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <v-text-field v-model="user.cro" label="CRO"/>
-                                        </div>
-                                    </div>
-                                </v-tab-item>
-                                <v-tab-item>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <v-autocomplete
-                                                label='Estado'
-                                                :items="ufsOptions"
-                                                v-model="user.id_uf"
-                                            />
-                                        </div>
-                                        <div class="col-md-6">
-                                            <v-autocomplete
-                                                label='Cidade'
-                                                :items="citiesOptions"
-                                                v-model="user.id_city"
-                                            />
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <v-checkbox
-                                                    v-model="user.is_delivery"
-                                                    label="Delivery"
-                                                />
-                                            </div>
-                                            <div class="col-md-3">
-                                                <v-checkbox
-                                                    v-model="user.is_physical"
-                                                    label="Loja Física"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </v-tab-item>
-                            </v-tabs-items>
-                            <div class="row">
-                                <div class="col-md-12" v-if="userErrors && userErrors.length">
-                                    <v-alert v-html="userErrors" type="error"></v-alert>
-                                </div>
-                            </div>
-                        </v-form>
-                    </v-card-text>
-                    <v-card-actions class="justify-end">
-                        <v-btn text @click="dialog.value = false">Fechar</v-btn>
-                        <v-btn form="new-user" :loading="saveLoading" type="submit" color="primary">Salvar</v-btn>
-                    </v-card-actions>
-                </v-card>
-            </template>
-        </v-dialog>
 
         <!-- edit user -->
         <v-dialog max-width="1000" v-model="editUserModal">
@@ -304,17 +197,13 @@
 export default {
     data: () => ({
         users: [],
-        user: {},
         editUser: {},
-        newUserModal: false,
         editUserModal: false,
         passwordModal: false,
         userErrors: '',
         roles: [],
         saveLoading: false,
         loading: true,
-        ufs: [],
-        creationTab: null,
         editionTab: null,
         search: '',
 
@@ -350,21 +239,13 @@ export default {
     mounted(){
         this.getUsers()
         this.getRoles()
-        this.getUfs()
     },
 
     watch: {
-        newUserModal: function(v) {
-            this.userErrors = ''
-            !v ? this.user = {} : null
-        },
         editUserModal: function(v) {
             this.userErrors = ''
             if(!v)
                 this.editUser = {}
-        },
-        'user.id_uf': function(){
-            this.user = {...this.user, id_city: null}
         },
 
         
@@ -375,22 +256,6 @@ export default {
             return this.roles.map(p => ({
                 text: p.name, value: p.id
             }))
-        },
-
-        ufsOptions() {
-            return this.ufs.map(u => ({
-                text: `${u.name} (${u.initials})`, value: u.id
-            }))
-        },
-
-        citiesOptions() {
-            if(this.user.id_uf){
-                return this.ufs.find(u => u.id == this.user.id_uf)
-                               .cities
-                               .map(c => ({ text: c.name, value: c.id }))
-            } else {
-                return []
-            }
         },
 
         citiesEditOptions() {
@@ -447,68 +312,7 @@ export default {
             })
         },
 
-        getUser(id, toPassword=false) {
-            this.loading = true
-            this.$commom.request({
-                url: '/seller/'+id,
-                auth: true,
-                success: resp => {
-                    this.editUser = {...resp}
-                    this.loading = false
-                    if( toPassword ){
-                        this.passwordModal = true
-                    } else {
-                        this.editUserModal = true
-                    }
-                },
-                error: () => this.loading = false
-            })
-        },
-
-        createUser(){
-            if( this.$refs.createForm.validate() ){
-                this.saveLoading = true
-                this.$commom.request({
-                    url: '/seller',
-                    type: 'post',
-                    auth: true,
-                    data: this.user,
-                    success: resp => {
-                        this.getUsers()
-                        this.getUser(resp.id)
-                        this.saveLoading = false
-                        this.newUserModal = false
-                        this.user = {}
-                    },
-                    error: e => {
-                        this.userErrors = this.$commom.errorMessages(e)
-                        this.saveLoading = false
-                    }
-                })
-            }
-        },
-
-        updateUser(){
-            if( this.$refs.updateForm.validate() ){
-                this.saveLoading = true
-                this.$commom.request({
-                    url: '/seller/'+this.editUser.id,
-                    type: 'put',
-                    auth: true,
-                    data: this.editUser,
-                    success: resp => {
-                        this.getUsers()
-                        this.saveLoading = false
-                        this.editUserModal = false
-                        this.editUser = {}
-                    },
-                    error: e => {
-                        this.userErrors = this.$commom.errorMessages(e)
-                        this.saveLoading = false
-                    }
-                })
-            }
-        },
+        
 
         updatePassword(){
             if( this.$refs.passwordForm.validate() ){
@@ -549,15 +353,7 @@ export default {
             this.editRole = {...newEditUser}
         },
 
-        getUfs(){
-            this.$commom.request({
-                url: '/uf/',
-                auth: true,
-                success: resp => {
-                    this.ufs = [...resp]
-                }
-            })
-        }
+        
 
     }
 }

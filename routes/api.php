@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CityController;
@@ -49,7 +50,6 @@ Route::group(['middleware' => ['apiJwt']], function(){
     Route::put('/operators/{id}/toggle-status', [UserController::class, 'toggleStatus']);
     Route::get('/operators/me', [UserController::class, 'getMe']);
     Route::put('/operators/me/update', [UserController::class, 'updateMe']);
-    Route::put('/operators/me/update-password', [UserController::class, 'updateMePassword']);
     Route::get('/operators/{id}', [UserController::class, 'getById']);
     Route::put('/operators/{id}', [UserController::class, 'update']);
     Route::post('/operators', [UserController::class, 'create']);
@@ -72,6 +72,11 @@ Route::group(['middleware' => ['apiJwt']], function(){
     /**
      * address
      */
+    Route::get('/user/{id}/address', [AddressController::class, 'getByUser']);
+    Route::post('/address/{id}/address', [AddressController::class, 'create']);
+    Route::get('/address/{id}', [AddressController::class, 'getById']);
+    Route::put('/address/{id}', [AddressController::class, 'update']);
+
     Route::get('/uf', [UfController::class, 'list']);
     Route::get('/uf/{id}', [UfController::class, 'getById']);
     Route::put('/uf/{id}', [UfController::class, 'update']);
@@ -100,10 +105,17 @@ Route::group(['middleware' => ['apiJwt']], function(){
     Route::put('/seller/{id}/toggle-status', [SellerController::class, 'toggleStatus']);
     Route::get('/seller/me', [SellerController::class, 'getMe']);
     Route::put('/seller/me/update', [SellerController::class, 'updateMe']);
-    Route::put('/seller/me/update-password', [SellerController::class, 'updateMePassword']);
     Route::get('/seller/{id}', [SellerController::class, 'getById']);
     Route::put('/seller/{id}', [SellerController::class, 'update']);
     Route::post('/seller', [SellerController::class, 'create']);
+
+    /**
+     * geral users
+     */
+    Route::put('/user/me/update-password', [UserController::class, 'updateMePassword']);
+    Route::post('/user/me/upload-picture', [UserController::class, 'uploadPicture']);
+    Route::post('/user/me/upload-banner', [UserController::class, 'uploadBanner']);
+
 
 
 });

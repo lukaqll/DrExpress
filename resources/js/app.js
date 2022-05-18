@@ -29,16 +29,36 @@ const router = new VueRouter({
     routes: routes
 })
 
-router.beforeEach( async (to, from, next) => {
+const app = new Vue({
+    el: '#app',
+    router,
+    vuetify,
+    pinia
+});
 
-    if( to.meta.base == 'auth' )
+Vue.prototype.$can = utils.can
+Vue.prototype.$hasRole = utils.hasRole
+Vue.prototype.$commom = commom
+Vue.prototype.$useStore = useStore()
+
+router.beforeResolve( async (to, from, next) => {
+
+
+    if( to.meta.base == 'auth' ){
         return next()
+    }
 
-    const result = await commom.verifyLogin()
+    const store = useStore()
+
+    // store.setLoading(true)
+    const result = await Vue.prototype.$commom.verifyLogin()
+    store.setLoading(false)
+    
     const user = result.data
 
     if( result.status == 'success' ){
-        Vue.prototype.$useStore.user = {...user}
+
+        await Vue.prototype.$useStore.setUser(user)
 
         if( to.meta.can ){
             if( utils.can( to.meta.can ) ){
@@ -59,14 +79,5 @@ router.beforeEach( async (to, from, next) => {
     }
 })
 
-const app = new Vue({
-    el: '#app',
-    router,
-    vuetify,
-    pinia
-});
 
-Vue.prototype.$can = utils.can
-Vue.prototype.$hasRole = utils.hasRole
-Vue.prototype.$commom = commom
-Vue.prototype.$useStore = useStore()
+

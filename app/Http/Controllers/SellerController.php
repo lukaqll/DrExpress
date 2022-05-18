@@ -84,10 +84,14 @@ class SellerController extends Controller
             $validData = $request->validate([
                 'name' => 'required|string',
                 'email' => 'required|string|unique:users,id,'.$user->id,
-                'doc_number' => 'nullable|string|min:14',
+                'doc_number' => 'required|string|min:14|unique:users,id,'.$user->id,
+                'doc_number' => 'nullable|string',
                 'birthdate' => 'nullable|string',
-                'phone' => 'nullable|string|min:15',
-                'picture' => 'nullable|image',
+                'phone' => 'nullable|string|min:15',   
+                'id_city' => 'nullable|numeric|exists:cities,id',
+                'cro' => 'nullable|string',
+                'is_delivery' => 'nullable',
+                'is_physical' => 'nullable',
             ]);
             $updated = $this->userService->updateById( $user->id, $validData);
             $response = [ 'status' => 'success', 'data' => new SellerResource($updated) ];
@@ -127,16 +131,20 @@ class SellerController extends Controller
                 'email' => 'required|string|unique:users',
                 'password' => 'required|string|min:6',
                 'password_confirmation' => 'required|string|min:6',
-                
-                'id_city' => 'nullable|numeric|exists:cities,id',
                 'doc_number' => 'required|string|min:14|unique:users',
                 'cro' => 'nullable|string',
                 'phone' => 'required|string|min:15',
                 'birthdate' => 'nullable|string',
                 'picture' => 'nullable|image',
-
                 'is_delivery' => 'nullable',
                 'is_physical' => 'nullable',
+
+                'id_district' => 'nullable|numeric|exists:districts,id',
+                'street'      => 'nullable|string|min:3',
+                'number'      => 'nullable|string',
+                'complement'  => 'nullable|string',
+                'reference'   => 'nullable|string',
+                'cep'         => 'nullable|string',
             ]);
             $created = $this->userService->createSeller( $validData );
             $response = [ 'status' => 'success', 'data' => new SellerResource($created) ];
@@ -164,7 +172,6 @@ class SellerController extends Controller
                 'doc_number' => 'required|string|min:14|unique:users,id,'.$id,
                 'doc_number' => 'nullable|string',
                 'birthdate' => 'nullable|string',
-                'picture' => 'nullable|image',
                 'phone' => 'nullable|string|min:15',   
                 'id_city' => 'nullable|numeric|exists:cities,id',
                 'cro' => 'nullable|string',
@@ -217,30 +224,6 @@ class SellerController extends Controller
         return response()->json( $response );
     }
     
-    /**
-     * update self pass
-     */
-    public function updateMePassword( Request $request ){
-        try {
-            
-            $user = auth('api')->user();
-            $validData = $request->validate([
-                'password' => 'required|string|min:6',
-                'password_confirmation' => 'required|string|min:6',
-            ]);
-
-            $this->userService->passwordValidation($validData);
-            $updated = $this->userService->updateById( $user->id, ['password' => bcrypt($validData['password'])] );
-
-            $response = [ 'status' => 'success', 'data' => new SellerResource($updated) ];
-
-        } catch ( ValidationException $e ){
-            
-            $response = [ 'status' => 'error', 'message' => $e->errors() ];
-        }
-
-        return response()->json( $response );
-    }
 
     /**
      * update

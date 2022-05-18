@@ -14,6 +14,7 @@ const opts = {
             light: {
                 background: '#f1f1f1',
                 petrol: '#17a499',
+                primary: '#0064f0'
 
             },
 

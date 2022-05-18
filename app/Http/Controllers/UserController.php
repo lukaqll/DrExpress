@@ -92,7 +92,6 @@ class UserController extends Controller
                 'doc_number' => 'nullable|string|min:14',
                 'birthdate' => 'nullable|string',
                 'phone' => 'nullable|string|min:15',
-                'picture' => 'nullable|image',
             ]);
             $updated = $this->userService->updateById( $user->id, $validData);
     
@@ -171,7 +170,6 @@ class UserController extends Controller
                 'email' => 'required|string|unique:users,email,'.$id,
                 'doc_number' => 'nullable|string',
                 'birthdate' => 'nullable|string',
-                'picture' => 'nullable|image',
                 'phone' => 'nullable|string|min:15',
 
                 'id_roles' => 'required|array',
@@ -267,6 +265,52 @@ class UserController extends Controller
 
         } catch ( ValidationException $e ){
             
+            $response = [ 'status' => 'error', 'message' => $e->errors() ];
+        }
+
+        return response()->json( $response );
+    }
+
+    /**
+     * upload profile
+     * 
+     * @return  json
+     */
+    public function uploadPicture( Request $request ){
+        try {
+
+            $user = auth('api')->user();
+            $validData = $request->validate([
+                'file' => 'required|image'
+            ]);
+
+            $this->userService->uploadPicture($validData['file'], $user);
+            $response = [ 'status' => 'success', 'data' => true ];
+
+        } catch ( ValidationException $e ){
+            $response = [ 'status' => 'error', 'message' => $e->errors() ];
+        }
+
+        return response()->json( $response );
+    }
+
+    /**
+     * upload banner
+     * 
+     * @return  json
+     */
+    public function uploadBanner( Request $request ){
+        try {
+
+            $user = auth('api')->user();
+            $validData = $request->validate([
+                'file' => 'required|image'
+            ]);
+
+            $this->userService->uploadBanner($validData['file'], $user);
+            $response = [ 'status' => 'success', 'data' => true ];
+
+        } catch ( ValidationException $e ){
             $response = [ 'status' => 'error', 'message' => $e->errors() ];
         }
 

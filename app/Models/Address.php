@@ -27,4 +27,8 @@ class Address extends Model
     ];
 
     public $timestamps = false;
+
+    public function district(){
+        return $this->hasOne(District::class, 'id', 'id_district');
+    }
 }

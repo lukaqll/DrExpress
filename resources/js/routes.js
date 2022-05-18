@@ -118,6 +118,24 @@ const routes = [
             can: ['view-seller']
         }
     },
+    {
+        path: '/admin/sellers/create',
+        name: 'admin.sellers',
+        component: page('Admin/Sellers/Create'),
+        meta: {
+            base: 'admin',
+            can: ['create-seller']
+        }
+    },
+    {
+        path: '/admin/sellers/:id/update',
+        name: 'admin.sellers',
+        component: page('Admin/Sellers/Update'),
+        meta: {
+            base: 'admin',
+            can: ['update-seller']
+        }
+    },
 
 
 
@@ -131,8 +149,16 @@ const routes = [
      */
      {
         path: '/dashboard',
-        name: 'dash.sellers',
+        name: 'dash.home',
         component: page('Dashboard/Home'),
+        meta: {
+            base: 'dashboard',
+        }
+    },
+    {
+        path: '/dashboard/meu-perfil',
+        name: 'dash.profile',
+        component: page('Dashboard/Profile'),
         meta: {
             base: 'dashboard',
         }

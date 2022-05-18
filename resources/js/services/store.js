@@ -3,7 +3,8 @@ import { defineStore } from 'pinia'
 
 export const useStore = defineStore('user', {
     state: () => ({
-        user: null
+        user: null,
+        loading: false,
     }),
 
     actions: {
@@ -15,6 +16,10 @@ export const useStore = defineStore('user', {
                 this.user = null
             }
             return user
+        },
+
+        setLoading(isLoading) {
+            this.loading = !!isLoading
         }
 
     }

@@ -52,19 +52,21 @@ const utils = {
     hasRole: ( role='' ) => {
 
         let user = Vue.prototype.$useStore ? Vue.prototype.$useStore.user : null
-
+        
         if(!user || user.status == 'I')
             return false
 
+        
         if( typeof role == 'string' ){
             return !! user.roles.includes(role)
         }
 
+        
         for( const userRole of role ){
             if( user.roles.includes( userRole ) )
                 return true
         }
-
+        
         return false
 
     }

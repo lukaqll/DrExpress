@@ -88,7 +88,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       if (this.$refs.form.validate()) {
-        this.loading = false;
+        this.loading = true;
         this.$commom.request({
           url: '/login',
           type: 'post',
@@ -260,7 +260,10 @@ var render = function () {
     [
       _c(
         "v-card",
-        { staticClass: "mx-auto", attrs: { loading: _vm.loading } },
+        {
+          staticClass: "mx-auto",
+          attrs: { loading: _vm.loading, disabled: _vm.loading },
+        },
         [
           _c(
             "v-card-text",

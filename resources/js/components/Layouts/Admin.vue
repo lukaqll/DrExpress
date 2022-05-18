@@ -45,7 +45,7 @@
             >
                 <v-list-item class="px-2" color="primary accent-4">
                     <v-list-item-avatar>
-                        <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
+                        <v-img :src="$useStore.user.picture"></v-img>
                     </v-list-item-avatar>
 
                     <v-list-item-title>
@@ -166,8 +166,9 @@ export default {
     },
 
     mounted(){
-        if( !this.$hasRole(['admin', 'operator']) )
+        if( !this.$hasRole(['admin', 'operator']) ){
             this.$router.push('/login?message=Sem Permissão')
+        }
     },
     computed: {
         initialDrawer(v){

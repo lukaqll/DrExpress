@@ -154,7 +154,7 @@ export default {
             if( this.$refs.passwordForm.validate() ){
                 this.passwordLoading = true
                 this.$commom.request({
-                    url: '/operators/me/update-password',
+                    url: '/user/me/update-password',
                     type: 'put',
                     auth: true,
                     data: this.password,

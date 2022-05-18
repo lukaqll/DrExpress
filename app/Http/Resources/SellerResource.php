@@ -34,6 +34,8 @@ class SellerResource extends JsonResource
             'id_roles' => $this->roles->pluck('id'),
             'permissions' => $this->permissions(),
             'status_text' => $this->statusText(),
+            'picture' => $this->defaultPicture(),
+            'banner' => $this->defaultBanner(),
         ];
     }
 }

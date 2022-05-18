@@ -45,7 +45,7 @@
             >
                 <v-list-item class="px-2" color="petrol accent-4">
                     <v-list-item-avatar>
-                        <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
+                        <v-img :src="$useStore.user.picture"></v-img>
                     </v-list-item-avatar>
 
                     <v-list-item-title>
@@ -75,7 +75,8 @@
                     </router-link>
                     <v-list-item v-if="!mini || (mini && !drawer)">
                         <v-switch 
-                            color="light"
+                            color="white"
+                            dark
                             inset
                             v-model="$vuetify.theme.isDark" 
                             :label="$vuetify.theme.isDark ? 'Dark Mode' : 'Light Mode'"
@@ -114,35 +115,35 @@ export default {
             windowWidth: window.innerWidth,
             menu: [
                 { 
-                    title: "Home", 
+                    title: "Início", 
                     icon: "fa fa-home",
                     link: '/dashboard',
                 },
                 { 
-                    title: "Pedidos", 
-                    icon: "fas fa-shopping-basket",
-                    link: '/dashboard/orders',
+                    title: "Vendas", 
+                    icon: "fa fa-tags",
+                    link: '/dashboard/vendas',
                 },
                 { 
                     title: "Produtos", 
                     icon: "far fa-gem",
-                    link: '/dashboard/products',
+                    link: '/dashboard/produtos',
                 },
                 { 
                     title: "Locais Atendidos", 
                     icon: "fa fa-map-marker-alt",
-                    link: '/dashboard/served-districts',
+                    link: '/dashboard/locais-atendidos',
                 },
                 { 
                     title: "Meios de Pagamento", 
                     icon: "far fa-credit-card",
-                    link: '/dashboard/payment-methods',
+                    link: '/dashboard/meios-de-pagameto',
                 },
 
                 { 
-                    title: "Minha Conta", 
+                    title: "Meu Perfil", 
                     icon: "far fa-user",
-                    link: '/dashboard/profile'
+                    link: '/dashboard/meu-perfil'
                 },
             ],
         };

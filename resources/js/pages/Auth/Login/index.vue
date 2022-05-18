@@ -1,6 +1,6 @@
 <template>
     <div class="col-md-6 col-lg-5 col-xl-3 col-sm-12 col-xs-12">
-        <v-card class="mx-auto" :loading="loading" >
+        <v-card class="mx-auto" :loading="loading" :disabled="loading">
             <v-card-text>
                 <h3 class="text-center">Login</h3>
                 <v-form ref="form" @submit.prevent="login" v-model="valid">
@@ -63,7 +63,7 @@ export default {
     methods: {
         login() {
             if( this.$refs.form.validate() ){
-                this.loading = false
+                this.loading = true
                 this.$commom.request({
                     url: '/login',
                     type: 'post',

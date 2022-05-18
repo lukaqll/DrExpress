@@ -1,8 +1,11 @@
 <?php 
  namespace App\Services;
 
+use App\Models\Address;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use Intervention\Image\Facades\Image;
 
 class UserService extends AbstractService
 {
@@ -76,7 +79,14 @@ class UserService extends AbstractService
             throw ValidationException::withMessages(['Função de operador não cadastrada, entre em contato com o administrador do sistema']);
 
         $user->roles()->attach($sellerRole);
-            
+
+        // create address
+        if(!empty($data['id_district'])){
+            $data['id_user'] = $user->id;
+            $address = Address::create($data);
+            $user->update(['id_address' => $address->id]);
+        }
+
         return $user;
     }
 
@@ -101,5 +111,54 @@ class UserService extends AbstractService
             throw ValidationException::withMessages($errors);
 
         return true;
+    }
+
+    /**
+     * upload logo
+     * 
+     * @param binary $file
+     * 
+     * @return Store $store
+     */
+    public function uploadPicture( $file, User $user ){
+
+        $fileName = Storage::disk('public')->put('user_pictures', $file);
+        
+        $fileDirName = public_path( 'storage/' . $fileName );
+        $img = Image::make( $fileDirName );
+        $width = $img->width();
+        $height = $img->height();
+        $crop = $width <= $height ? $width : $height;
+        $img->crop($crop, $crop)->resize( 300,300 )->save( $fileDirName );
+        
+        $oldFile = $user->picture;
+        if(!empty($fileName)){
+            $user->update(['picture' => $fileName]);
+            $oldFileDeleted = Storage::disk('public')->delete($oldFile);
+        }
+        return $user;
+    }
+
+    /**
+     * upload banner
+     * 
+     * @param binary $file
+     * 
+     * @return Store $store
+     */
+    public function uploadBanner( $file, User $user ){
+
+        $fileName = Storage::disk('public')->put('user_banners', $file);
+        
+        $fileDirName = public_path( 'storage/' . $fileName );
+        $img = Image::make( $fileDirName ); 
+        $img->fit( 1080, 360, null, 'center' )->save( $fileDirName );
+        
+        $oldFile = $user->banner;
+        if(!empty($fileName)){
+            $user->update(['banner' => $fileName]);
+            $oldFileDeleted = Storage::disk('public')->delete($oldFile);
+        }
+        return $user;
     }
 }

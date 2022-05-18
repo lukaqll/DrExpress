@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\AddressService;
 use App\Services\CategoryService;
 use App\Services\CityService;
 use App\Services\DistrictService;
@@ -34,6 +35,7 @@ class Controller extends BaseController
     protected $ufService;
     protected $cityService;
     protected $districtService;
+    protected $addressService;
 
     public function __construct()
     {
@@ -47,6 +49,7 @@ class Controller extends BaseController
         $this->ufService = new UfService;    
         $this->cityService = new CityService;    
         $this->districtService = new DistrictService;    
+        $this->addressService = new AddressService;    
     }
 
     protected function gate($slug, $attr=[]){
