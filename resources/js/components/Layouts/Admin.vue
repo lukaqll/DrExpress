@@ -1,10 +1,14 @@
 <template>
-    <div v-if="$useStore.user">
+    <div v-if="$useStore.user" class="admin">
         <v-app-bar 
             app
+            class="m-3"
+            rounded
+            hide-on-scroll
+            scroll-threshold="0"
             absolute
-            elevation="1"
         >
+            <!-- elevate-on-scroll -->
             <v-app-bar-nav-icon @click="toggleMenu"></v-app-bar-nav-icon>
             <v-toolbar-title>Dr. Express</v-toolbar-title>
             <v-spacer></v-spacer>
@@ -36,14 +40,15 @@
         </v-app-bar>
         <div>
             <v-navigation-drawer
+                floating
                 v-model="drawer"
                 :mini-variant.sync="mini"
-                app
+                app 
                 class="pt-5"
-                color="primary accent-4"
-                dark
+                color="admin-drawer-bakground"
+                mini-variant-width="57"
             >
-                <v-list-item class="px-2" color="primary accent-4">
+                <v-list-item class="px-2">
                     <v-list-item-avatar>
                         <v-img :src="$useStore.user.picture"></v-img>
                     </v-list-item-avatar>
@@ -55,14 +60,19 @@
 
                 </v-list-item>
                 <v-divider></v-divider>
-                <v-list color="primary accent-4" >
+                <v-list 
+                    color="admin-drawer-bakground" 
+                    dense
+                    class="p-2"
+                >
                     <router-link 
                         v-for="item in getMenu()" :key="item.title"
                         is="v-list-item"
-                        active
                         :to="item.link"
-                        link exact
+                        link 
                         class="my-2"
+                        active-class="menu-active"
+                        exact
                     >
 
                         <v-list-item-icon>
@@ -94,7 +104,7 @@
                     </v-list-item>
                 </v-list>
             </v-navigation-drawer>
-            <v-main app style="padding-top: 100px">
+            <v-main app style="padding-top: 100px; margin: 7px;">
                 <v-container fluid>
                     <slot />
                 </v-container>

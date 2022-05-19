@@ -18,6 +18,7 @@
                                     <th>Slug</th>
                                     <th>Descrição</th>
                                     <th>Permissões</th>
+                                    <th>Usuários</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -27,6 +28,7 @@
                                     <td>{{ role.slug }}</td>
                                     <td>{{ role.description }}</td>
                                     <td><v-badge color="primary" :content="role.permissions.length || '0'"/></td>
+                                    <td><v-badge color="primary" :content="role.users_count || '0'"/></td>
                                     <td>
                                         <v-btn v-if="$can('update-permission')" icon color="primary" @click="() => getRole(role.id)">
                                             <i class="fa fa-edit"></i>

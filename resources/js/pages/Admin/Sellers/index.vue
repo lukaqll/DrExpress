@@ -16,6 +16,12 @@
                     :items="users"
                     :search="search"
                 >
+                    <template v-slot:item.name="{ item }">
+                        <v-avatar size="35" class="mr-3">
+                            <v-img :src="item.picture"></v-img>
+                        </v-avatar>
+                        {{item.name}}
+                    </template>
                     <template v-slot:item.roles_header="{ item }">
                         <span class="badge rounded-full bg-primary mr-1" v-for="(role, i) in item.roles" :key="i">{{role.name}}</span>
                     </template>

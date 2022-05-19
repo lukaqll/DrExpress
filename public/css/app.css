@@ -11357,10 +11357,6 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
-.cursor-pointer {
-  cursor: pointer;
-}
-
 .theme--light .v-application--wrap {
   background-color: #f1f1f1 !important;
 }
@@ -11385,4 +11381,48 @@ textarea.form-control-lg {
 .theme--dark .v-data-table tr:hover,
 .theme--dark .v-btn--has-bg {
   background-color: #353d54 !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.v-app-bar {
+  box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1) !important;
+}
+
+.v-app-bar--is-scrolled {
+  margin-top: 0 !important;
+}
+
+.menu-active {
+  border-radius: 7px !important;
+  color: #fff !important;
+  opacity: 1 !important;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.v-list-item--active::before {
+  display: none;
+}
+
+.v-list-item:hover::before {
+  border-radius: 7px !important;
+}
+
+.admin .v-navigation-drawer .menu-active {
+  background-color: #7367f0 !important;
+}
+
+.dashboard .v-navigation-drawer .menu-active {
+  background-color: #0091ca !important;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+  transform: translateX(2em);
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: all 0.2s ease;
 }

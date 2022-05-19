@@ -106,7 +106,7 @@ class CategoryController extends Controller
         try {
 
             $validData = $request->validate([
-                'name' => 'required|string|unique:categories',
+                'name' => 'required|string',
                 'required_cro' => 'nullable',
                 'id_category'  => 'nullable|numeric|exists:categories,id',
                 'linkable'     => 'nullable',

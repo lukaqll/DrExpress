@@ -14,12 +14,12 @@ const opts = {
             light: {
                 background: '#f1f1f1',
                 petrol: '#17a499',
-                primary: '#0064f0'
-
+                'dash-drawer-bakground': '#00a8e9',
+                'admin-drawer-bakground': '#fff',
             },
 
             dark: {
-                primary: '#696ffb',
+                primary: '#7367f0',
                 purple: '#d54abd',
                 success: '#4cceac',
                 secondary: '#6c757d',
@@ -27,6 +27,7 @@ const opts = {
                 error: '#db504a',
                 petrol: '#17a499',
                 background: '#141b2d',
+                // 'admin-drawer-bakground': '#594cd8',
             },
 
         },

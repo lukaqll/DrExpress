@@ -26,6 +26,10 @@ class Category extends Model
         return $this->hasMany(Category::class, 'id_category', 'id');
     }
 
+    public function parent(){
+        return $this->hasOne(Category::class, 'id', 'id_category');
+    }
+
     public function specs(){
         return $this->hasMany(Spec::class, 'id_category', 'id');
     }

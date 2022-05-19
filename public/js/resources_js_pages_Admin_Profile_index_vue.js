@@ -226,29 +226,6 @@ ___CSS_LOADER_EXPORT___.push([module.id, ".theme--light.v-alert .v-alert--promin
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VBadge/VBadge.sass":
-/*!******************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VBadge/VBadge.sass ***!
-  \******************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, ".theme--light.v-badge .v-badge__badge::after {\n  border-color: #FFFFFF;\n}\n\n.theme--dark.v-badge .v-badge__badge::after {\n  border-color: #1E1E1E;\n}\n\n.v-badge {\n  display: inline-block;\n  line-height: 1;\n  position: relative;\n}\n.v-badge__badge {\n  border-radius: 10px;\n  color: #FFFFFF;\n  display: inline-block;\n  font-size: 12px;\n  height: 20px;\n  letter-spacing: 0;\n  line-height: 1;\n  min-width: 20px;\n  padding: 4px 6px;\n  pointer-events: auto;\n  position: absolute;\n  text-align: center;\n  text-indent: 0;\n  top: auto;\n  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);\n  white-space: nowrap;\n}\n.v-application--is-ltr .v-badge__badge {\n  right: auto;\n}\n.v-application--is-rtl .v-badge__badge {\n  left: auto;\n}\n.v-badge__badge .v-icon {\n  color: inherit;\n  font-size: 12px;\n  height: 12px;\n  margin: 0 -2px;\n  width: 12px;\n}\n.v-badge__badge .v-img {\n  height: 12px;\n  width: 12px;\n}\n.v-badge__wrapper {\n  flex: 0 1;\n  height: 100%;\n  left: 0;\n  pointer-events: none;\n  position: absolute;\n  top: 0;\n  width: 100%;\n}\n.v-badge--avatar .v-badge__badge {\n  padding: 0;\n}\n.v-badge--avatar .v-badge__badge .v-avatar {\n  height: 20px !important;\n  min-width: 0 !important;\n  max-width: 20px !important;\n}\n.v-badge--bordered .v-badge__badge::after {\n  border-radius: inherit;\n  border-width: 2px;\n  border-style: solid;\n  bottom: 0;\n  content: \"\";\n  left: 0;\n  position: absolute;\n  right: 0;\n  top: 0;\n  transform: scale(1.15);\n}\n.v-badge--dot .v-badge__badge {\n  border-radius: 4.5px;\n  height: 9px;\n  min-width: 0;\n  padding: 0;\n  width: 9px;\n}\n.v-badge--dot .v-badge__badge::after {\n  border-width: 1.5px;\n}\n.v-badge--icon .v-badge__badge {\n  padding: 4px 6px;\n}\n.v-badge--inline {\n  align-items: center;\n  display: inline-flex;\n  justify-content: center;\n}\n.v-badge--inline .v-badge__badge,\n.v-badge--inline .v-badge__wrapper {\n  position: relative;\n}\n.v-badge--inline .v-badge__wrapper {\n  margin: 0 4px;\n}\n.v-badge--tile .v-badge__badge {\n  border-radius: 0;\n}", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
 /***/ "./node_modules/vuetify/src/components/VAlert/VAlert.sass":
 /*!****************************************************************!*\
   !*** ./node_modules/vuetify/src/components/VAlert/VAlert.sass ***!
@@ -275,35 +252,6 @@ var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMP
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VAlert_sass__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/src/components/VBadge/VBadge.sass":
-/*!****************************************************************!*\
-  !*** ./node_modules/vuetify/src/components/VBadge/VBadge.sass ***!
-  \****************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VBadge_sass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!../../../../postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!../../../../sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./VBadge.sass */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VBadge/VBadge.sass");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VBadge_sass__WEBPACK_IMPORTED_MODULE_1__["default"], options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VBadge_sass__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -496,10 +444,14 @@ var render = function () {
                             _c("h5", [_vm._v("Funções")]),
                             _vm._v(" "),
                             _vm._l(_vm.user.roles, function (role, i) {
-                              return _c("v-badge", {
-                                key: i,
-                                attrs: { content: role.name },
-                              })
+                              return _c(
+                                "div",
+                                {
+                                  key: i,
+                                  staticClass: "badge bg-primary mr-2",
+                                },
+                                [_vm._v(_vm._s(role.name))]
+                              )
                             }),
                           ],
                           2
@@ -731,13 +683,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vuetify-loader/lib/runtime/installComponents.js */ "./node_modules/vuetify-loader/lib/runtime/installComponents.js");
 /* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var vuetify_lib_components_VAlert__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuetify/lib/components/VAlert */ "./node_modules/vuetify/lib/components/VAlert/VAlert.js");
-/* harmony import */ var vuetify_lib_components_VBadge__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VBadge */ "./node_modules/vuetify/lib/components/VBadge/VBadge.js");
-/* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/VBtn.js");
-/* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/VCard.js");
-/* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
-/* harmony import */ var vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VDialog */ "./node_modules/vuetify/lib/components/VDialog/VDialog.js");
-/* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/VForm.js");
-/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
+/* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/VBtn.js");
+/* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/VCard.js");
+/* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
+/* harmony import */ var vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VDialog */ "./node_modules/vuetify/lib/components/VDialog/VDialog.js");
+/* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/VForm.js");
+/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
 
 
 
@@ -767,8 +718,7 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 
 
-
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAlert: vuetify_lib_components_VAlert__WEBPACK_IMPORTED_MODULE_4__["default"],VBadge: vuetify_lib_components_VBadge__WEBPACK_IMPORTED_MODULE_5__["default"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_6__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__["default"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__.VCardActions,VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__.VCardText,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__.VCardTitle,VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_9__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_10__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_11__["default"]})
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAlert: vuetify_lib_components_VAlert__WEBPACK_IMPORTED_MODULE_4__["default"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["default"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardActions,VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardText,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardTitle,VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_8__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_9__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_10__["default"]})
 
 
 /* hot reload */
@@ -1025,215 +975,6 @@ __webpack_require__.r(__webpack_exports__);
 
 }));
 //# sourceMappingURL=VAlert.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/components/VBadge/VBadge.js":
-/*!**************************************************************!*\
-  !*** ./node_modules/vuetify/lib/components/VBadge/VBadge.js ***!
-  \**************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _src_components_VBadge_VBadge_sass__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../src/components/VBadge/VBadge.sass */ "./node_modules/vuetify/src/components/VBadge/VBadge.sass");
-/* harmony import */ var _VIcon_VIcon__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../VIcon/VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
-/* harmony import */ var _mixins_colorable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../mixins/colorable */ "./node_modules/vuetify/lib/mixins/colorable/index.js");
-/* harmony import */ var _mixins_themeable__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../mixins/themeable */ "./node_modules/vuetify/lib/mixins/themeable/index.js");
-/* harmony import */ var _mixins_toggleable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../mixins/toggleable */ "./node_modules/vuetify/lib/mixins/toggleable/index.js");
-/* harmony import */ var _mixins_transitionable__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../mixins/transitionable */ "./node_modules/vuetify/lib/mixins/transitionable/index.js");
-/* harmony import */ var _mixins_positionable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../mixins/positionable */ "./node_modules/vuetify/lib/mixins/positionable/index.js");
-/* harmony import */ var _util_mixins__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/mixins */ "./node_modules/vuetify/lib/util/mixins.js");
-/* harmony import */ var _util_helpers__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../util/helpers */ "./node_modules/vuetify/lib/util/helpers.js");
-// Styles
- // Components
-
- // Mixins
-
-
-
-
-
- // Utilities
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_util_mixins__WEBPACK_IMPORTED_MODULE_1__["default"])(_mixins_colorable__WEBPACK_IMPORTED_MODULE_2__["default"], (0,_mixins_positionable__WEBPACK_IMPORTED_MODULE_3__.factory)(['left', 'bottom']), _mixins_themeable__WEBPACK_IMPORTED_MODULE_4__["default"], _mixins_toggleable__WEBPACK_IMPORTED_MODULE_5__["default"], _mixins_transitionable__WEBPACK_IMPORTED_MODULE_6__["default"]).extend({
-  name: 'v-badge',
-  props: {
-    avatar: Boolean,
-    bordered: Boolean,
-    color: {
-      type: String,
-      default: 'primary'
-    },
-    content: {
-      required: false
-    },
-    dot: Boolean,
-    label: {
-      type: String,
-      default: '$vuetify.badge'
-    },
-    icon: String,
-    inline: Boolean,
-    offsetX: [Number, String],
-    offsetY: [Number, String],
-    overlap: Boolean,
-    tile: Boolean,
-    transition: {
-      type: String,
-      default: 'scale-rotate-transition'
-    },
-    value: {
-      default: true
-    }
-  },
-  computed: {
-    classes() {
-      return {
-        'v-badge--avatar': this.avatar,
-        'v-badge--bordered': this.bordered,
-        'v-badge--bottom': this.bottom,
-        'v-badge--dot': this.dot,
-        'v-badge--icon': this.icon != null,
-        'v-badge--inline': this.inline,
-        'v-badge--left': this.left,
-        'v-badge--overlap': this.overlap,
-        'v-badge--tile': this.tile,
-        ...this.themeClasses
-      };
-    },
-
-    computedBottom() {
-      return this.bottom ? 'auto' : this.computedYOffset;
-    },
-
-    computedLeft() {
-      if (this.isRtl) {
-        return this.left ? this.computedXOffset : 'auto';
-      }
-
-      return this.left ? 'auto' : this.computedXOffset;
-    },
-
-    computedRight() {
-      if (this.isRtl) {
-        return this.left ? 'auto' : this.computedXOffset;
-      }
-
-      return !this.left ? 'auto' : this.computedXOffset;
-    },
-
-    computedTop() {
-      return this.bottom ? this.computedYOffset : 'auto';
-    },
-
-    computedXOffset() {
-      return this.calcPosition(this.offsetX);
-    },
-
-    computedYOffset() {
-      return this.calcPosition(this.offsetY);
-    },
-
-    isRtl() {
-      return this.$vuetify.rtl;
-    },
-
-    // Default fallback if offsetX
-    // or offsetY are undefined.
-    offset() {
-      if (this.overlap) return this.dot ? 8 : 12;
-      return this.dot ? 2 : 4;
-    },
-
-    styles() {
-      if (this.inline) return {};
-      return {
-        bottom: this.computedBottom,
-        left: this.computedLeft,
-        right: this.computedRight,
-        top: this.computedTop
-      };
-    }
-
-  },
-  methods: {
-    calcPosition(offset) {
-      return `calc(100% - ${(0,_util_helpers__WEBPACK_IMPORTED_MODULE_7__.convertToUnit)(offset || this.offset)})`;
-    },
-
-    genBadge() {
-      const lang = this.$vuetify.lang;
-      const label = this.$attrs['aria-label'] || lang.t(this.label);
-      const data = this.setBackgroundColor(this.color, {
-        staticClass: 'v-badge__badge',
-        style: this.styles,
-        attrs: {
-          'aria-atomic': this.$attrs['aria-atomic'] || 'true',
-          'aria-label': label,
-          'aria-live': this.$attrs['aria-live'] || 'polite',
-          title: this.$attrs.title,
-          role: this.$attrs.role || 'status'
-        },
-        directives: [{
-          name: 'show',
-          value: this.isActive
-        }]
-      });
-      const badge = this.$createElement('span', data, [this.genBadgeContent()]);
-      if (!this.transition) return badge;
-      return this.$createElement('transition', {
-        props: {
-          name: this.transition,
-          origin: this.origin,
-          mode: this.mode
-        }
-      }, [badge]);
-    },
-
-    genBadgeContent() {
-      // Dot prop shows no content
-      if (this.dot) return undefined;
-      const slot = (0,_util_helpers__WEBPACK_IMPORTED_MODULE_7__.getSlot)(this, 'badge');
-      if (slot) return slot;
-      if (this.content) return String(this.content);
-      if (this.icon) return this.$createElement(_VIcon_VIcon__WEBPACK_IMPORTED_MODULE_8__["default"], this.icon);
-      return undefined;
-    },
-
-    genBadgeWrapper() {
-      return this.$createElement('span', {
-        staticClass: 'v-badge__wrapper'
-      }, [this.genBadge()]);
-    }
-
-  },
-
-  render(h) {
-    const badge = [this.genBadgeWrapper()];
-    const children = [(0,_util_helpers__WEBPACK_IMPORTED_MODULE_7__.getSlot)(this)];
-    const {
-      'aria-atomic': _x,
-      'aria-label': _y,
-      'aria-live': _z,
-      role,
-      title,
-      ...attrs
-    } = this.$attrs;
-    if (this.inline && this.left) children.unshift(badge);else children.push(badge);
-    return h('span', {
-      staticClass: 'v-badge',
-      attrs,
-      class: this.classes
-    }, children);
-  }
-
-}));
-//# sourceMappingURL=VBadge.js.map
 
 /***/ }),
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\AuthUserResource;
 use App\Http\Resources\UserResource;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -30,7 +31,7 @@ class AuthController extends Controller
             if( $user->status == 'I' )
                 $this->throwException('Usuário inativo'); 
 
-            if ( !$token = auth('api')->attempt($credentials, true) ) {
+            if ( !$token = auth('api')->attempt($credentials, ['exp' => Carbon::now()->addDays(7)->timestamp]) ) {
                 return response()->json(['status' => 'error', 'message' => 'E-mail ou senha incorretos']);
             }
 

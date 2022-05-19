@@ -1,7 +1,9 @@
 <template>
     <div>
         <component v-bind:is="base" >
-            <router-view></router-view>
+            <transition :name="transition" mode="out-in">
+                <router-view></router-view>
+            </transition>
         </component>
         <div class="loader-overlay" v-if="useStore.loading">
             <div class="loader">
@@ -32,6 +34,9 @@
             base: function () { 
                 return (this.$route.meta && this.$route.meta.base) ? this.$route.meta.base : 'auth'
             },
+            transition: function () {
+                return this.$route.meta.transition || 'fade'
+            }
 
         },
     }

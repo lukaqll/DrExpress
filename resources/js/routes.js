@@ -33,7 +33,7 @@ const routes = [
         exact: true,
         component: page('Admin/Home'),
         meta: {
-            base: 'admin'
+            base: 'admin',
         }
     },
     {
@@ -169,6 +169,26 @@ const routes = [
         component: page('Dashboard/Adresses'),
         meta: {
             base: 'dashboard',
+        }
+    },
+
+    // products
+    {
+        path: '/dashboard/produtos',
+        name: 'dash.adresses',
+        component: page('Dashboard/Products'),
+        meta: {
+            base: 'dashboard',
+            can: ['view-products']
+        }
+    },
+    {
+        path: '/dashboard/produtos/novo',
+        name: 'dash.adresses',
+        component: page('Dashboard/Products/Create.vue'),
+        meta: {
+            base: 'dashboard',
+            can: ['create-products']
         }
     },
 ]

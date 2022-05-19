@@ -1,0 +1,40 @@
+$color-darkmode-background : #141b2d;
+$color-darkmode-card : #292f45;
+$color-darkmode-card-header : #353d54;
+$color-darkmode-card-light : #636d89;
+
+.theme--light {
+    .v-application--wrap{
+        background-color: #f1f1f1 !important;
+    }
+
+    .v-app-bar.v-toolbar.v-sheet{
+        background-color: #fff !important;
+    }
+}
+
+.theme--dark {
+    .v-application--wrap{
+        background-color: $color-darkmode-background !important;
+    }
+
+    .v-card, 
+    .v-navigation-drawer,
+    .v-expansion-panel-content,
+    .v-data-table,
+    .v-list,
+    .v-slide-group__wrapper,
+    .v-item-group
+    {
+        background-color: $color-darkmode-card !important;
+    }
+
+    .v-toolbar,
+    .v-expansion-panel-header,
+    .v-data-table tr:hover,
+    .v-btn--has-bg
+    {
+        background-color: $color-darkmode-card-header !important;
+    }
+
+}

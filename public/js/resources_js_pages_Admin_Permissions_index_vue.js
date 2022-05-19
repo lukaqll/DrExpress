@@ -268,6 +268,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -1163,6 +1165,8 @@ var render = function () {
                           _vm._v(" "),
                           _c("th", [_vm._v("Permissões")]),
                           _vm._v(" "),
+                          _c("th", [_vm._v("Usuários")]),
+                          _vm._v(" "),
                           _c("th"),
                         ]),
                       ]),
@@ -1188,6 +1192,19 @@ var render = function () {
                                       attrs: {
                                         color: "primary",
                                         content: role.permissions.length || "0",
+                                      },
+                                    }),
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "td",
+                                  [
+                                    _c("v-badge", {
+                                      attrs: {
+                                        color: "primary",
+                                        content: role.users_count || "0",
                                       },
                                     }),
                                   ],

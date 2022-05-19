@@ -28,7 +28,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <h5>Funções</h5>
-                                    <v-badge v-for="(role, i) in user.roles" :key="i" :content="role.name"/>
+                                    <div v-for="(role, i) in user.roles" :key="i" class="badge bg-primary mr-2">{{role.name}}</div>
                                 </div>
                                 <div class="col-md-12" v-if="errors && errors.length">
                                     <v-alert v-html="errors" type="error"></v-alert>
