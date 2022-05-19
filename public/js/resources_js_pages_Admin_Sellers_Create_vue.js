@@ -163,8 +163,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -173,7 +171,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       ufs: [],
       cities: [],
       districts: [],
-      tab: null,
+      tab: 2,
       loading: null,
       errors: ''
     };
@@ -215,9 +213,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     'address.id_city': function addressId_city(id_city) {
-      var city = this.cities.find(function (c) {
-        return c.id = id_city;
-      });
+      var city = this.getCity();
       this.address = _objectSpread(_objectSpread({}, this.address), {}, {
         id_district: null,
         cep: city === null || city === void 0 ? void 0 : city.cep
@@ -230,9 +226,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     'address.id_district': function addressId_district(id_district) {
-      var district = this.districts.find(function (d) {
-        return d.id = id_district;
-      });
+      var district = this.getDistrict();
       this.address = _objectSpread(_objectSpread({}, this.address), {}, {
         cep: district === null || district === void 0 ? void 0 : district.cep
       });
@@ -257,6 +251,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: "/uf/".concat(this.address.id_uf, "/cities"),
         auth: true,
         success: function success(resp) {
+          console.log(resp);
           _this2.cities = _toConsumableArray(resp.cities);
         }
       });
@@ -294,6 +289,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }
         });
       }
+    },
+    getCity: function getCity() {
+      var _this5 = this;
+
+      return this.cities.find(function (c) {
+        return c.id == _this5.address.id_city;
+      });
+    },
+    getDistrict: function getDistrict() {
+      var _this6 = this;
+
+      return this.districts.find(function (c) {
+        return c.id == _this6.address.id_district;
+      });
     }
   }
 });
@@ -710,257 +719,371 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row justify-content-center" }, [
-    _c(
-      "div",
-      { staticClass: "col-md-8" },
-      [
-        _c(
-          "v-card",
-          { attrs: { loading: _vm.loading, disabled: _vm.loading } },
-          [
-            _c(
-              "v-card-title",
-              [
-                _vm._v("\n                Novo vendedor\n                "),
-                _c(
-                  "v-tabs",
-                  {
-                    model: {
-                      value: _vm.tab,
-                      callback: function ($$v) {
-                        _vm.tab = $$v
-                      },
-                      expression: "tab",
-                    },
-                  },
-                  [
-                    _c("v-tabs-slider", { attrs: { color: "primary" } }),
-                    _vm._v(" "),
-                    _c("v-tab", [_vm._v("Login")]),
-                    _vm._v(" "),
-                    _c("v-tab", [_vm._v("Dados")]),
-                    _vm._v(" "),
-                    _c("v-tab", [_vm._v("Endereço")]),
-                  ],
-                  1
-                ),
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-card-text",
-              [
-                _c(
-                  "v-form",
-                  {
-                    ref: "createForm",
-                    attrs: { id: "new-user" },
-                    on: {
-                      submit: function ($event) {
-                        $event.preventDefault()
-                        return _vm.createUser.apply(null, arguments)
+  return _c("div", [
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _c(
+        "div",
+        { staticClass: "col-md-8" },
+        [
+          _c(
+            "v-card",
+            { attrs: { loading: _vm.loading, disabled: _vm.loading } },
+            [
+              _c(
+                "v-card-title",
+                [
+                  _vm._v(
+                    "\n                    Novo vendedor\n                    "
+                  ),
+                  _c(
+                    "v-tabs",
+                    {
+                      model: {
+                        value: _vm.tab,
+                        callback: function ($$v) {
+                          _vm.tab = $$v
+                        },
+                        expression: "tab",
                       },
                     },
-                  },
-                  [
-                    _c(
-                      "v-tabs-items",
-                      {
-                        model: {
-                          value: _vm.tab,
-                          callback: function ($$v) {
-                            _vm.tab = $$v
-                          },
-                          expression: "tab",
+                    [
+                      _c("v-tabs-slider", { attrs: { color: "primary" } }),
+                      _vm._v(" "),
+                      _c("v-tab", [_vm._v("Dados")]),
+                      _vm._v(" "),
+                      _c("v-tab", [_vm._v("Endereço")]),
+                    ],
+                    1
+                  ),
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-card-text",
+                [
+                  _c(
+                    "v-form",
+                    {
+                      ref: "createForm",
+                      attrs: { id: "new-user" },
+                      on: {
+                        submit: function ($event) {
+                          $event.preventDefault()
+                          return _vm.createUser.apply(null, arguments)
                         },
                       },
-                      [
-                        _c("v-tab-item", [
-                          _c("div", { staticClass: "row" }, [
-                            _c(
-                              "div",
-                              { staticClass: "col-md-6" },
-                              [
-                                _c("v-text-field", {
-                                  attrs: { autofocus: "", label: "nome" },
-                                  model: {
-                                    value: _vm.user.name,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.user, "name", $$v)
-                                    },
-                                    expression: "user.name",
-                                  },
-                                }),
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "col-md-6" },
-                              [
-                                _c("v-text-field", {
-                                  attrs: { type: "email", label: "E-mail" },
-                                  model: {
-                                    value: _vm.user.email,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.user, "email", $$v)
-                                    },
-                                    expression: "user.email",
-                                  },
-                                }),
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "col-md-6" },
-                              [
-                                _c("v-text-field", {
-                                  attrs: { type: "password", label: "Senha" },
-                                  model: {
-                                    value: _vm.user.password,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.user, "password", $$v)
-                                    },
-                                    expression: "user.password",
-                                  },
-                                }),
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "col-md-6" },
-                              [
-                                _c("v-text-field", {
-                                  attrs: {
-                                    type: "password",
-                                    label: "Confirme a Senha",
-                                  },
-                                  model: {
-                                    value: _vm.user.password_confirmation,
-                                    callback: function ($$v) {
-                                      _vm.$set(
-                                        _vm.user,
-                                        "password_confirmation",
-                                        $$v
-                                      )
-                                    },
-                                    expression: "user.password_confirmation",
-                                  },
-                                }),
-                              ],
-                              1
-                            ),
-                          ]),
-                        ]),
-                        _vm._v(" "),
-                        _c("v-tab-item", [
-                          _c("div", { staticClass: "row" }, [
-                            _c(
-                              "div",
-                              { staticClass: "col-md-6" },
-                              [
-                                _c("v-text-field-simplemask", {
-                                  attrs: {
-                                    label: "CPF/CNPJ",
-                                    options: {
-                                      inputMask: _vm.docNumberMask,
-                                      outputMask: _vm.docNumberMask,
-                                    },
-                                  },
-                                  model: {
-                                    value: _vm.user.doc_number,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.user, "doc_number", $$v)
-                                    },
-                                    expression: "user.doc_number",
-                                  },
-                                }),
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "col-md-6" },
-                              [
-                                _c("v-text-field", {
-                                  directives: [
-                                    {
-                                      name: "mask",
-                                      rawName: "v-mask",
-                                      value: "(##) #####-####",
-                                      expression: "'(##) #####-####'",
-                                    },
-                                  ],
-                                  attrs: { label: "Telefone" },
-                                  model: {
-                                    value: _vm.user.phone,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.user, "phone", $$v)
-                                    },
-                                    expression: "user.phone",
-                                  },
-                                }),
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "col-md-6" },
-                              [
-                                _c("v-text-field", {
-                                  attrs: { type: "date", label: "Nascimento" },
-                                  model: {
-                                    value: _vm.user.birthdate,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.user, "birthdate", $$v)
-                                    },
-                                    expression: "user.birthdate",
-                                  },
-                                }),
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "col-md-6" },
-                              [
-                                _c("v-text-field", {
-                                  attrs: { label: "CRO" },
-                                  model: {
-                                    value: _vm.user.cro,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.user, "cro", $$v)
-                                    },
-                                    expression: "user.cro",
-                                  },
-                                }),
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
+                    },
+                    [
+                      _c(
+                        "v-tabs-items",
+                        {
+                          model: {
+                            value: _vm.tab,
+                            callback: function ($$v) {
+                              _vm.tab = $$v
+                            },
+                            expression: "tab",
+                          },
+                        },
+                        [
+                          _c("v-tab-item", [
                             _c("div", { staticClass: "row" }, [
                               _c(
                                 "div",
-                                { staticClass: "col-md-3" },
+                                { staticClass: "col-md-6" },
                                 [
-                                  _c("v-checkbox", {
-                                    attrs: { label: "Delivery" },
+                                  _c("v-text-field", {
+                                    attrs: { autofocus: "", label: "nome" },
                                     model: {
-                                      value: _vm.user.is_delivery,
+                                      value: _vm.user.name,
                                       callback: function ($$v) {
-                                        _vm.$set(_vm.user, "is_delivery", $$v)
+                                        _vm.$set(_vm.user, "name", $$v)
                                       },
-                                      expression: "user.is_delivery",
+                                      expression: "user.name",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "col-md-6" },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: { type: "email", label: "E-mail" },
+                                    model: {
+                                      value: _vm.user.email,
+                                      callback: function ($$v) {
+                                        _vm.$set(_vm.user, "email", $$v)
+                                      },
+                                      expression: "user.email",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "col-md-6" },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: { type: "password", label: "Senha" },
+                                    model: {
+                                      value: _vm.user.password,
+                                      callback: function ($$v) {
+                                        _vm.$set(_vm.user, "password", $$v)
+                                      },
+                                      expression: "user.password",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "col-md-6" },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      type: "password",
+                                      label: "Confirme a Senha",
+                                    },
+                                    model: {
+                                      value: _vm.user.password_confirmation,
+                                      callback: function ($$v) {
+                                        _vm.$set(
+                                          _vm.user,
+                                          "password_confirmation",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "user.password_confirmation",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "col-md-6" },
+                                [
+                                  _c("v-text-field-simplemask", {
+                                    attrs: {
+                                      label: "CPF/CNPJ",
+                                      options: {
+                                        inputMask: _vm.docNumberMask,
+                                        outputMask: _vm.docNumberMask,
+                                      },
+                                    },
+                                    model: {
+                                      value: _vm.user.doc_number,
+                                      callback: function ($$v) {
+                                        _vm.$set(_vm.user, "doc_number", $$v)
+                                      },
+                                      expression: "user.doc_number",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "col-md-6" },
+                                [
+                                  _c("v-text-field", {
+                                    directives: [
+                                      {
+                                        name: "mask",
+                                        rawName: "v-mask",
+                                        value: "(##) #####-####",
+                                        expression: "'(##) #####-####'",
+                                      },
+                                    ],
+                                    attrs: { label: "Telefone" },
+                                    model: {
+                                      value: _vm.user.phone,
+                                      callback: function ($$v) {
+                                        _vm.$set(_vm.user, "phone", $$v)
+                                      },
+                                      expression: "user.phone",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "col-md-6" },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      type: "date",
+                                      label: "Nascimento",
+                                    },
+                                    model: {
+                                      value: _vm.user.birthdate,
+                                      callback: function ($$v) {
+                                        _vm.$set(_vm.user, "birthdate", $$v)
+                                      },
+                                      expression: "user.birthdate",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "col-md-6" },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: { label: "CRO" },
+                                    model: {
+                                      value: _vm.user.cro,
+                                      callback: function ($$v) {
+                                        _vm.$set(_vm.user, "cro", $$v)
+                                      },
+                                      expression: "user.cro",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "row" }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "col-md-3" },
+                                  [
+                                    _c("v-checkbox", {
+                                      attrs: { label: "Delivery" },
+                                      model: {
+                                        value: _vm.user.is_delivery,
+                                        callback: function ($$v) {
+                                          _vm.$set(_vm.user, "is_delivery", $$v)
+                                        },
+                                        expression: "user.is_delivery",
+                                      },
+                                    }),
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "col-md-3" },
+                                  [
+                                    _c("v-checkbox", {
+                                      attrs: { label: "Loja Física" },
+                                      model: {
+                                        value: _vm.user.is_physical,
+                                        callback: function ($$v) {
+                                          _vm.$set(_vm.user, "is_physical", $$v)
+                                        },
+                                        expression: "user.is_physical",
+                                      },
+                                    }),
+                                  ],
+                                  1
+                                ),
+                              ]),
+                            ]),
+                          ]),
+                          _vm._v(" "),
+                          _c("v-tab-item", [
+                            _c("div", { staticClass: "row" }, [
+                              _c(
+                                "div",
+                                { staticClass: "col-md-6" },
+                                [
+                                  _c("v-select", {
+                                    attrs: {
+                                      label: "Estado",
+                                      items: _vm.ufs,
+                                      "item-text": "name",
+                                      "item-value": "id",
+                                    },
+                                    model: {
+                                      value: _vm.address.id_uf,
+                                      callback: function ($$v) {
+                                        _vm.$set(_vm.address, "id_uf", $$v)
+                                      },
+                                      expression: "address.id_uf",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "col-md-6" },
+                                [
+                                  _c("v-autocomplete", {
+                                    attrs: {
+                                      label: "Cidade",
+                                      items: _vm.cities,
+                                      "item-text": "name",
+                                      "item-value": "id",
+                                    },
+                                    model: {
+                                      value: _vm.address.id_city,
+                                      callback: function ($$v) {
+                                        _vm.$set(_vm.address, "id_city", $$v)
+                                      },
+                                      expression: "address.id_city",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "col-md-6" },
+                                [
+                                  _c("v-autocomplete", {
+                                    attrs: {
+                                      label: "Bairro",
+                                      items: _vm.districts,
+                                      "item-text": "name",
+                                      "item-value": "id",
+                                    },
+                                    model: {
+                                      value: _vm.address.id_district,
+                                      callback: function ($$v) {
+                                        _vm.$set(
+                                          _vm.address,
+                                          "id_district",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "address.id_district",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "col-md-6" },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: { label: "Rua" },
+                                    model: {
+                                      value: _vm.address.street,
+                                      callback: function ($$v) {
+                                        _vm.$set(_vm.address, "street", $$v)
+                                      },
+                                      expression: "address.street",
                                     },
                                   }),
                                 ],
@@ -971,14 +1094,76 @@ var render = function () {
                                 "div",
                                 { staticClass: "col-md-3" },
                                 [
-                                  _c("v-checkbox", {
-                                    attrs: { label: "Loja Física" },
-                                    model: {
-                                      value: _vm.user.is_physical,
-                                      callback: function ($$v) {
-                                        _vm.$set(_vm.user, "is_physical", $$v)
+                                  _c("v-text-field", {
+                                    directives: [
+                                      {
+                                        name: "mask",
+                                        rawName: "v-mask",
+                                        value: "#####-###",
+                                        expression: "'#####-###'",
                                       },
-                                      expression: "user.is_physical",
+                                    ],
+                                    attrs: { label: "CEP" },
+                                    model: {
+                                      value: _vm.address.cep,
+                                      callback: function ($$v) {
+                                        _vm.$set(_vm.address, "cep", $$v)
+                                      },
+                                      expression: "address.cep",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "col-md-2" },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: { label: "Nº" },
+                                    model: {
+                                      value: _vm.address.number,
+                                      callback: function ($$v) {
+                                        _vm.$set(_vm.address, "number", $$v)
+                                      },
+                                      expression: "address.number",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "col-md-7" },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: { label: "Complemento" },
+                                    model: {
+                                      value: _vm.address.complement,
+                                      callback: function ($$v) {
+                                        _vm.$set(_vm.address, "complement", $$v)
+                                      },
+                                      expression: "address.complement",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "col-md-12" },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: { label: "Referência" },
+                                    model: {
+                                      value: _vm.address.reference,
+                                      callback: function ($$v) {
+                                        _vm.$set(_vm.address, "reference", $$v)
+                                      },
+                                      expression: "address.reference",
                                     },
                                   }),
                                 ],
@@ -986,242 +1171,71 @@ var render = function () {
                               ),
                             ]),
                           ]),
-                        ]),
-                        _vm._v(" "),
-                        _c("v-tab-item", [
-                          _c("div", { staticClass: "row" }, [
-                            _c(
-                              "div",
-                              { staticClass: "col-md-6" },
-                              [
-                                _c("v-select", {
-                                  attrs: {
-                                    label: "Estado",
-                                    items: _vm.ufs,
-                                    "item-text": "name",
-                                    "item-value": "id",
-                                  },
-                                  model: {
-                                    value: _vm.address.id_uf,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.address, "id_uf", $$v)
-                                    },
-                                    expression: "address.id_uf",
-                                  },
-                                }),
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "col-md-6" },
-                              [
-                                _c("v-select", {
-                                  attrs: {
-                                    label: "Cidade",
-                                    items: _vm.cities,
-                                    "item-text": "name",
-                                    "item-value": "id",
-                                  },
-                                  model: {
-                                    value: _vm.address.id_city,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.address, "id_city", $$v)
-                                    },
-                                    expression: "address.id_city",
-                                  },
-                                }),
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "col-md-6" },
-                              [
-                                _c("v-autocomplete", {
-                                  attrs: {
-                                    label: "Bairro",
-                                    items: _vm.districts,
-                                    "item-text": "name",
-                                    "item-value": "id",
-                                  },
-                                  model: {
-                                    value: _vm.address.id_district,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.address, "id_district", $$v)
-                                    },
-                                    expression: "address.id_district",
-                                  },
-                                }),
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "col-md-6" },
-                              [
-                                _c("v-text-field", {
-                                  attrs: { label: "Rua" },
-                                  model: {
-                                    value: _vm.address.street,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.address, "street", $$v)
-                                    },
-                                    expression: "address.street",
-                                  },
-                                }),
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "col-md-3" },
-                              [
-                                _c("v-text-field", {
-                                  directives: [
-                                    {
-                                      name: "mask",
-                                      rawName: "v-mask",
-                                      value: "#####-###",
-                                      expression: "'#####-###'",
-                                    },
-                                  ],
-                                  attrs: { label: "CEP" },
-                                  model: {
-                                    value: _vm.address.cep,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.address, "cep", $$v)
-                                    },
-                                    expression: "address.cep",
-                                  },
-                                }),
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "col-md-2" },
-                              [
-                                _c("v-text-field", {
-                                  attrs: { label: "Nº" },
-                                  model: {
-                                    value: _vm.address.number,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.address, "number", $$v)
-                                    },
-                                    expression: "address.number",
-                                  },
-                                }),
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "col-md-7" },
-                              [
-                                _c("v-text-field", {
-                                  attrs: { label: "Complemento" },
-                                  model: {
-                                    value: _vm.address.complement,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.address, "complement", $$v)
-                                    },
-                                    expression: "address.complement",
-                                  },
-                                }),
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _vm.errors && _vm.errors.length
+                          ? _c(
                               "div",
                               { staticClass: "col-md-12" },
                               [
-                                _c("v-text-field", {
-                                  attrs: { label: "Referência" },
-                                  model: {
-                                    value: _vm.address.reference,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.address, "reference", $$v)
-                                    },
-                                    expression: "address.reference",
-                                  },
+                                _c("v-alert", {
+                                  attrs: { type: "error" },
+                                  domProps: { innerHTML: _vm._s(_vm.errors) },
                                 }),
                               ],
                               1
-                            ),
-                          ]),
-                        ]),
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row" }, [
-                      _vm.errors && _vm.errors.length
-                        ? _c(
-                            "div",
-                            { staticClass: "col-md-12" },
-                            [
-                              _c("v-alert", {
-                                attrs: { type: "error" },
-                                domProps: { innerHTML: _vm._s(_vm.errors) },
-                              }),
-                            ],
-                            1
-                          )
-                        : _vm._e(),
-                    ]),
-                  ],
-                  1
-                ),
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-card-actions",
-              { staticClass: "justify-end" },
-              [
-                _c(
-                  "v-btn",
-                  {
-                    attrs: { text: "" },
-                    on: {
-                      click: function ($event) {
-                        return _vm.$router.back()
+                            )
+                          : _vm._e(),
+                      ]),
+                    ],
+                    1
+                  ),
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                { staticClass: "justify-end" },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { text: "" },
+                      on: {
+                        click: function ($event) {
+                          return _vm.$router.back()
+                        },
                       },
                     },
-                  },
-                  [_vm._v("Voltar")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-btn",
-                  {
-                    attrs: {
-                      form: "new-user",
-                      loading: _vm.loading,
-                      type: "submit",
-                      color: "primary",
+                    [_vm._v("Voltar")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        form: "new-user",
+                        loading: _vm.loading,
+                        type: "submit",
+                        color: "primary",
+                      },
                     },
-                  },
-                  [_vm._v("Salvar")]
-                ),
-              ],
-              1
-            ),
-          ],
-          1
-        ),
-      ],
-      1
-    ),
+                    [_vm._v("Salvar")]
+                  ),
+                ],
+                1
+              ),
+            ],
+            1
+          ),
+        ],
+        1
+      ),
+    ]),
   ])
 }
 var staticRenderFns = []

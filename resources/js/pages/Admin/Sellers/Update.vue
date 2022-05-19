@@ -8,15 +8,15 @@
                         v-model="tab"
                     >
                         <v-tabs-slider color="primary"></v-tabs-slider>
-                        <v-tab>Login</v-tab>
                         <v-tab>Dados</v-tab>
                         <v-tab>Endereços</v-tab>
                     </v-tabs>
                 </v-card-title>
                 <v-card-text>
-                    <v-form ref="createForm" id="new-user" @submit.prevent="createUser">
+                    <v-form id="new-user" @submit.prevent="updateUser">
         
                         <v-tabs-items v-model="tab">
+
                             <v-tab-item>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -25,10 +25,6 @@
                                     <div class="col-md-6">
                                         <v-text-field type="email" v-model="user.email" label="E-mail"/>
                                     </div>
-                                </div>
-                            </v-tab-item>
-                            <v-tab-item>
-                                <div class="row">
                                     <div class="col-md-6">
                                         <v-text-field-simplemask
                                             label="CPF/CNPJ"
@@ -66,11 +62,12 @@
                                 </div>
                             </v-tab-item>
                             <v-tab-item>
-                                <v-card class="m-5">
+                                <v-card class="m-2">
                                     <v-list>
                                         <v-list-item 
                                             v-for="(ad, i) in adresses" :key="i"
                                             @click="() => getAddress(ad.id)"
+                                            class="border-bottom"
                                         >
                                             <v-list-item-content>
                                                 <v-list-item-title>{{ad.street}}</v-list-item-title>
@@ -79,16 +76,19 @@
                                                     {{ ad.district_name }} - {{ ad.number }}
                                                 </v-list-item-subtitle>
                                             </v-list-item-content>
+                                            <v-list-item-action-text v-if="!!ad.is_default">
+                                                Endereço Padrão
+                                            </v-list-item-action-text>
                                             <v-list-item-action>
                                                 <v-icon small>fa fa-chevron-right</v-icon>
                                             </v-list-item-action>
                                         </v-list-item>
-                                        <v-list-item @click="() => {addressModal=true; idAddress=null}">
+                                        <v-list-item @click="() => {addressModal=true; idAddress=null}" class="text-primary">
                                             <v-list-item-content>
                                                 <v-list-item-title>Adicionar Endereço</v-list-item-title>
                                             </v-list-item-content>
                                             <v-list-item-action>
-                                                <v-icon small>fa fa-plus</v-icon>
+                                                <v-icon small color="primary">fa fa-plus</v-icon>
                                             </v-list-item-action>
                                         </v-list-item>
                                     </v-list>
@@ -102,70 +102,15 @@
                         </div>
                     </v-form>
                 </v-card-text>
-                <v-card-actions class="justify-end">
-                    <v-btn text @click="$router.back()">Voltar</v-btn>
-                    <v-btn form="new-user" :loading="loading" type="submit" color="primary">Salvar</v-btn>
+                <v-card-actions class="justify-content-between mt-3">
+                    <v-btn v-if="$can('update-user-password')" text color="primary" @click="passwordModal=true">Alterar Senha</v-btn>
+                    <div>
+                        <v-btn text @click="$router.back()">Voltar</v-btn>
+                        <v-btn form="new-user" :loading="loading" type="submit" color="primary">Salvar</v-btn>
+                    </div>
                 </v-card-actions>
             </v-card>
         </div>
-
-        <!-- <v-dialog v-model="addressModal" max-width="700">
-            <template v-slot:default="dialog">
-                <v-card >
-                    <v-card-title>Editar Endereço</v-card-title>
-                    <v-card-text>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <v-select
-                                    label='Estado'
-                                    :items="ufs"
-                                    v-model="address.id_uf"
-                                    item-text="name"
-                                    item-value="id"
-                                />
-                            </div>
-                            <div class="col-md-6">
-                                <v-select
-                                    label='Cidade'
-                                    :items="cities"
-                                    v-model="address.id_city"
-                                    item-text="name"
-                                    item-value="id"
-                                />
-                            </div>
-                            <div class="col-md-6">
-                                <v-autocomplete
-                                    label='Bairro'
-                                    :items="districts"
-                                    v-model="address.id_district"
-                                    item-text="name"
-                                    item-value="id"
-                                />
-                            </div>
-                            <div class="col-md-6">
-                                <v-text-field v-model="address.street" label="Rua"/>
-                            </div>
-                            <div class="col-md-3">
-                                <v-text-field v-model="address.cep" label="CEP" v-mask="'#####-###'"/>
-                            </div>
-                            <div class="col-md-2">
-                                <v-text-field v-model="address.number" label="Nº"/>
-                            </div>
-                            <div class="col-md-7">
-                                <v-text-field v-model="address.complement" label="Complemento"/>
-                            </div>
-                            <div class="col-md-12">
-                                <v-text-field v-model="address.reference" label="Referência"/>
-                            </div>
-                        </div>
-                    </v-card-text>
-                    <v-card-actions class="justify-end">
-                        <v-btn text @click="dialog.value = false">Fechar</v-btn>
-                        <v-btn form="update-address" type="submit" color="primary">Salvar</v-btn>
-                    </v-card-actions>
-                </v-card>
-            </template>
-        </v-dialog> -->
 
         <address-modal
             :visible="addressModal"
@@ -173,6 +118,32 @@
             @onHide="addressModal=false"
             @onSave="onAddressSave"
         />
+
+        <!-- update password -->
+        <v-dialog max-width="400" v-model="passwordModal">
+            <template v-slot:default="dialog">
+                <v-card :loading="passwordLoading" :disabled="passwordLoading">
+                    <v-card-title>Alterar senha</v-card-title>
+                    <v-card-text>
+                        <v-form ref="passwordForm" id="update-password" @submit.prevent="updatePassword">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <v-text-field type="password" :rules="userRules.password" v-model="password.password" label="Senha"/>
+                                </div>
+                                <div class="col-md-12">
+                                    <v-text-field type="password" :rules="userRules.password_confirmation" v-model="password.password_confirmation" label="Confirme a Senha"/>
+                                </div>
+                            </div>
+                        </v-form>
+                    </v-card-text>
+                    <v-card-actions class="justify-end">
+                        <v-btn text @click="dialog.value = false">Fechar</v-btn>
+                        <v-btn form="update-password" type="submit" color="primary">Salvar</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </template>
+        </v-dialog>
+
     </div>
 </template>
 <script>
@@ -189,7 +160,21 @@ export default {
         loading: null,
         errors: '',
         addressModal: false,
-        idAddress: null
+        idAddress: null,
+        passwordModal: false,
+        passwordLoading: false,
+        password: {},
+
+        userRules: {
+            password: [
+                v => !!v || 'Insira a senha',
+                v => (v && v.length >= 6) || 'A senha deve conter pelo menos 6 caracteres',
+            ],
+            password_confirmation: [
+                v => !!v || 'Confirme a senha',
+                v => (v && v.length >= 6) || 'A senha deve conter pelo menos 6 caracteres'
+            ],
+        }
     }),
 
     mounted(){
@@ -252,7 +237,7 @@ export default {
             })
         },
 
-        createUser(){
+        updateUser(){
             if( this.$can('update-seller') ){
                 this.loading = true
                 this.$commom.request({
@@ -276,6 +261,8 @@ export default {
         onAddressSave(address){
             if(this.idAddress){
                 this.updateAddress(address)
+            } else {
+                this.createAddress(address)
             }
         },
         updateAddress(address){
@@ -299,11 +286,52 @@ export default {
                 })
             }
         },
+        createAddress(address){
+            if( this.$can('create-user-address') ){
+                this.loading = true
+                this.$commom.request({
+                    url: `/user/${this.user.id}/address`,
+                    type: 'post',
+                    auth: true,
+                    data: address,
+                    setError: true,
+                    success: resp => {
+                        this.loading = false
+                        this.addressModal = false
+                        this.getAdresses()
+                    },
+                    error: e => {
+                        this.loading = false
+                    }
+                })
+            }
+        },
 
         getAddress(id){
             this.idAddress = id
             this.addressModal = true
-        }
+        },
+
+        updatePassword(){
+            if( this.$refs.passwordForm.validate() && this.$can('update-user-password') ){
+                this.passwordLoading = true
+                this.$commom.request({
+                    url: '/seller/'+this.user.id+'/password',
+                    type: 'put',
+                    auth: true,
+                    data: this.password,
+                    setError: true,
+                    success: resp => {
+                        this.passwordModal = false
+                        this.passwordLoading = false
+                        this.password={}
+                    },
+                    error: e => {
+                        this.passwordLoading = false
+                    }
+                })
+            }
+        },
     }
 }
 </script>

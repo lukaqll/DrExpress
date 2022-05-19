@@ -72,8 +72,13 @@ Route::group(['middleware' => ['apiJwt']], function(){
     /**
      * address
      */
+    Route::get('/user/me/address', [AddressController::class, 'getMe']);
+    Route::post('/user/me/address', [AddressController::class, 'createMe']);
+    Route::get('/address/{id}', [AddressController::class, 'getById']);
+    Route::put('/address/me/{id}', [AddressController::class, 'updateMe']);
+
     Route::get('/user/{id}/address', [AddressController::class, 'getByUser']);
-    Route::post('/address/{id}/address', [AddressController::class, 'create']);
+    Route::post('/user/{id}/address', [AddressController::class, 'create']);
     Route::get('/address/{id}', [AddressController::class, 'getById']);
     Route::put('/address/{id}', [AddressController::class, 'update']);
 

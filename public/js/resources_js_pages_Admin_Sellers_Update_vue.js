@@ -88,6 +88,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     visible: Boolean,
@@ -106,6 +113,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     visible: function visible(v) {
       if (v) {
         this.onShow();
+      } else {
+        this.address = {};
+        this.isVisible = false;
       }
     },
     isVisible: function isVisible(v) {
@@ -121,10 +131,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }
     },
     'address.id_city': function addressId_city(id_city) {
-      var city = this.cities.find(function (c) {
-        return c.id = id_city;
-      });
-
       if (id_city) {
         this.getDistricts();
       } else {
@@ -195,6 +201,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         error: function error() {
           return _this4.loading = false;
         }
+      });
+    },
+    getCity: function getCity() {
+      var _this5 = this;
+
+      return this.cities.find(function (c) {
+        return c.id == _this5.address.id_city;
       });
     }
   }
@@ -379,35 +392,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -421,7 +405,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       loading: null,
       errors: '',
       addressModal: false,
-      idAddress: null
+      idAddress: null,
+      passwordModal: false,
+      passwordLoading: false,
+      password: {},
+      userRules: {
+        password: [function (v) {
+          return !!v || 'Insira a senha';
+        }, function (v) {
+          return v && v.length >= 6 || 'A senha deve conter pelo menos 6 caracteres';
+        }],
+        password_confirmation: [function (v) {
+          return !!v || 'Confirme a senha';
+        }, function (v) {
+          return v && v.length >= 6 || 'A senha deve conter pelo menos 6 caracteres';
+        }]
+      }
     };
   },
   mounted: function mounted() {
@@ -486,7 +485,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
       });
     },
-    createUser: function createUser() {
+    updateUser: function updateUser() {
       var _this3 = this;
 
       if (this.$can('update-seller')) {
@@ -512,6 +511,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     onAddressSave: function onAddressSave(address) {
       if (this.idAddress) {
         this.updateAddress(address);
+      } else {
+        this.createAddress(address);
       }
     },
     updateAddress: function updateAddress(address) {
@@ -538,9 +539,54 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
       }
     },
+    createAddress: function createAddress(address) {
+      var _this5 = this;
+
+      if (this.$can('create-user-address')) {
+        this.loading = true;
+        this.$commom.request({
+          url: "/user/".concat(this.user.id, "/address"),
+          type: 'post',
+          auth: true,
+          data: address,
+          setError: true,
+          success: function success(resp) {
+            _this5.loading = false;
+            _this5.addressModal = false;
+
+            _this5.getAdresses();
+          },
+          error: function error(e) {
+            _this5.loading = false;
+          }
+        });
+      }
+    },
     getAddress: function getAddress(id) {
       this.idAddress = id;
       this.addressModal = true;
+    },
+    updatePassword: function updatePassword() {
+      var _this6 = this;
+
+      if (this.$refs.passwordForm.validate() && this.$can('update-user-password')) {
+        this.passwordLoading = true;
+        this.$commom.request({
+          url: '/seller/' + this.user.id + '/password',
+          type: 'put',
+          auth: true,
+          data: this.password,
+          setError: true,
+          success: function success(resp) {
+            _this6.passwordModal = false;
+            _this6.passwordLoading = false;
+            _this6.password = {};
+          },
+          error: function error(e) {
+            _this6.passwordLoading = false;
+          }
+        });
+      }
     }
   }
 });
@@ -1190,6 +1236,24 @@ var render = function () {
                       ],
                       1
                     ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-md-12" },
+                      [
+                        _c("v-checkbox", {
+                          attrs: { label: "Endereço padrão" },
+                          model: {
+                            value: _vm.address.is_default,
+                            callback: function ($$v) {
+                              _vm.$set(_vm.address, "is_default", $$v)
+                            },
+                            expression: "address.is_default",
+                          },
+                        }),
+                      ],
+                      1
+                    ),
                   ]),
                 ]
               ),
@@ -1288,8 +1352,6 @@ var render = function () {
                     [
                       _c("v-tabs-slider", { attrs: { color: "primary" } }),
                       _vm._v(" "),
-                      _c("v-tab", [_vm._v("Login")]),
-                      _vm._v(" "),
                       _c("v-tab", [_vm._v("Dados")]),
                       _vm._v(" "),
                       _c("v-tab", [_vm._v("Endereços")]),
@@ -1306,12 +1368,11 @@ var render = function () {
                   _c(
                     "v-form",
                     {
-                      ref: "createForm",
                       attrs: { id: "new-user" },
                       on: {
                         submit: function ($event) {
                           $event.preventDefault()
-                          return _vm.createUser.apply(null, arguments)
+                          return _vm.updateUser.apply(null, arguments)
                         },
                       },
                     },
@@ -1365,11 +1426,7 @@ var render = function () {
                                 ],
                                 1
                               ),
-                            ]),
-                          ]),
-                          _vm._v(" "),
-                          _c("v-tab-item", [
-                            _c("div", { staticClass: "row" }, [
+                              _vm._v(" "),
                               _c(
                                 "div",
                                 { staticClass: "col-md-6" },
@@ -1504,7 +1561,7 @@ var render = function () {
                             [
                               _c(
                                 "v-card",
-                                { staticClass: "m-5" },
+                                { staticClass: "m-2" },
                                 [
                                   _c(
                                     "v-list",
@@ -1514,6 +1571,7 @@ var render = function () {
                                           "v-list-item",
                                           {
                                             key: i,
+                                            staticClass: "border-bottom",
                                             on: {
                                               click: function () {
                                                 return _vm.getAddress(ad.id)
@@ -1549,6 +1607,14 @@ var render = function () {
                                               1
                                             ),
                                             _vm._v(" "),
+                                            !!ad.is_default
+                                              ? _c("v-list-item-action-text", [
+                                                  _vm._v(
+                                                    "\n                                            Endereço Padrão\n                                        "
+                                                  ),
+                                                ])
+                                              : _vm._e(),
+                                            _vm._v(" "),
                                             _c(
                                               "v-list-item-action",
                                               [
@@ -1572,6 +1638,7 @@ var render = function () {
                                       _c(
                                         "v-list-item",
                                         {
+                                          staticClass: "text-primary",
                                           on: {
                                             click: function () {
                                               _vm.addressModal = true
@@ -1595,7 +1662,12 @@ var render = function () {
                                             [
                                               _c(
                                                 "v-icon",
-                                                { attrs: { small: "" } },
+                                                {
+                                                  attrs: {
+                                                    small: "",
+                                                    color: "primary",
+                                                  },
+                                                },
                                                 [_vm._v("fa fa-plus")]
                                               ),
                                             ],
@@ -1641,32 +1713,53 @@ var render = function () {
               _vm._v(" "),
               _c(
                 "v-card-actions",
-                { staticClass: "justify-end" },
+                { staticClass: "justify-content-between mt-3" },
                 [
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { text: "" },
-                      on: {
-                        click: function ($event) {
-                          return _vm.$router.back()
+                  _vm.$can("update-user-password")
+                    ? _c(
+                        "v-btn",
+                        {
+                          attrs: { text: "", color: "primary" },
+                          on: {
+                            click: function ($event) {
+                              _vm.passwordModal = true
+                            },
+                          },
                         },
-                      },
-                    },
-                    [_vm._v("Voltar")]
-                  ),
+                        [_vm._v("Alterar Senha")]
+                      )
+                    : _vm._e(),
                   _vm._v(" "),
                   _c(
-                    "v-btn",
-                    {
-                      attrs: {
-                        form: "new-user",
-                        loading: _vm.loading,
-                        type: "submit",
-                        color: "primary",
-                      },
-                    },
-                    [_vm._v("Salvar")]
+                    "div",
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { text: "" },
+                          on: {
+                            click: function ($event) {
+                              return _vm.$router.back()
+                            },
+                          },
+                        },
+                        [_vm._v("Voltar")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            form: "new-user",
+                            loading: _vm.loading,
+                            type: "submit",
+                            color: "primary",
+                          },
+                        },
+                        [_vm._v("Salvar")]
+                      ),
+                    ],
+                    1
                   ),
                 ],
                 1
@@ -1685,6 +1778,144 @@ var render = function () {
             _vm.addressModal = false
           },
           onSave: _vm.onAddressSave,
+        },
+      }),
+      _vm._v(" "),
+      _c("v-dialog", {
+        attrs: { "max-width": "400" },
+        scopedSlots: _vm._u([
+          {
+            key: "default",
+            fn: function (dialog) {
+              return [
+                _c(
+                  "v-card",
+                  {
+                    attrs: {
+                      loading: _vm.passwordLoading,
+                      disabled: _vm.passwordLoading,
+                    },
+                  },
+                  [
+                    _c("v-card-title", [_vm._v("Alterar senha")]),
+                    _vm._v(" "),
+                    _c(
+                      "v-card-text",
+                      [
+                        _c(
+                          "v-form",
+                          {
+                            ref: "passwordForm",
+                            attrs: { id: "update-password" },
+                            on: {
+                              submit: function ($event) {
+                                $event.preventDefault()
+                                return _vm.updatePassword.apply(null, arguments)
+                              },
+                            },
+                          },
+                          [
+                            _c("div", { staticClass: "row" }, [
+                              _c(
+                                "div",
+                                { staticClass: "col-md-12" },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      type: "password",
+                                      rules: _vm.userRules.password,
+                                      label: "Senha",
+                                    },
+                                    model: {
+                                      value: _vm.password.password,
+                                      callback: function ($$v) {
+                                        _vm.$set(_vm.password, "password", $$v)
+                                      },
+                                      expression: "password.password",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "col-md-12" },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      type: "password",
+                                      rules:
+                                        _vm.userRules.password_confirmation,
+                                      label: "Confirme a Senha",
+                                    },
+                                    model: {
+                                      value: _vm.password.password_confirmation,
+                                      callback: function ($$v) {
+                                        _vm.$set(
+                                          _vm.password,
+                                          "password_confirmation",
+                                          $$v
+                                        )
+                                      },
+                                      expression:
+                                        "password.password_confirmation",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                            ]),
+                          ]
+                        ),
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-card-actions",
+                      { staticClass: "justify-end" },
+                      [
+                        _c(
+                          "v-btn",
+                          {
+                            attrs: { text: "" },
+                            on: {
+                              click: function ($event) {
+                                dialog.value = false
+                              },
+                            },
+                          },
+                          [_vm._v("Fechar")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-btn",
+                          {
+                            attrs: {
+                              form: "update-password",
+                              type: "submit",
+                              color: "primary",
+                            },
+                          },
+                          [_vm._v("Salvar")]
+                        ),
+                      ],
+                      1
+                    ),
+                  ],
+                  1
+                ),
+              ]
+            },
+          },
+        ]),
+        model: {
+          value: _vm.passwordModal,
+          callback: function ($$v) {
+            _vm.passwordModal = $$v
+          },
+          expression: "passwordModal",
         },
       }),
     ],
@@ -1717,10 +1948,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/VBtn.js");
 /* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/VCard.js");
 /* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
-/* harmony import */ var vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VDialog */ "./node_modules/vuetify/lib/components/VDialog/VDialog.js");
-/* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/VForm.js");
-/* harmony import */ var vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VSelect */ "./node_modules/vuetify/lib/components/VSelect/VSelect.js");
-/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
+/* harmony import */ var vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VCheckbox */ "./node_modules/vuetify/lib/components/VCheckbox/VCheckbox.js");
+/* harmony import */ var vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VDialog */ "./node_modules/vuetify/lib/components/VDialog/VDialog.js");
+/* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/VForm.js");
+/* harmony import */ var vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VSelect */ "./node_modules/vuetify/lib/components/VSelect/VSelect.js");
+/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
 
 
 
@@ -1751,7 +1983,8 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAutocomplete: vuetify_lib_components_VAutocomplete__WEBPACK_IMPORTED_MODULE_4__["default"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["default"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardActions,VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardText,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardTitle,VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_8__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_9__["default"],VSelect: vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_10__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_11__["default"]})
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAutocomplete: vuetify_lib_components_VAutocomplete__WEBPACK_IMPORTED_MODULE_4__["default"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["default"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardActions,VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardText,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardTitle,VCheckbox: vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_8__["default"],VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_9__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_10__["default"],VSelect: vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_11__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_12__["default"]})
 
 
 /* hot reload */
@@ -1781,18 +2014,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/VCard.js");
 /* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
 /* harmony import */ var vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VCheckbox */ "./node_modules/vuetify/lib/components/VCheckbox/VCheckbox.js");
-/* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/VForm.js");
-/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
-/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/VList.js");
-/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/VListItem.js");
-/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/VListItemAction.js");
-/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/index.js");
-/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTab.js");
-/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTabItem.js");
-/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTabs.js");
-/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTabsItems.js");
-/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTabsSlider.js");
-/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
+/* harmony import */ var vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VDialog */ "./node_modules/vuetify/lib/components/VDialog/VDialog.js");
+/* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/VForm.js");
+/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
+/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/VList.js");
+/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/VListItem.js");
+/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/VListItemAction.js");
+/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/index.js");
+/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTab.js");
+/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTabItem.js");
+/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTabs.js");
+/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTabsItems.js");
+/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTabsSlider.js");
+/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
 
 
 
@@ -1834,7 +2068,9 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAlert: vuetify_lib_components_VAlert__WEBPACK_IMPORTED_MODULE_4__["default"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["default"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardActions,VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardText,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardTitle,VCheckbox: vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_8__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_9__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_10__["default"],VList: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_11__["default"],VListItem: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_12__["default"],VListItemAction: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_13__["default"],VListItemContent: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_14__.VListItemContent,VListItemSubtitle: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_14__.VListItemSubtitle,VListItemTitle: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_14__.VListItemTitle,VTab: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_15__["default"],VTabItem: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_16__["default"],VTabs: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_17__["default"],VTabsItems: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_18__["default"],VTabsSlider: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_19__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_20__["default"]})
+
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAlert: vuetify_lib_components_VAlert__WEBPACK_IMPORTED_MODULE_4__["default"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["default"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardActions,VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardText,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardTitle,VCheckbox: vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_8__["default"],VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_9__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_10__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_11__["default"],VList: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_12__["default"],VListItem: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_13__["default"],VListItemAction: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_14__["default"],VListItemActionText: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_15__.VListItemActionText,VListItemContent: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_15__.VListItemContent,VListItemSubtitle: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_15__.VListItemSubtitle,VListItemTitle: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_15__.VListItemTitle,VTab: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_16__["default"],VTabItem: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_17__["default"],VTabs: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_18__["default"],VTabsItems: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_19__["default"],VTabsSlider: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_20__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_21__["default"]})
 
 
 /* hot reload */

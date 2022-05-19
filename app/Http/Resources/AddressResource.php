@@ -34,6 +34,8 @@ class AddressResource extends JsonResource
 
             'id_uf' => $this->district->city->id_uf,
             'uf_name' => $this->district->city->uf->name,
+
+            'is_default' => $this->id == $this->user->id_address
         ];
     }
 }

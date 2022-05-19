@@ -1,65 +1,67 @@
 <template>
     <div>
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-12 col-xl-8">
                 <v-form ref='from' @submit.prevent="update">
                     <v-card :loading="loading" :disabled="loading">
-                        <v-card-title class="p-0 pb-4">
-                            <v-menu min-width="200px" offset-y absolute>
-                                <template v-slot:activator="{ on }">
-                                    <v-img 
-                                        v-on="on" 
-                                        class="cursor-pointer" 
-                                        rounded :src="user.banner"
-                                        height="auto"
-                                    />
-                                </template>
-                                <v-card>
-                                    <v-list-item-content class="justify-center">
-                                        <div class="mx-auto text-center">
-                                            <v-btn
-                                                depressed
-                                                rounded
-                                                text
-                                                @click="bannerModal=true"
-                                            >
-                                                Alterar Banner
-                                            </v-btn>
-                                        </div>
-                                    </v-list-item-content>
-                                </v-card>
-                            </v-menu>
-                        </v-card-title>
                         <v-card-text>
                             <div class="row">
-                                <div class="col-md-3">
-                                    <div>
-                                        <v-menu min-width="200px" offset-y absolute>
-                                            <template v-slot:activator="{ on }">
-                                                <v-img 
-                                                    v-on="on" 
-                                                    class="elevation-2 rounded-lg cursor-pointer" 
-                                                    :src="user.picture"
-                                                />
-                                            </template>
-                                            <v-card>
-                                                <v-list-item-content class="justify-center">
-                                                    <div class="mx-auto text-center">
-                                                        <v-btn
-                                                            depressed
-                                                            rounded
-                                                            text 
-                                                            @click="pictureModal=true"
-                                                        >
-                                                            Alterar Imagem
-                                                        </v-btn>
-                                                    </div>
-                                                </v-list-item-content>
-                                            </v-card>
-                                        </v-menu>
+                                <div class="col-md-4">
+                                    <div class="row justify-content-center flex-wrap">
+                                        <div class="col-12 mb-n16">
+                                            <v-menu min-width="200px" offset-y absolute>
+                                                <template v-slot:activator="{ on }">
+                                                    <v-img 
+                                                        v-on="on" 
+                                                        class="cursor-pointer rounded-lg" 
+                                                        rounded :src="user.banner"
+                                                        height="auto"
+                                                    />
+                                                </template>
+                                                <v-card>
+                                                    <v-list-item-content class="justify-center">
+                                                        <div class="mx-auto text-center">
+                                                            <v-btn
+                                                                depressed
+                                                                rounded
+                                                                text
+                                                                @click="bannerModal=true"
+                                                            >
+                                                                Alterar Banner
+                                                            </v-btn>
+                                                        </div>
+                                                    </v-list-item-content>
+                                                </v-card>
+                                            </v-menu>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <v-menu min-width="200px" offset-y absolute>
+                                                <template v-slot:activator="{ on }">
+                                                    <v-img 
+                                                        v-on="on" 
+                                                        class="elevation-2 rounded-lg cursor-pointer" 
+                                                        :src="user.picture"
+                                                    />
+                                                </template>
+                                                <v-card>
+                                                    <v-list-item-content class="justify-center">
+                                                        <div class="mx-auto text-center">
+                                                            <v-btn
+                                                                depressed
+                                                                rounded
+                                                                text 
+                                                                @click="pictureModal=true"
+                                                            >
+                                                                Alterar Imagem
+                                                            </v-btn>
+                                                        </div>
+                                                    </v-list-item-content>
+                                                </v-card>
+                                            </v-menu>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-9">
+                                <div class="col-md-8">
                                     <div class="row">
 
                                         <div class="col-md-6">
@@ -86,41 +88,26 @@
                                             <v-text-field label="CRO" v-model="user.cro"/>
                                         </div>
                                     </div>
-                                </div>
-                                
-                                <div class="col-md-5">
-                                    <v-autocomplete
-                                        label='Estado'
-                                        :items="ufsOptions"
-                                        v-model="user.id_uf"
-                                    />
-                                </div>
-                                <div class="col-md-5">
-                                    <v-autocomplete
-                                        label='Cidade'
-                                        :items="citiesOptions"
-                                        v-model="user.id_city"
-                                    />
-                                </div>
-
-                                <div class="col-md-2">
-                                    <div class="row">
-                                        <div class="col-12 py-0">
-                                            <v-checkbox
-                                                class="m-0"
-                                                v-model="user.is_delivery"
-                                                label="Delivery"
-                                            />
-                                        </div>
-                                        <div class="col-12 py-0">
-                                            <v-checkbox
-                                                class="m-0"
-                                                v-model="user.is_physical"
-                                                label="Loja Física"
-                                            />
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <div class="col-12 py-0">
+                                                <v-checkbox
+                                                    class="m-0"
+                                                    v-model="user.is_delivery"
+                                                    label="Delivery"
+                                                />
+                                            </div>
+                                            <div class="col-12 py-0">
+                                                <v-checkbox
+                                                    class="m-0"
+                                                    v-model="user.is_physical"
+                                                    label="Loja Física"
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+
 
                                 <div class="col-md-12" v-if="errors && errors.length">
                                     <v-alert v-html="errors" type="error"></v-alert>
@@ -265,25 +252,10 @@ export default {
 
     mounted(){
         this.get()
-        this.getUfs()
     },
 
     computed: {
-        ufsOptions() {
-            return this.ufs.map(u => ({
-                text: `${u.name} (${u.initials})`, value: u.id
-            }))
-        },
 
-        citiesOptions() {
-            if(this.user.id_uf){
-                const uf = this.ufs.find(u => u.id == this.user.id_uf)
-                if(uf){
-                    return uf.cities.map(c => ({ text: c.name, value: c.id }))
-                }
-            } 
-            return []
-        },
     },
 
     methods: {
@@ -343,16 +315,6 @@ export default {
                     }
                 })
             }
-        },
-
-        getUfs(){
-            this.$commom.request({
-                url: '/uf/',
-                auth: true,
-                success: resp => {
-                    this.ufs = [...resp]
-                }
-            })
         },
 
         uploadPicture(){

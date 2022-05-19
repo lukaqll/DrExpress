@@ -152,7 +152,7 @@ class UserService extends AbstractService
         
         $fileDirName = public_path( 'storage/' . $fileName );
         $img = Image::make( $fileDirName ); 
-        $img->fit( 1080, 360, null, 'center' )->save( $fileDirName );
+        $img->fit( 1080, 480, null, 'center' )->save( $fileDirName );
         
         $oldFile = $user->banner;
         if(!empty($fileName)){

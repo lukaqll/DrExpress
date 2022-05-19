@@ -197,7 +197,7 @@ class UserController extends Controller
      * @return  json
      */
     public function updatePassword( Request $request, $id ){
-        $this->gate('update-user');
+        $this->gate('update-user-password');
         try {
             
             $validData = $request->validate([

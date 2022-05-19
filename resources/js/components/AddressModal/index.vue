@@ -47,6 +47,13 @@
                         <div class="col-md-12">
                             <v-text-field v-model="address.reference" label="Referência"/>
                         </div>
+
+                        <div class="col-md-12">
+                            <v-checkbox
+                                label="Endereço padrão"
+                                v-model="address.is_default"
+                            />
+                        </div>
                     </div>
                 </v-form>
             </v-card-text>
@@ -74,6 +81,9 @@ export default {
         visible(v){
             if(v){
                 this.onShow()
+            } else {
+                this.address = {}
+                this.isVisible=false
             }
         },
 
@@ -91,7 +101,6 @@ export default {
             }
         },
         'address.id_city': function(id_city){
-            const city = this.cities.find(c => c.id = id_city)
             if(id_city){
                 this.getDistricts()
             } else {
@@ -157,6 +166,10 @@ export default {
                 error: () => this.loading = false
             })
         },
+
+        getCity(){
+            return this.cities.find(c => c.id == this.address.id_city)
+        }
     }
 }
 </script>

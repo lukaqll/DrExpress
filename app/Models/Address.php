@@ -15,7 +15,6 @@ class Address extends Model
     protected $fillable = [
         'id',
         'id_district',
-        'id_client',
         'id_user',
         'type',
         'street',
@@ -30,5 +29,9 @@ class Address extends Model
 
     public function district(){
         return $this->hasOne(District::class, 'id', 'id_district');
+    }
+
+    public function user(){
+        return $this->hasOne(User::class, 'id', 'id_user');
     }
 }

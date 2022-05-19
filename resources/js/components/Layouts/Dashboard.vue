@@ -131,7 +131,7 @@ export default {
                 },
                 { 
                     title: "Locais Atendidos", 
-                    icon: "fa fa-map-marker-alt",
+                    icon: "fa fa-map-location-dot",
                     link: '/dashboard/locais-atendidos',
                 },
                 { 
@@ -140,6 +140,11 @@ export default {
                     link: '/dashboard/meios-de-pagameto',
                 },
 
+                { 
+                    title: "Meus Endereços", 
+                    icon: "fa fa-map-marker-alt",
+                    link: '/dashboard/meus-enderecos',
+                },
                 { 
                     title: "Meu Perfil", 
                     icon: "far fa-user",

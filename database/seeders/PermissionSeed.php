@@ -45,6 +45,13 @@ class PermissionSeed extends Seeder
                 'description' => 'Pode deletar usuários',
                 'active' => 1
             ],
+            [
+                'name' => 'Altera Senha de Usuário',
+                'slug' => 'update-user-password',
+                'topic' => 'user',
+                'description' => 'Pode alterar a senha de usuários',
+                'active' => 1
+            ],
 
             // permissions
             [
@@ -147,6 +154,13 @@ class PermissionSeed extends Seeder
                 'slug' => 'update-user-address',
                 'topic' => 'address',
                 'description' => 'Pode editar endereços de usuários',
+                'active' => 1
+            ],
+            [
+                'name' => 'Cria Endereço de Usuários',
+                'slug' => 'create-user-address',
+                'topic' => 'address',
+                'description' => 'Pode criar endereços de usuários',
                 'active' => 1
             ],
 

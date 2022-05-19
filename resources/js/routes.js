@@ -163,6 +163,14 @@ const routes = [
             base: 'dashboard',
         }
     },
+    {
+        path: '/dashboard/meus-enderecos',
+        name: 'dash.adresses',
+        component: page('Dashboard/Adresses'),
+        meta: {
+            base: 'dashboard',
+        }
+    },
 ]
 
 
