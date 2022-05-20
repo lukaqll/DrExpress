@@ -17,6 +17,7 @@ class Spec extends Model
         'id_category',
         'name',
         'is_required',
+        'is_multiple',
     ];
     
     public $timestamps = false;

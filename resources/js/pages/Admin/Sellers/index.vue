@@ -16,12 +16,6 @@
                     :items="users"
                     :search="search"
                 >
-                    <template v-slot:item.name="{ item }">
-                        <v-avatar size="35" class="mr-3">
-                            <v-img :src="item.picture"></v-img>
-                        </v-avatar>
-                        {{item.name}}
-                    </template>
                     <template v-slot:item.roles_header="{ item }">
                         <span class="badge rounded-full bg-primary mr-1" v-for="(role, i) in item.roles" :key="i">{{role.name}}</span>
                     </template>
@@ -168,35 +162,6 @@
             </template>
         </v-dialog>
 
-        <!-- update password -->
-        <v-dialog max-width="400" v-model="passwordModal">
-            <template v-slot:default="dialog">
-                <v-card>
-                    <v-card-title>Alterar senha de {{editUser.name}}</v-card-title>
-                    <v-card-text>
-                        <v-form ref="passwordForm" id="update-password" @submit.prevent="updatePassword">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <v-text-field type="password" :rules="userRules.password" v-model="editUser.password" label="Senha"/>
-                                </div>
-                                <div class="col-md-12">
-                                    <v-text-field type="password" :rules="userRules.password_confirmation" v-model="editUser.password_confirmation" label="Confirme a Senha"/>
-                                </div>
-
-                                <div class="col-md-12" v-if="userErrors && userErrors.length">
-                                    <v-alert v-html="userErrors" type="error"></v-alert>
-                                </div>
-                            </div>
-                        </v-form>
-                    </v-card-text>
-                    <v-card-actions class="justify-end">
-                        <v-btn text @click="dialog.value = false">Fechar</v-btn>
-                        <v-btn form="update-password" :loading="saveLoading" type="submit" color="primary">Salvar</v-btn>
-                    </v-card-actions>
-                </v-card>
-            </template>
-        </v-dialog>
-
     </div>
 </template>
 <script>
@@ -258,38 +223,6 @@ export default {
     },
 
     computed: {
-        rolesOptions() {
-            return this.roles.map(p => ({
-                text: p.name, value: p.id
-            }))
-        },
-
-        citiesEditOptions() {
-            if(this.editUser.id_uf){
-                return this.ufs.find(u => u.id == this.editUser.id_uf)
-                               .cities
-                               .map(c => ({ text: c.name, value: c.id }))
-            } else {
-                return []
-            }
-        },
-
-        docNumberMask() {
-            let mask = null
-            let str = ''
-            if( this.editUser.id ){
-                str = this.editUser.doc_number
-            } else {
-                str = this.user.doc_number
-            }
-            if( str && str.length > 14 ){
-                mask = '##.###.###/####-##'
-            } else {
-                mask = '###.###.###-###'
-            }
-            return mask
-        }
-
     },
 
     methods: {
@@ -305,42 +238,6 @@ export default {
             })
         },
 
-        getRoles() {
-            this.loading = true
-            this.$commom.request({
-                url: '/roles',
-                auth: true,
-                success: resp => {
-                    this.loading = false
-                    this.roles = [...resp]
-                },
-                error: () => this.loading = false
-            })
-        },
-
-        
-
-        updatePassword(){
-            if( this.$refs.passwordForm.validate() ){
-                this.saveLoading = true
-                this.$commom.request({
-                    url: '/seller/'+this.editUser.id+'/password',
-                    type: 'put',
-                    auth: true,
-                    data: this.editUser,
-                    success: resp => {
-                        this.passwordModal = false
-                        this.editUser = {}
-                        this.saveLoading = false
-                    },
-                    error: e => {
-                        this.userErrors = this.$commom.errorMessages(e)
-                        this.saveLoading = false
-                    }
-                })
-            }
-        },
-
         toggleStatus(id){
             this.$commom.request({
                 url: '/seller/'+id+'/toggle-status',
@@ -352,13 +249,7 @@ export default {
             })
         },
 
-        removeRole(item){
-            let newEditUser = this.editUser
-            const index = newEditUser.id_roles.findIndex(i => i == item.value)
-            newEditUser.id_roles.splice(index, 1)
-            this.editRole = {...newEditUser}
-        },
-
+        
         
 
     }

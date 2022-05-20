@@ -84,6 +84,7 @@ class SpecController extends Controller
             $validData = $request->validate([
                 'name' => 'required|string|unique:specs,id_category,'.$idCategory,
                 'is_required' => 'nullable',
+                'is_multiple' => 'nullable',
             ]);
             
             $category = $this->categoryService->find($idCategory);
@@ -115,6 +116,7 @@ class SpecController extends Controller
             $validData = $request->validate([
                 'name' => 'required|string',
                 'is_required' => 'nullable',
+                'is_multiple' => 'nullable',
             ]);
             $updated = $this->specService->updateById( $id, $validData);
             $response = [ 'status' => 'success', 'data' => ($updated) ];

@@ -28,9 +28,8 @@
                                     <div>
                                         <v-btn text small @click="() => getSpec(spec.id)">{{spec.name}}</v-btn>
                                         <span x-small v-if="spec.items" class="badge bg-primary rounded-xl">{{spec.items.length || '0'}}</span>
-                                        <span x-small v-if="spec.is_required" class="badge bg-success rounded-xl">
-                                            <v-icon x-small v-if="spec.is_required" dark>fa fa-check</v-icon>
-                                        </span>
+                                        <v-icon small color="error" v-if="spec.is_required" dark>fa fa-asterisk</v-icon>
+                                        <v-icon small color="primary" v-if="spec.is_multiple" dark>fa fa-check-double</v-icon>
                                     </div>
                                 </v-expansion-panel-header>
 
@@ -94,6 +93,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         <v-checkbox class="m-0" v-model="editSpec.is_required" label="Obrigatório"/>
+                                        <v-checkbox class="m-0" v-model="editSpec.is_multiple" label="Múltiplo"/>
                                     </div>
                                 </div>
                             </v-form>
@@ -116,6 +116,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         <v-checkbox class="m-0" v-model="spec.is_required" label="Obrigatório"/>
+                                        <v-checkbox class="m-0" v-model="spec.is_multiple" label="Múltiplo"/>
                                     </div>
                                 </div>
                             </v-form>

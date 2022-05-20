@@ -10,6 +10,7 @@
                         <v-tabs-slider color="primary"></v-tabs-slider>
                         <v-tab>Dados</v-tab>
                         <v-tab>Endereços</v-tab>
+                        <v-tab>Funções</v-tab>
                     </v-tabs>
                 </v-card-title>
                 <v-card-text>
@@ -94,6 +95,29 @@
                                     </v-list>
                                 </v-card>
                             </v-tab-item>
+                            <v-tab-item>
+                                <v-card>
+                                    <v-autocomplete 
+                                        label="Funções" 
+                                        :items="rolesOptions"
+                                        v-model="user.id_roles"
+                                        chips 
+                                        multiple
+                                    >
+                                        <template v-slot:selection="data">
+                                            <v-chip
+                                                v-bind="data.attrs"
+                                                :input-value="data.selected"
+                                                close
+                                                @click="data.select"
+                                                @click:close="removeRole(data.item)"
+                                            >
+                                                {{ data.item.text }}
+                                            </v-chip>
+                                        </template>
+                                    </v-autocomplete>
+                                </v-card>
+                            </v-tab-item>
                         </v-tabs-items>
                         <div class="row">
                             <div class="col-md-12" v-if="errors && errors.length">
@@ -164,6 +188,8 @@ export default {
         passwordModal: false,
         passwordLoading: false,
         password: {},
+        roles: [],
+
 
         userRules: {
             password: [
@@ -180,6 +206,7 @@ export default {
     mounted(){
         this.getUser()
         this.getAdresses()
+        this.getRoles()
     },
 
     computed: {
@@ -197,7 +224,13 @@ export default {
                 mask = '###.###.###-###'
             }
             return mask
-        }
+        },
+
+        rolesOptions() {
+            return this.roles.map(p => ({
+                text: p.name, value: p.id
+            }))
+        },
     },
 
     watch: {
@@ -286,19 +319,18 @@ export default {
                 })
             }
         },
-        createAddress(address){
-            if( this.$can('create-user-address') ){
+        updateUser(){
+            if( this.$can('update-user') ){
                 this.loading = true
                 this.$commom.request({
-                    url: `/user/${this.user.id}/address`,
-                    type: 'post',
+                    url: `/seller/${this.user.id}`,
+                    type: 'put',
                     auth: true,
-                    data: address,
+                    data: this.user,
                     setError: true,
                     success: resp => {
                         this.loading = false
-                        this.addressModal = false
-                        this.getAdresses()
+                        this.getUser()
                     },
                     error: e => {
                         this.loading = false
@@ -332,6 +364,23 @@ export default {
                 })
             }
         },
+
+        getRoles() {
+            this.$commom.request({
+                url: '/roles',
+                auth: true,
+                success: resp => {
+                    this.roles = [...resp]
+                },
+            })
+        },
+        removeRole(item){
+            let newEditUser = this.editUser
+            const index = newEditUser.id_roles.findIndex(i => i == item.value)
+            newEditUser.id_roles.splice(index, 1)
+            this.editRole = {...newEditUser}
+        },
+
     }
 }
 </script>

@@ -11,12 +11,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -29,41 +23,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -303,121 +262,32 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       if (!v) this.editUser = {};
     }
   },
-  computed: {
-    rolesOptions: function rolesOptions() {
-      return this.roles.map(function (p) {
-        return {
-          text: p.name,
-          value: p.id
-        };
-      });
-    },
-    citiesEditOptions: function citiesEditOptions() {
-      var _this = this;
-
-      if (this.editUser.id_uf) {
-        return this.ufs.find(function (u) {
-          return u.id == _this.editUser.id_uf;
-        }).cities.map(function (c) {
-          return {
-            text: c.name,
-            value: c.id
-          };
-        });
-      } else {
-        return [];
-      }
-    },
-    docNumberMask: function docNumberMask() {
-      var mask = null;
-      var str = '';
-
-      if (this.editUser.id) {
-        str = this.editUser.doc_number;
-      } else {
-        str = this.user.doc_number;
-      }
-
-      if (str && str.length > 14) {
-        mask = '##.###.###/####-##';
-      } else {
-        mask = '###.###.###-###';
-      }
-
-      return mask;
-    }
-  },
+  computed: {},
   methods: {
     getUsers: function getUsers() {
-      var _this2 = this;
+      var _this = this;
 
       this.loading = true;
       this.$commom.request({
         url: '/seller',
         auth: true,
         success: function success(resp) {
-          _this2.loading = false;
-          _this2.users = _toConsumableArray(resp);
+          _this.loading = false;
+          _this.users = _toConsumableArray(resp);
         }
       });
-    },
-    getRoles: function getRoles() {
-      var _this3 = this;
-
-      this.loading = true;
-      this.$commom.request({
-        url: '/roles',
-        auth: true,
-        success: function success(resp) {
-          _this3.loading = false;
-          _this3.roles = _toConsumableArray(resp);
-        },
-        error: function error() {
-          return _this3.loading = false;
-        }
-      });
-    },
-    updatePassword: function updatePassword() {
-      var _this4 = this;
-
-      if (this.$refs.passwordForm.validate()) {
-        this.saveLoading = true;
-        this.$commom.request({
-          url: '/seller/' + this.editUser.id + '/password',
-          type: 'put',
-          auth: true,
-          data: this.editUser,
-          success: function success(resp) {
-            _this4.passwordModal = false;
-            _this4.editUser = {};
-            _this4.saveLoading = false;
-          },
-          error: function error(e) {
-            _this4.userErrors = _this4.$commom.errorMessages(e);
-            _this4.saveLoading = false;
-          }
-        });
-      }
     },
     toggleStatus: function toggleStatus(id) {
-      var _this5 = this;
+      var _this2 = this;
 
       this.$commom.request({
         url: '/seller/' + id + '/toggle-status',
         type: 'put',
         auth: true,
         success: function success(resp) {
-          _this5.getUsers();
+          _this2.getUsers();
         }
       });
-    },
-    removeRole: function removeRole(item) {
-      var newEditUser = this.editUser;
-      var index = newEditUser.id_roles.findIndex(function (i) {
-        return i == item.value;
-      });
-      newEditUser.id_roles.splice(index, 1);
-      this.editRole = _objectSpread({}, newEditUser);
     }
   }
 });
@@ -1099,25 +969,6 @@ var render = function () {
                 },
                 scopedSlots: _vm._u([
                   {
-                    key: "item.name",
-                    fn: function (ref) {
-                      var item = ref.item
-                      return [
-                        _c(
-                          "v-avatar",
-                          { staticClass: "mr-3", attrs: { size: "35" } },
-                          [_c("v-img", { attrs: { src: item.picture } })],
-                          1
-                        ),
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(item.name) +
-                            "\n                "
-                        ),
-                      ]
-                    },
-                  },
-                  {
                     key: "item.roles_header",
                     fn: function (ref) {
                       var item = ref.item
@@ -1720,157 +1571,6 @@ var render = function () {
           expression: "editUserModal",
         },
       }),
-      _vm._v(" "),
-      _c("v-dialog", {
-        attrs: { "max-width": "400" },
-        scopedSlots: _vm._u([
-          {
-            key: "default",
-            fn: function (dialog) {
-              return [
-                _c(
-                  "v-card",
-                  [
-                    _c("v-card-title", [
-                      _vm._v("Alterar senha de " + _vm._s(_vm.editUser.name)),
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "v-card-text",
-                      [
-                        _c(
-                          "v-form",
-                          {
-                            ref: "passwordForm",
-                            attrs: { id: "update-password" },
-                            on: {
-                              submit: function ($event) {
-                                $event.preventDefault()
-                                return _vm.updatePassword.apply(null, arguments)
-                              },
-                            },
-                          },
-                          [
-                            _c("div", { staticClass: "row" }, [
-                              _c(
-                                "div",
-                                { staticClass: "col-md-12" },
-                                [
-                                  _c("v-text-field", {
-                                    attrs: {
-                                      type: "password",
-                                      rules: _vm.userRules.password,
-                                      label: "Senha",
-                                    },
-                                    model: {
-                                      value: _vm.editUser.password,
-                                      callback: function ($$v) {
-                                        _vm.$set(_vm.editUser, "password", $$v)
-                                      },
-                                      expression: "editUser.password",
-                                    },
-                                  }),
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "col-md-12" },
-                                [
-                                  _c("v-text-field", {
-                                    attrs: {
-                                      type: "password",
-                                      rules:
-                                        _vm.userRules.password_confirmation,
-                                      label: "Confirme a Senha",
-                                    },
-                                    model: {
-                                      value: _vm.editUser.password_confirmation,
-                                      callback: function ($$v) {
-                                        _vm.$set(
-                                          _vm.editUser,
-                                          "password_confirmation",
-                                          $$v
-                                        )
-                                      },
-                                      expression:
-                                        "editUser.password_confirmation",
-                                    },
-                                  }),
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _vm.userErrors && _vm.userErrors.length
-                                ? _c(
-                                    "div",
-                                    { staticClass: "col-md-12" },
-                                    [
-                                      _c("v-alert", {
-                                        attrs: { type: "error" },
-                                        domProps: {
-                                          innerHTML: _vm._s(_vm.userErrors),
-                                        },
-                                      }),
-                                    ],
-                                    1
-                                  )
-                                : _vm._e(),
-                            ]),
-                          ]
-                        ),
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-card-actions",
-                      { staticClass: "justify-end" },
-                      [
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: { text: "" },
-                            on: {
-                              click: function ($event) {
-                                dialog.value = false
-                              },
-                            },
-                          },
-                          [_vm._v("Fechar")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: {
-                              form: "update-password",
-                              loading: _vm.saveLoading,
-                              type: "submit",
-                              color: "primary",
-                            },
-                          },
-                          [_vm._v("Salvar")]
-                        ),
-                      ],
-                      1
-                    ),
-                  ],
-                  1
-                ),
-              ]
-            },
-          },
-        ]),
-        model: {
-          value: _vm.passwordModal,
-          callback: function ($$v) {
-            _vm.passwordModal = $$v
-          },
-          expression: "passwordModal",
-        },
-      }),
     ],
     1
   )
@@ -1899,22 +1599,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var vuetify_lib_components_VAlert__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuetify/lib/components/VAlert */ "./node_modules/vuetify/lib/components/VAlert/VAlert.js");
 /* harmony import */ var vuetify_lib_components_VAutocomplete__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VAutocomplete */ "./node_modules/vuetify/lib/components/VAutocomplete/VAutocomplete.js");
-/* harmony import */ var vuetify_lib_components_VAvatar__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VAvatar */ "./node_modules/vuetify/lib/components/VAvatar/VAvatar.js");
-/* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/VBtn.js");
-/* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/VCard.js");
-/* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
-/* harmony import */ var vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VCheckbox */ "./node_modules/vuetify/lib/components/VCheckbox/VCheckbox.js");
-/* harmony import */ var vuetify_lib_components_VChip__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VChip */ "./node_modules/vuetify/lib/components/VChip/VChip.js");
-/* harmony import */ var vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VDataTable */ "./node_modules/vuetify/lib/components/VDataTable/VDataTable.js");
-/* harmony import */ var vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VDialog */ "./node_modules/vuetify/lib/components/VDialog/VDialog.js");
-/* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/VForm.js");
-/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
-/* harmony import */ var vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuetify/lib/components/VImg */ "./node_modules/vuetify/lib/components/VImg/VImg.js");
-/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTab.js");
-/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTabItem.js");
-/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTabs.js");
-/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTabsItems.js");
-/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
+/* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/VBtn.js");
+/* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/VCard.js");
+/* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
+/* harmony import */ var vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VCheckbox */ "./node_modules/vuetify/lib/components/VCheckbox/VCheckbox.js");
+/* harmony import */ var vuetify_lib_components_VChip__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VChip */ "./node_modules/vuetify/lib/components/VChip/VChip.js");
+/* harmony import */ var vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VDataTable */ "./node_modules/vuetify/lib/components/VDataTable/VDataTable.js");
+/* harmony import */ var vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VDialog */ "./node_modules/vuetify/lib/components/VDialog/VDialog.js");
+/* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/VForm.js");
+/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
+/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTab.js");
+/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTabItem.js");
+/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTabs.js");
+/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTabsItems.js");
+/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
 
 
 
@@ -1953,9 +1651,7 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 
 
-
-
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAlert: vuetify_lib_components_VAlert__WEBPACK_IMPORTED_MODULE_4__["default"],VAutocomplete: vuetify_lib_components_VAutocomplete__WEBPACK_IMPORTED_MODULE_5__["default"],VAvatar: vuetify_lib_components_VAvatar__WEBPACK_IMPORTED_MODULE_6__["default"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_7__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__["default"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__.VCardActions,VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__.VCardText,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__.VCardTitle,VCheckbox: vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_10__["default"],VChip: vuetify_lib_components_VChip__WEBPACK_IMPORTED_MODULE_11__["default"],VDataTable: vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_12__["default"],VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_13__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_14__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_15__["default"],VImg: vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_16__["default"],VTab: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_17__["default"],VTabItem: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_18__["default"],VTabs: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_19__["default"],VTabsItems: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_20__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_21__["default"]})
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAlert: vuetify_lib_components_VAlert__WEBPACK_IMPORTED_MODULE_4__["default"],VAutocomplete: vuetify_lib_components_VAutocomplete__WEBPACK_IMPORTED_MODULE_5__["default"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_6__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__["default"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__.VCardActions,VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__.VCardText,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__.VCardTitle,VCheckbox: vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_9__["default"],VChip: vuetify_lib_components_VChip__WEBPACK_IMPORTED_MODULE_10__["default"],VDataTable: vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_11__["default"],VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_12__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_13__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_14__["default"],VTab: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_15__["default"],VTabItem: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_16__["default"],VTabs: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_17__["default"],VTabsItems: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_18__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_19__["default"]})
 
 
 /* hot reload */

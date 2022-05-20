@@ -188,7 +188,8 @@ const routes = [
         component: page('Dashboard/Products/Create.vue'),
         meta: {
             base: 'dashboard',
-            can: ['create-products']
+            can: ['create-products'],
+            defaultDrawer: 'mini'
         }
     },
 ]

@@ -113,10 +113,11 @@
 <script>
 import utils from '../../services/utils'
 export default {
+    props: {defaultMini: Boolean},
     data() {
         return {
             drawer: this.initialDrawer,
-            mini: false,
+            mini: this.defaultMini,
             topbarMenu: false,
             windowWidth: window.innerWidth,
             menu: [
@@ -163,17 +164,24 @@ export default {
     mounted(){
         if( !this.$hasRole(['seller']) )
             this.$router.push('/login?message=Sem Permissão')
+
     },
     computed: {
         initialDrawer(v){
+            
             return this.windowWidth <= 1250 ? true : false
         },
+
     },
     watch: {
         '$vuetify.theme.isDark': function(isDark){
             localStorage.setItem('darkmode', isDark?'1':'0')
             window.location.reload()
+        },
+        defaultMini(v){
+            if(v) this.mini = v
         }
+        
     },
     methods: {
         logout() {
@@ -206,6 +214,8 @@ export default {
                 this.mini = !this.mini
             }
         },
+
+        
 
     },
 };

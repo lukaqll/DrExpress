@@ -164,6 +164,21 @@ class PermissionSeed extends Seeder
                 'active' => 1
             ],
 
+            // products create-products
+            [
+                'name' => 'Cria Produtos',
+                'slug' => 'create-products',
+                'topic' => 'address',
+                'description' => 'Pode criar produtos',
+                'active' => 1
+            ],
+            [
+                'name' => 'Ver Produtos',
+                'slug' => 'view-products',
+                'topic' => 'address',
+                'description' => 'Pode ver produtos',
+                'active' => 1
+            ],
             
         ];
 

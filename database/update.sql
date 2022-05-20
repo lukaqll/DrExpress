@@ -22,3 +22,7 @@ ADD COLUMN `color` VARCHAR(45) NULL AFTER `brand`,
 DROP INDEX `fk_products_brands1_idx` ;
 ;
 
+------
+
+ALTER TABLE `dr_express`.`specs` 
+ADD COLUMN `is_multiple` TINYINT(1) NULL DEFAULT 0 AFTER `is_required`;

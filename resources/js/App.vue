@@ -1,6 +1,6 @@
 <template>
     <div>
-        <component v-bind:is="base" >
+        <component v-bind:is="base" :defaultMini="$route.meta.defaultDrawer=='mini'">
             <transition :name="transition" mode="out-in">
                 <router-view></router-view>
             </transition>
@@ -25,10 +25,20 @@
     export default {
         components: {Admin, Auth, Dashboard},
         data: () => ({
-           useStore: useStore()
+           useStore: useStore(),
+           defaultMiniDrawer: false,
         }),
         mounted() {
             
+        },
+        watch: {
+            '$route.meta': function(meta){
+                if( meta.defaultDrawer ){
+                    if( meta.defaultDrawer == 'mini' ){
+                        this.defaultMiniDrawer = true
+                    }
+                }
+            }
         },
         computed: {
             base: function () { 
@@ -39,5 +49,15 @@
             }
 
         },
+        methods: {
+            verifyMini(){
+                const meta = this.$route.meta
+                if( meta.defaultDrawer ){
+                    if( meta.defaultDrawer == 'mini' ){
+                        this.mini = true
+                    }
+                }
+            }
+        }    
     }
 </script>

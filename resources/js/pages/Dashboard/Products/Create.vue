@@ -12,7 +12,8 @@
                         <div class="col-md-8 text-center">
                             <div class="row">
                                 <div class="col-12">
-                                    <p class="h4">Pesquise pela categoria que define seu produto</p>
+                                    <p class="h4">Categoria do produto</p>
+                                    <p>Selecione a categoria que mais se enquadra o produto.</p>
                                 </div>
                                 <div class="col-12 align-items-center" v-if="categoryFlowItems && categoryFlowItems.length">
                                     <v-btn class="float-left" icon color="primary" @click="backCategoryHandle">
@@ -45,7 +46,7 @@
                                 
                             </div>
                         </div>
-                        <div class="col-12 text-right">
+                        <div class="col-12 text-right" v-if="selectedCategory">
                             <v-btn @click="step=step+1" color="primary">
                                 Pŕoximo
                                 <v-icon small>fa fa-chevron-right</v-icon>
@@ -55,13 +56,17 @@
                     <v-divider></v-divider>
                 </v-stepper-content>
     
-                <v-stepper-step :complete="step>2" step="2" @click="step=2">Dados</v-stepper-step>
+                <v-stepper-step :complete="step>2" step="2" @click="step=2">
+                    Dados
+                    <small>Alguns dados do produto</small>
+                </v-stepper-step>
                 <v-stepper-content step="2">
                     <div class="row justify-content-center">
                         <div class="col-md-8 text-center">
                             <div class="row">
                                 <div class="col-12">
                                     <p class="h4">Informe alguns dados do produto</p>
+                                    <p>Estes dados serão exibidos no anúincio</p>
                                 </div>
                                 <div class="col-md-6">
                                     <v-text-field 
@@ -99,6 +104,15 @@
                                         v-model="product.price"
                                     />
                                 </div>
+                                <div class="col-md-6">
+                                    <v-text-field 
+                                        dense 
+                                        label="Quantidade"
+                                        hint='Quantidade disponível do produto'
+                                        persistent-hint
+                                        v-model="product.qtd"
+                                    />
+                                </div>
                                 
                             </div>
                         </div>
@@ -113,13 +127,20 @@
                     <v-divider></v-divider>
                 </v-stepper-content>
     
-                <v-stepper-step :complete="step>3" step="3" @click="step=3">Especificações</v-stepper-step>
+                <v-stepper-step :complete="step>3" step="3" @click="step=3">
+                    Especificações
+                    <small>Especificações do produto</small>    
+                </v-stepper-step>
                 <v-stepper-content step="3">
                     <div class="row justify-content-center">
                         <div class="col-md-8 text-center">
                             <div class="row">
                                 <div class="col-12">
                                     <p class="h4">Especificações do produto</p>
+                                    <p>
+                                        Informe as especificações do produto <br>
+                                        <small class="text-danger">Algumas Especificações variam de acordo com a categoria selecionada.</small>
+                                    </p>
                                 </div>
                                 <div class="col-md-12" >
                                     
@@ -130,12 +151,15 @@
                                                 <v-card-text>
                                                     <v-autocomplete
                                                         dense
-                                                        :label="spec.name"
+                                                        :label="`${spec.name} ${spec.is_required?'(obrigatório)':''}`"
                                                         :items="spec.items"
                                                         item-text="name"
                                                         item-value="id"
                                                         chips
                                                         v-model="specs[spec.id]"
+                                                        :multiple="!!spec.is_multiple"
+                                                        persistent-hint
+                                                        :hint="!!spec.is_multiple ? 'Selecione um ou mais' : 'Selecione um'"
                                                     />
                                                 </v-card-text>
                                             </v-card>
@@ -232,13 +256,17 @@
                     <v-divider></v-divider>
                 </v-stepper-content>
 
-                <v-stepper-step :complete="step>4" step="4" @click="step=4">Imagens</v-stepper-step>
+                <v-stepper-step :complete="step>4" step="4" @click="step=4">
+                    Imagens
+                    <small>Fotos do produto</small>        
+                </v-stepper-step>
                 <v-stepper-content step="4">
                     <div class="row justify-content-center">
                         <div class="col-md-8 text-center">
                             <div class="row">
                                 <div class="col-12">
-                                    <p class="h4">Informe alguns dados do produto</p>
+                                    <p class="h4">Adicione algumas imagens do produto</p>
+                                    <p>As imagens serão exibidas no anúncio</p>
                                 </div>
                                 <div class="col-12">
                                     <v-file-input 
@@ -253,8 +281,28 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="row">
-                                        <div class="col-2" v-for="(file, i) in imagesPreview" :key="i">
-                                            <v-img :scr="file" />
+                                        <div class="col-3" v-for="(file, i) in imagesPreview" :key="i">
+                                            <v-menu offset-y absolute>
+                                                <template v-slot:activator="{ on }">
+                                                    <v-card>
+                                                        <v-img 
+                                                            v-on="on" 
+                                                            class="elevation-2 rounded-lg cursor-pointer"  
+                                                            contain
+                                                            :src="file"
+                                                        />
+                                                        <span v-if="principalImage == i" class="badge bg-success w-100 opacity-50" style="z-index: 100">Principal</span>
+                                                    </v-card>
+                                                </template>
+                                                <v-card>
+                                                    <v-list-item-content class="justify-center">
+                                                        <div class="mx-auto text-center">
+                                                            <v-btn small depressed text color="error" @click="() => removeImage(i)">Remover</v-btn>
+                                                            <v-btn small depressed text color="success" v-if="principalImage!=i" @click="() => principalImage=i">Imagem Principal</v-btn>
+                                                        </div>
+                                                    </v-list-item-content>
+                                                </v-card>
+                                            </v-menu>
                                         </div>
                                     </div>
                                 </div>
@@ -308,9 +356,24 @@
                                 class="d-flex w-100 mt-1 justify-content-between"
                             >
                                 <b>{{ spec.name }}:</b>
-                                <span>{{ spec.item }}</span>
+                                <span>{{ spec.itemsNames }}</span>
                             </div>
                         </div>
+                        <div class="d-flex w-100 mt-1 justify-content-between" v-if="product.color">
+                            <b>Cor:</b>
+                            <div :style="`width: 20px; height: 20px; border-radius: 5px; background-color: ${product.color}`"></div>
+                        </div>
+                        <div class="d-flex w-100 mt-1 justify-content-between" v-if="product.guarantee">
+                            <b>Garantia:</b>
+                            <span v-if="product.guarantee==0">Sem garantia</span>
+                            <span v-if="product.guarantee==1">Garantia do fabricante</span>
+                            <span v-if="product.guarantee==2">Garantia do vendedor</span>
+                        </div>
+                        <div class="d-flex w-100 mt-1 justify-content-between" v-if="images && images.length">
+                            <b>Imagens:</b>
+                            <span>{{images.length}} imagens</span>
+                        </div>
+
                     </div>
                 </v-card-text>
             </v-card>
@@ -322,7 +385,7 @@
 export default {
     data: () => ({
         product: {},
-        step: 4,
+        step: 1,
         categoriesTree: [],
         loading: false,
         selectedCategoryParent: null,
@@ -330,7 +393,8 @@ export default {
         categoryFlow: [],
         colorPicker: false,
         specs: {},
-        images: []
+        images: [],
+        principalImage: 0,
     }),
 
     computed: {
@@ -354,10 +418,26 @@ export default {
             const cat = this.selectedCategory
             for(const idSpec in this.specs){
                 const spec = cat.specs.find(s => s.id == idSpec)
-                const item = spec.items.find(i => i.id == this.specs[idSpec])
+
+                let itemsNames = []
+
+                if(spec.is_multiple){
+                    const names = []
+                    for(const item of spec.items){
+                        if(this.specs[idSpec].includes(item.id))
+                            names.push(item.name)
+                    }
+
+                    itemsNames = names.join(', ')
+                } else {
+                    const item = spec.items.find(i => i.id == this.specs[idSpec])
+                    itemsNames = item.name
+                }
+                
                 result.push({
                     name: spec.name,
-                    item: item.name
+                    is_multiple: spec.is_multiple,
+                    itemsNames: itemsNames
                 })
             }
             return result
@@ -369,14 +449,15 @@ export default {
     },
 
     watch: {
-        step(v){
-            const queryObject = {
-                ...this.product,
-                step: v,
-                categoryFlow: this.categoryFlow,
-                selectedCategory: this.selectedCategory
+
+        images(v){
+
+            if(v.length){
+                if(this.principalImage > (v.length-1))
+                    this.principalImage = (v.length-1)
+            } else {
+                    this.principalImage = 0
             }
-            this.$router.replace({query: queryObject})
         }
     },
 
@@ -450,6 +531,11 @@ export default {
             const prod = this.product
             prod.color = data.hexa
             this.product = {...prod}
+        },
+        removeImage(index){
+            const images = this.images
+            images.splice(index, 1)
+            this.images = [...images]
         }
     }
 }

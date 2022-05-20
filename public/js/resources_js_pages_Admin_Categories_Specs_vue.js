@@ -149,6 +149,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -729,27 +730,29 @@ var render = function () {
                                       _vm._v(" "),
                                       spec.is_required
                                         ? _c(
-                                            "span",
+                                            "v-icon",
                                             {
-                                              staticClass:
-                                                "badge bg-success rounded-xl",
-                                              attrs: { "x-small": "" },
+                                              attrs: {
+                                                small: "",
+                                                color: "error",
+                                                dark: "",
+                                              },
                                             },
-                                            [
-                                              spec.is_required
-                                                ? _c(
-                                                    "v-icon",
-                                                    {
-                                                      attrs: {
-                                                        "x-small": "",
-                                                        dark: "",
-                                                      },
-                                                    },
-                                                    [_vm._v("fa fa-check")]
-                                                  )
-                                                : _vm._e(),
-                                            ],
-                                            1
+                                            [_vm._v("fa fa-asterisk")]
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      spec.is_multiple
+                                        ? _c(
+                                            "v-icon",
+                                            {
+                                              attrs: {
+                                                small: "",
+                                                color: "primary",
+                                                dark: "",
+                                              },
+                                            },
+                                            [_vm._v("fa fa-check-double")]
                                           )
                                         : _vm._e(),
                                     ],
@@ -1109,6 +1112,22 @@ var render = function () {
                                             expression: "editSpec.is_required",
                                           },
                                         }),
+                                        _vm._v(" "),
+                                        _c("v-checkbox", {
+                                          staticClass: "m-0",
+                                          attrs: { label: "Múltiplo" },
+                                          model: {
+                                            value: _vm.editSpec.is_multiple,
+                                            callback: function ($$v) {
+                                              _vm.$set(
+                                                _vm.editSpec,
+                                                "is_multiple",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "editSpec.is_multiple",
+                                          },
+                                        }),
                                       ],
                                       1
                                     ),
@@ -1245,6 +1264,22 @@ var render = function () {
                                               )
                                             },
                                             expression: "spec.is_required",
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("v-checkbox", {
+                                          staticClass: "m-0",
+                                          attrs: { label: "Múltiplo" },
+                                          model: {
+                                            value: _vm.spec.is_multiple,
+                                            callback: function ($$v) {
+                                              _vm.$set(
+                                                _vm.spec,
+                                                "is_multiple",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "spec.is_multiple",
                                           },
                                         }),
                                       ],
