@@ -23,7 +23,7 @@ class BrandController extends Controller
         try {
 
             $dataFilter = $request->all();
-            $result = $this->brandService->list( $dataFilter, ['id'] );
+            $result = $this->brandService->list( $dataFilter, ['name'] );
 
             $response = [ 'status' => 'success', 'data' => ($result) ];
             
@@ -79,11 +79,11 @@ class BrandController extends Controller
      * @return  json
      */
     public function create( Request $request ){
-
+        $this->gate('create-brand');
         try {
 
             $validData = $request->validate([
-                'name' => 'required|string|unique:table',
+                'name' => 'required|string|unique:brands',
             ]);
             
             $created = $this->brandService->create( $validData );
@@ -103,11 +103,11 @@ class BrandController extends Controller
      * @return  json
      */
     public function update( Request $request, $id ){
-
+        $this->gate('update-brand');
         try {
             
             $validData = $request->validate([
-                'name' => 'required|string|unique:table,name,'.$id,
+                'name' => 'required|string|unique:brands,name,'.$id,
             ]);
             $updated = $this->brandService->updateById( $id, $validData);
             $response = [ 'status' => 'success', 'data' => ($updated) ];
@@ -126,7 +126,7 @@ class BrandController extends Controller
      * @return  json
      */
     public function delete( $id ){
-
+        $this->gate('delete-brand');
         try {
 
             $deleted = $this->brandService->deleteById( $id );

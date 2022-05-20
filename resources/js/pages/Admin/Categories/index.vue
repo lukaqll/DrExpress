@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         Categorias
-                        <v-btn v-if="$can('create-category')" small class="float-right" @click="editCategoryModal = false; category = {}">Nova Categoria</v-btn>
+                        <v-btn v-if="$can('create-category')" text color="primary" class="float-right" @click="editCategoryModal = false; category = {}">Nova Categoria</v-btn>
                     </div>
                 </div>
             </v-card-title>

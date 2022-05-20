@@ -792,7 +792,7 @@ var render = function () {
                               ? _c(
                                   "v-btn",
                                   {
-                                    attrs: { small: "" },
+                                    attrs: { text: "", color: "primary" },
                                     on: {
                                       click: function ($event) {
                                         _vm.createModal = true

@@ -14,12 +14,14 @@ import { useStore } from './services/store'
 import { VueMaskDirective } from 'v-mask'
 import VueSweetalert2 from 'vue-sweetalert2';
 import "../plugins/vuetify-mask";
+import money from 'v-money'
 
 Vue.use(VueRouter)
 Vue.component('app', App)
 Vue.directive('mask', VueMaskDirective); 
 Vue.use(PiniaVuePlugin)
 Vue.use(VueSweetalert2);
+Vue.use(money, {precision:2, decimal:',', thousands:'.'})
 
 const pinia = createPinia()
 
@@ -39,6 +41,7 @@ const app = new Vue({
 Vue.prototype.$can = utils.can
 Vue.prototype.$hasRole = utils.hasRole
 Vue.prototype.$commom = commom
+Vue.prototype.$useStore = useStore()
 Vue.prototype.$useStore = useStore()
 
 router.beforeResolve( async (to, from, next) => {

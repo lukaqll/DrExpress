@@ -11373,7 +11373,8 @@ textarea.form-control-lg {
 .theme--dark .v-data-table,
 .theme--dark .v-list,
 .theme--dark .v-slide-group__wrapper,
-.theme--dark .v-item-group {
+.theme--dark .v-item-group,
+.theme--dark .v-stepper {
   background-color: #292f45 !important;
 }
 .theme--dark .v-toolbar,

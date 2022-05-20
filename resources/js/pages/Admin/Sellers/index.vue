@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-12">
                         Vendedores
-                        <v-btn small class="float-right" @click="$router.push('/admin/sellers/create')">Novo Vendedor</v-btn>
+                        <v-btn text color="primary" class="float-right" @click="$router.push('/admin/sellers/create')">Novo Vendedor</v-btn>
                     </div>
                 </div>
             </v-card-title>
@@ -16,6 +16,12 @@
                     :items="users"
                     :search="search"
                 >
+                    <template v-slot:item.name="{ item }">
+                        <v-avatar size="35" class="mr-3">
+                            <v-img :src="item.picture" />
+                        </v-avatar>
+                        {{item.name}}
+                    </template>
                     <template v-slot:item.roles_header="{ item }">
                         <span class="badge rounded-full bg-primary mr-1" v-for="(role, i) in item.roles" :key="i">{{role.name}}</span>
                     </template>
@@ -209,7 +215,6 @@ export default {
 
     mounted(){
         this.getUsers()
-        this.getRoles()
     },
 
     watch: {

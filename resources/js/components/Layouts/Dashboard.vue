@@ -102,7 +102,7 @@
                 </v-list-item>
             </v-list>
         </v-navigation-drawer>
-        <v-main app style="padding-top: 100px">
+        <v-main app style="padding-top: 100px; margin: 7px;">
             <v-container fluid>
                 <slot />
             </v-container>

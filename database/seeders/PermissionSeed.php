@@ -179,6 +179,37 @@ class PermissionSeed extends Seeder
                 'description' => 'Pode ver produtos',
                 'active' => 1
             ],
+
+
+            // brands
+            [
+                'name' => 'Ver Marcas',
+                'slug' => 'view-brands',
+                'topic' => 'brands',
+                'description' => 'Pode ver marcas',
+                'active' => 1
+            ],
+            [
+                'name' => 'Criar Marcas',
+                'slug' => 'create-brands',
+                'topic' => 'brands',
+                'description' => 'Pode criar marcas',
+                'active' => 1
+            ],
+            [
+                'name' => 'Editar Marcas',
+                'slug' => 'update-brands',
+                'topic' => 'brands',
+                'description' => 'Pode editar marcas',
+                'active' => 1
+            ],
+            [
+                'name' => 'Deletar Marcas',
+                'slug' => 'delete-brands',
+                'topic' => 'brands',
+                'description' => 'Pode deletar marcas',
+                'active' => 1
+            ],
             
         ];
 

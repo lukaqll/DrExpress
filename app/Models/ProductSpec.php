@@ -15,7 +15,7 @@ class ProductSpec extends Model
     protected $fillable = [
         'id',
         'id_product',
-        'id_spec_item',
+        'id_spec',
     ];
     
     public $timestamps = false;

@@ -387,7 +387,7 @@ var render = function () {
                               "v-btn",
                               {
                                 staticClass: "float-right",
-                                attrs: { small: "" },
+                                attrs: { text: "", color: "primary" },
                                 on: {
                                   click: function ($event) {
                                     _vm.createModal = true

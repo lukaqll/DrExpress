@@ -4,6 +4,7 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
@@ -79,14 +80,40 @@ class ProductController extends Controller
      * @return  json
      */
     public function create( Request $request ){
+        $this->gate('create-product');
 
         try {
+            $data = json_decode($request->get('data'), true);
+            $images = $request->file('images');
 
-            $validData = $request->validate([
-                'name' => 'required|string|unique:table',
+            $validator = Validator::make($data, [
+                'id_category' => 'required|exists:categories,id',
+                'name'        => 'required|string',
+                'brand'       => 'required|string',
+                'model'       => 'required|string',
+                'price'       => 'required|string',
+                'qtd'         => 'required|numeric|min:1',
+
+                'color'       => 'nullable|string',
+                'guarantee'   => 'nullable|numeric',
+                'description' => 'nullable|string',
+                'principal_image' => 'nullable|numeric',
+                
+                'specs'  => 'nullable|array',
             ]);
             
-            $created = $this->productService->create( $validData );
+            $imagesValidator = Validator::make(['images' => $images], [
+                'images' => 'required|array',
+                'images.*' => 'required|image'
+            ]);
+
+            $validData = $validator->validate();
+            $imagesData = $imagesValidator->validate();
+                        
+            $validData['price'] = $this->unmaskMoney($validData['price']);
+            dd($validData);
+
+            $created = $this->productService->createProduct( $validData );
             $response = [ 'status' => 'success', 'data' => ($created) ];
 
         } catch ( ValidationException $e ){

@@ -302,6 +302,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }, {
         text: 'Endereço',
         value: 'address'
+      }, {
+        text: 'Marca',
+        value: 'brand'
       }]
     };
   },
@@ -1245,7 +1248,7 @@ var render = function () {
                           _c("tr", [
                             _c(
                               "td",
-                              { attrs: { colspan: "5" } },
+                              { attrs: { colspan: "6" } },
                               [
                                 _c(
                                   "v-btn",
@@ -1313,7 +1316,7 @@ var render = function () {
                             "v-btn",
                             {
                               staticClass: "float-right",
-                              attrs: { small: "" },
+                              attrs: { text: "", color: "primary" },
                               on: {
                                 click: function () {
                                   return (_vm.modalPermission = true)

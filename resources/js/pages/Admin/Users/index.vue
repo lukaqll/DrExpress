@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-12">
                         Usuários Operadores
-                        <v-btn v-if="$can('create-user')" small class="float-right" @click="newUserModal = true">Novo Usuário</v-btn>
+                        <v-btn v-if="$can('create-user')" text color="primary" class="float-right" @click="newUserModal = true">Novo Usuário</v-btn>
                     </div>
                 </div>
             </v-card-title>

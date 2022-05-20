@@ -155,6 +155,12 @@ export default {
                     can: ['view-category']
                 },
                 { 
+                    title: "Marcas", 
+                    icon: "fa fa-copyright",
+                    link: '/admin/brands',
+                    can: ['view-brands']
+                },
+                { 
                     title: "Permissões", 
                     icon: "fas fa-unlock",
                     link: '/admin/permissions',

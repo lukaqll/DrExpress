@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\SpecController;
@@ -60,6 +62,12 @@ Route::group(['middleware' => ['apiJwt']], function(){
     Route::put('/category/{id}', [CategoryController::class, 'update']);
     Route::delete('/category/{id}', [CategoryController::class, 'delete']);
     Route::post('/category', [CategoryController::class, 'create']);
+
+    Route::get('/brand', [BrandController::class, 'list']);
+    Route::get('/brand/{id}', [BrandController::class, 'getById']);
+    Route::put('/brand/{id}', [BrandController::class, 'update']);
+    Route::delete('/brand/{id}', [BrandController::class, 'delete']);
+    Route::post('/brand', [BrandController::class, 'create']);
 
     Route::post('/category/{id}/specs', [SpecController::class, 'create']);
     Route::post('/spec/{id}/item', [SpecController::class, 'createItem']);
@@ -120,6 +128,13 @@ Route::group(['middleware' => ['apiJwt']], function(){
     Route::put('/user/me/update-password', [UserController::class, 'updateMePassword']);
     Route::post('/user/me/upload-picture', [UserController::class, 'uploadPicture']);
     Route::post('/user/me/upload-banner', [UserController::class, 'uploadBanner']);
+
+
+    /**
+     * products
+     */
+    Route::post('/product', [ProductController::class, 'create']);
+    Route::get('/product/me', [ProductController::class, 'listMe']);
 
 
 

@@ -7,7 +7,7 @@
                         <v-breadcrumbs v-if="category.id" :items="links" />
                     </div>
                     <div class="col-md-6">
-                        <v-btn text class="float-right" small @click="$router.back()">
+                        <v-btn text class="float-right" @click="$router.back()">
                             <v-icon small>fa fa-chevron-left</v-icon>
                             Voltar
                         </v-btn>
@@ -29,7 +29,9 @@
                                         <v-btn text small @click="() => getSpec(spec.id)">{{spec.name}}</v-btn>
                                         <span x-small v-if="spec.items" class="badge bg-primary rounded-xl">{{spec.items.length || '0'}}</span>
                                         <v-icon small color="error" v-if="spec.is_required" dark>fa fa-asterisk</v-icon>
-                                        <v-icon small color="primary" v-if="spec.is_multiple" dark>fa fa-check-double</v-icon>
+
+                                        <v-icon small color="primary" v-if="spec.is_multiple==1" dark title="Múltiplo">fa fa-list-ol</v-icon>
+                                        <v-icon small color="primary" v-if="spec.is_multiple==2" dark title="Múltiplo selecionável">fa fa-list-check</v-icon>
                                     </div>
                                 </v-expansion-panel-header>
 
@@ -92,8 +94,23 @@
                                         <v-text-field autofocus v-model="editSpec.name" label="nome"/>
                                     </div>
                                     <div class="col-md-12">
-                                        <v-checkbox class="m-0" v-model="editSpec.is_required" label="Obrigatório"/>
-                                        <v-checkbox class="m-0" v-model="editSpec.is_multiple" label="Múltiplo"/>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <v-checkbox class="m-0" v-model="editSpec.is_required" label="Obrigatório"/>
+                                                <v-checkbox class="m-0" v-model="editSpec.is_multiple" label="Múltiplo"/>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <v-radio-group
+                                                    v-if="!!editSpec.is_multiple"
+                                                    v-model="editSpec.is_multiple"
+                                                    hint="Informa se os itens da especificação poderá ser selecionada durante a compra"
+                                                    persistent-hint
+                                                >   
+                                                    <v-radio label="Selecionável" :value="2"/>
+                                                    <v-radio label="Não Selecionável" :value="1"/>
+                                                </v-radio-group>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </v-form>
@@ -107,6 +124,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div v-if="form == 'createSpec' && $can('create-category')">
                             <h5>Nova Especificação</h5>
                             <v-form ref="createForm" id="new-spec" @submit.prevent="createSpec">
@@ -115,12 +133,27 @@
                                         <v-text-field autofocus v-model="spec.name" label="nome"/>
                                     </div>
                                     <div class="col-md-12">
-                                        <v-checkbox class="m-0" v-model="spec.is_required" label="Obrigatório"/>
-                                        <v-checkbox class="m-0" v-model="spec.is_multiple" label="Múltiplo"/>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <v-checkbox class="m-0" v-model="spec.is_required" label="Obrigatório"/>
+                                                <v-checkbox class="m-0" v-model="spec.is_multiple" label="Múltiplo"/>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <v-radio-group
+                                                    v-if="!!spec.is_multiple"
+                                                    v-model="spec.is_multiple"
+                                                    hint="Informa se os itens da especificação poderá ser selecionada durante a compra"
+                                                    persistent-hint
+                                                >   
+                                                    <v-radio label="Selecionável" :value="2"/>
+                                                    <v-radio label="Não Selecionável" :value="1"/>
+                                                </v-radio-group>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </v-form>
-                            <div class="d-flex justify-end">
+                            <div class="d-flex justify-end mt-3">
                                 <v-btn form="new-spec" :loading="saveLoading" type="submit" color="primary">Salvar</v-btn>
                             </div>
                         </div>

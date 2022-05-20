@@ -12,7 +12,7 @@
                                 </ul>
                             </div>
                             <div class="col-md-6 text-right">
-                                <v-btn v-if="$can('create-address') && uf.id" small @click="createModal = true">
+                                <v-btn v-if="$can('create-address') && uf.id" text color="primary" @click="createModal = true">
                                     <v-icon small>fa fa-plus</v-icon>
                                     Adicionar Cidade
                                 </v-btn>

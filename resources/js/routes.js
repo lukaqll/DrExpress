@@ -136,6 +136,15 @@ const routes = [
             can: ['update-seller']
         }
     },
+    {
+        path: '/admin/brands',
+        name: 'admin.brands',
+        component: page('Admin/Brands'),
+        meta: {
+            base: 'admin',
+            can: ['view-brands']
+        }
+    },
 
 
 

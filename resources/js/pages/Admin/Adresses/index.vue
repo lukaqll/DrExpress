@@ -11,7 +11,7 @@
                                 </ul>
                             </div>
                             <div class="col-md-6">
-                                <v-btn v-if="$can('create-address')" class="float-right" small @click="createModal = true">
+                                <v-btn v-if="$can('create-address')" class="float-right" text color="primary" @click="createModal = true">
                                     <v-icon small>fa fa-plus</v-icon>
                                     Adicionar Estado
                                 </v-btn>

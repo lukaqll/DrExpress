@@ -17,7 +17,7 @@ class Spec extends Model
         'id_category',
         'name',
         'is_required',
-        'is_multiple',
+        'is_multiple', // 1 => não selecionável / 2 => selecionável
     ];
     
     public $timestamps = false;

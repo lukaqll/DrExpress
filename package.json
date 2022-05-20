@@ -30,6 +30,7 @@
         "moment": "^2.29.3",
         "pinia": "^2.0.14",
         "v-mask": "^2.3.0",
+        "v-money": "^0.8.1",
         "vue-composition-api": "0.0.1",
         "vue-demi": "^0.12.5",
         "vue-router": "^3.2.0",

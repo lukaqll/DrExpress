@@ -166,11 +166,6 @@ class SpecController extends Controller
         $this->gate('delete-category');
         try {
 
-            $item = $this->specItemService->find($id);
-            if( !empty($item->products) && count($item->products) > 0 )
-                throw ValidationException::withMessages(['Existem produtos usando este item, não é possível deletá-lo']);
-            
-
             $deleted = $this->specItemService->deleteById( $id );
             
             $response = [ 'status' => 'success', 'data' => ($deleted) ];

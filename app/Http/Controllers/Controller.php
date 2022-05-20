@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Services\AddressService;
+use App\Services\BrandService;
 use App\Services\CategoryService;
 use App\Services\CityService;
 use App\Services\DistrictService;
 use App\Services\PermissionService;
 use App\Services\ProductService;
+use App\Services\ProductSpecItemService;
+use App\Services\ProductSpecService;
 use App\Services\RoleService;
 use App\Services\SpecItemService;
 use App\Services\SpecService;
@@ -36,6 +39,9 @@ class Controller extends BaseController
     protected $cityService;
     protected $districtService;
     protected $addressService;
+    protected $brandService;
+    protected $productSpecService;
+    protected $productSpecItemService;
 
     public function __construct()
     {
@@ -50,6 +56,9 @@ class Controller extends BaseController
         $this->cityService = new CityService;    
         $this->districtService = new DistrictService;    
         $this->addressService = new AddressService;    
+        $this->brandService = new BrandService;    
+        $this->productSpecService = new ProductSpecService;    
+        $this->productSpecItemService = new ProductSpecItemService;    
     }
 
     protected function gate($slug, $attr=[]){
@@ -57,7 +66,7 @@ class Controller extends BaseController
             throw new HttpException(403, 'Ação não autorizada');
     }
 
-    protected function throwException($message=''){
+    public function throwException($message=''){
         if( is_string($message) )
             throw ValidationException::withMessages([$message]);
         
@@ -66,6 +75,20 @@ class Controller extends BaseController
 
         throw ValidationException::withMessages(['Ops... Houve um erro!']);
         
+    }
 
+    public function unmaskMoney($str = ''){
+
+        if( empty($str) )
+            return 0;
+
+        if( is_int($str) || is_float($str) )
+            return $str;
+
+        $str = str_replace('.', '', $str);
+        $str = str_replace(',', '.', $str);
+        $str = str_replace('R$', '', $str);
+        $str = str_replace('', '', $str);
+        return floatval($str);
     }
 }

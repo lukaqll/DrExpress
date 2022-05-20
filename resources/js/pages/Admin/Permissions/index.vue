@@ -36,7 +36,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="5">
+                                    <td colspan="6">
                                         <v-btn @click="() => modalRole = true" small block text elevation="0" color="purple">
                                             <v-icon small>fa fa-plus</v-icon>
                                             Adicionar Função
@@ -56,7 +56,7 @@
                     <div class="row">
                         <div class="col-12">
                             Permissões
-                            <v-btn small v-if="$can('create-permission')" class="float-right" @click="() => modalPermission = true">Nova Permissão</v-btn> 
+                            <v-btn text color="primary" v-if="$can('create-permission')" class="float-right" @click="() => modalPermission = true">Nova Permissão</v-btn> 
                         </div>
                     </div>
                 </v-card-title>
@@ -268,6 +268,7 @@ export default {
             {text: 'Permissão', value: 'permission'},
             {text: 'Categoria', value: 'category'},
             {text: 'Endereço', value: 'address'},
+            {text: 'Marca', value: 'brand'},
         ]
 
     }),

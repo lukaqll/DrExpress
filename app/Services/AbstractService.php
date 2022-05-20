@@ -1,6 +1,8 @@
 <?php
 namespace App\Services;
 
+use Illuminate\Validation\ValidationException;
+
 abstract class AbstractService{
 
     protected $model;
@@ -143,4 +145,14 @@ abstract class AbstractService{
     }
 
 
+    public function throwException($message=''){
+        if( is_string($message) )
+            throw ValidationException::withMessages([$message]);
+        
+        if( is_array($message) )
+            throw ValidationException::withMessages($message);
+
+        throw ValidationException::withMessages(['Ops... Houve um erro!']);
+    
+    }
 }

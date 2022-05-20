@@ -150,6 +150,39 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -463,6 +496,52 @@ ___CSS_LOADER_EXPORT___.push([module.id, ".theme--light.v-expansion-panels .v-ex
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VRadioGroup/VRadio.sass":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VRadioGroup/VRadio.sass ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".theme--light.v-radio--is-disabled label {\n  color: rgba(0, 0, 0, 0.38);\n}\n.theme--light.v-radio--is-disabled .v-icon {\n  color: rgba(0, 0, 0, 0.26) !important;\n}\n\n.theme--dark.v-radio--is-disabled label {\n  color: rgba(255, 255, 255, 0.5);\n}\n.theme--dark.v-radio--is-disabled .v-icon {\n  color: rgba(255, 255, 255, 0.3) !important;\n}\n\n.v-radio {\n  align-items: center;\n  display: flex;\n  height: auto;\n  outline: none;\n}\n.v-radio--is-disabled {\n  pointer-events: none;\n  cursor: default;\n}\n\n.v-input--radio-group.v-input--radio-group--row .v-radio {\n  margin-right: 16px;\n}", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VRadioGroup/VRadioGroup.sass":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VRadioGroup/VRadioGroup.sass ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".v-input--radio-group legend.v-label {\n  cursor: text;\n  font-size: 14px;\n  height: auto;\n}\n.v-input--radio-group__input {\n  border: none;\n  cursor: default;\n  display: flex;\n  width: 100%;\n}\n.v-input--radio-group--column .v-input--radio-group__input > .v-label {\n  padding-bottom: 8px;\n}\n.v-input--radio-group--row .v-input--radio-group__input > .v-label {\n  padding-right: 8px;\n}\n.v-input--radio-group--row legend {\n  align-self: center;\n  display: inline-block;\n}\n.v-input--radio-group--row .v-input--radio-group__input {\n  flex-direction: row;\n  flex-wrap: wrap;\n}\n.v-input--radio-group--column legend {\n  padding-bottom: 8px;\n}\n.v-input--radio-group--column .v-radio:not(:last-child):not(:only-child) {\n  margin-bottom: 8px;\n}\n.v-input--radio-group--column .v-input--radio-group__input {\n  flex-direction: column;\n}", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/vuetify/src/components/VBreadcrumbs/VBreadcrumbs.sass":
 /*!****************************************************************************!*\
   !*** ./node_modules/vuetify/src/components/VBreadcrumbs/VBreadcrumbs.sass ***!
@@ -579,6 +658,64 @@ var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMP
 
 /***/ }),
 
+/***/ "./node_modules/vuetify/src/components/VRadioGroup/VRadio.sass":
+/*!*********************************************************************!*\
+  !*** ./node_modules/vuetify/src/components/VRadioGroup/VRadio.sass ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VRadio_sass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!../../../../postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!../../../../sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./VRadio.sass */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VRadioGroup/VRadio.sass");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VRadio_sass__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VRadio_sass__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/vuetify/src/components/VRadioGroup/VRadioGroup.sass":
+/*!**************************************************************************!*\
+  !*** ./node_modules/vuetify/src/components/VRadioGroup/VRadioGroup.sass ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VRadioGroup_sass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!../../../../postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!../../../../sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./VRadioGroup.sass */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VRadioGroup/VRadioGroup.sass");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VRadioGroup_sass__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VRadioGroup_sass__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
 /***/ "./resources/js/pages/Admin/Categories/Specs.vue?vue&type=script&lang=js&":
 /*!********************************************************************************!*\
   !*** ./resources/js/pages/Admin/Categories/Specs.vue?vue&type=script&lang=js& ***!
@@ -654,7 +791,7 @@ var render = function () {
                     "v-btn",
                     {
                       staticClass: "float-right",
-                      attrs: { text: "", small: "" },
+                      attrs: { text: "" },
                       on: {
                         click: function ($event) {
                           return _vm.$router.back()
@@ -742,7 +879,7 @@ var render = function () {
                                           )
                                         : _vm._e(),
                                       _vm._v(" "),
-                                      spec.is_multiple
+                                      spec.is_multiple == 1
                                         ? _c(
                                             "v-icon",
                                             {
@@ -750,9 +887,25 @@ var render = function () {
                                                 small: "",
                                                 color: "primary",
                                                 dark: "",
+                                                title: "Múltiplo",
                                               },
                                             },
-                                            [_vm._v("fa fa-check-double")]
+                                            [_vm._v("fa fa-list-ol")]
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      spec.is_multiple == 2
+                                        ? _c(
+                                            "v-icon",
+                                            {
+                                              attrs: {
+                                                small: "",
+                                                color: "primary",
+                                                dark: "",
+                                                title: "Múltiplo selecionável",
+                                              },
+                                            },
+                                            [_vm._v("fa fa-list-check")]
                                           )
                                         : _vm._e(),
                                     ],
@@ -1093,44 +1246,100 @@ var render = function () {
                                       1
                                     ),
                                     _vm._v(" "),
-                                    _c(
-                                      "div",
-                                      { staticClass: "col-md-12" },
-                                      [
-                                        _c("v-checkbox", {
-                                          staticClass: "m-0",
-                                          attrs: { label: "Obrigatório" },
-                                          model: {
-                                            value: _vm.editSpec.is_required,
-                                            callback: function ($$v) {
-                                              _vm.$set(
-                                                _vm.editSpec,
-                                                "is_required",
-                                                $$v
-                                              )
-                                            },
-                                            expression: "editSpec.is_required",
-                                          },
-                                        }),
+                                    _c("div", { staticClass: "col-md-12" }, [
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col-md-4" },
+                                          [
+                                            _c("v-checkbox", {
+                                              staticClass: "m-0",
+                                              attrs: { label: "Obrigatório" },
+                                              model: {
+                                                value: _vm.editSpec.is_required,
+                                                callback: function ($$v) {
+                                                  _vm.$set(
+                                                    _vm.editSpec,
+                                                    "is_required",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "editSpec.is_required",
+                                              },
+                                            }),
+                                            _vm._v(" "),
+                                            _c("v-checkbox", {
+                                              staticClass: "m-0",
+                                              attrs: { label: "Múltiplo" },
+                                              model: {
+                                                value: _vm.editSpec.is_multiple,
+                                                callback: function ($$v) {
+                                                  _vm.$set(
+                                                    _vm.editSpec,
+                                                    "is_multiple",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "editSpec.is_multiple",
+                                              },
+                                            }),
+                                          ],
+                                          1
+                                        ),
                                         _vm._v(" "),
-                                        _c("v-checkbox", {
-                                          staticClass: "m-0",
-                                          attrs: { label: "Múltiplo" },
-                                          model: {
-                                            value: _vm.editSpec.is_multiple,
-                                            callback: function ($$v) {
-                                              _vm.$set(
-                                                _vm.editSpec,
-                                                "is_multiple",
-                                                $$v
-                                              )
-                                            },
-                                            expression: "editSpec.is_multiple",
-                                          },
-                                        }),
-                                      ],
-                                      1
-                                    ),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col-md-8" },
+                                          [
+                                            !!_vm.editSpec.is_multiple
+                                              ? _c(
+                                                  "v-radio-group",
+                                                  {
+                                                    attrs: {
+                                                      hint: "Informa se os itens da especificação poderá ser selecionada durante a compra",
+                                                      "persistent-hint": "",
+                                                    },
+                                                    model: {
+                                                      value:
+                                                        _vm.editSpec
+                                                          .is_multiple,
+                                                      callback: function ($$v) {
+                                                        _vm.$set(
+                                                          _vm.editSpec,
+                                                          "is_multiple",
+                                                          $$v
+                                                        )
+                                                      },
+                                                      expression:
+                                                        "editSpec.is_multiple",
+                                                    },
+                                                  },
+                                                  [
+                                                    _c("v-radio", {
+                                                      attrs: {
+                                                        label: "Selecionável",
+                                                        value: 2,
+                                                      },
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("v-radio", {
+                                                      attrs: {
+                                                        label:
+                                                          "Não Selecionável",
+                                                        value: 1,
+                                                      },
+                                                    }),
+                                                  ],
+                                                  1
+                                                )
+                                              : _vm._e(),
+                                          ],
+                                          1
+                                        ),
+                                      ]),
+                                    ]),
                                   ]),
                                 ]
                               ),
@@ -1247,51 +1456,104 @@ var render = function () {
                                       1
                                     ),
                                     _vm._v(" "),
-                                    _c(
-                                      "div",
-                                      { staticClass: "col-md-12" },
-                                      [
-                                        _c("v-checkbox", {
-                                          staticClass: "m-0",
-                                          attrs: { label: "Obrigatório" },
-                                          model: {
-                                            value: _vm.spec.is_required,
-                                            callback: function ($$v) {
-                                              _vm.$set(
-                                                _vm.spec,
-                                                "is_required",
-                                                $$v
-                                              )
-                                            },
-                                            expression: "spec.is_required",
-                                          },
-                                        }),
+                                    _c("div", { staticClass: "col-md-12" }, [
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col-md-4" },
+                                          [
+                                            _c("v-checkbox", {
+                                              staticClass: "m-0",
+                                              attrs: { label: "Obrigatório" },
+                                              model: {
+                                                value: _vm.spec.is_required,
+                                                callback: function ($$v) {
+                                                  _vm.$set(
+                                                    _vm.spec,
+                                                    "is_required",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression: "spec.is_required",
+                                              },
+                                            }),
+                                            _vm._v(" "),
+                                            _c("v-checkbox", {
+                                              staticClass: "m-0",
+                                              attrs: { label: "Múltiplo" },
+                                              model: {
+                                                value: _vm.spec.is_multiple,
+                                                callback: function ($$v) {
+                                                  _vm.$set(
+                                                    _vm.spec,
+                                                    "is_multiple",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression: "spec.is_multiple",
+                                              },
+                                            }),
+                                          ],
+                                          1
+                                        ),
                                         _vm._v(" "),
-                                        _c("v-checkbox", {
-                                          staticClass: "m-0",
-                                          attrs: { label: "Múltiplo" },
-                                          model: {
-                                            value: _vm.spec.is_multiple,
-                                            callback: function ($$v) {
-                                              _vm.$set(
-                                                _vm.spec,
-                                                "is_multiple",
-                                                $$v
-                                              )
-                                            },
-                                            expression: "spec.is_multiple",
-                                          },
-                                        }),
-                                      ],
-                                      1
-                                    ),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col-md-8" },
+                                          [
+                                            !!_vm.spec.is_multiple
+                                              ? _c(
+                                                  "v-radio-group",
+                                                  {
+                                                    attrs: {
+                                                      hint: "Informa se os itens da especificação poderá ser selecionada durante a compra",
+                                                      "persistent-hint": "",
+                                                    },
+                                                    model: {
+                                                      value:
+                                                        _vm.spec.is_multiple,
+                                                      callback: function ($$v) {
+                                                        _vm.$set(
+                                                          _vm.spec,
+                                                          "is_multiple",
+                                                          $$v
+                                                        )
+                                                      },
+                                                      expression:
+                                                        "spec.is_multiple",
+                                                    },
+                                                  },
+                                                  [
+                                                    _c("v-radio", {
+                                                      attrs: {
+                                                        label: "Selecionável",
+                                                        value: 2,
+                                                      },
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("v-radio", {
+                                                      attrs: {
+                                                        label:
+                                                          "Não Selecionável",
+                                                        value: 1,
+                                                      },
+                                                    }),
+                                                  ],
+                                                  1
+                                                )
+                                              : _vm._e(),
+                                          ],
+                                          1
+                                        ),
+                                      ]),
+                                    ]),
                                   ]),
                                 ]
                               ),
                               _vm._v(" "),
                               _c(
                                 "div",
-                                { staticClass: "d-flex justify-end" },
+                                { staticClass: "d-flex justify-end mt-3" },
                                 [
                                   _c(
                                     "v-btn",
@@ -1358,7 +1620,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VExpansionPanel */ "./node_modules/vuetify/lib/components/VExpansionPanel/VExpansionPanels.js");
 /* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/VForm.js");
 /* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
-/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
+/* harmony import */ var vuetify_lib_components_VRadioGroup__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuetify/lib/components/VRadioGroup */ "./node_modules/vuetify/lib/components/VRadioGroup/VRadio.js");
+/* harmony import */ var vuetify_lib_components_VRadioGroup__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vuetify/lib/components/VRadioGroup */ "./node_modules/vuetify/lib/components/VRadioGroup/VRadioGroup.js");
+/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
 
 
 
@@ -1393,7 +1657,9 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBreadcrumbs: vuetify_lib_components_VBreadcrumbs__WEBPACK_IMPORTED_MODULE_4__["default"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["default"],VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardText,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardTitle,VCheckbox: vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_8__["default"],VChip: vuetify_lib_components_VChip__WEBPACK_IMPORTED_MODULE_9__["default"],VExpansionPanel: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_10__["default"],VExpansionPanelContent: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_11__["default"],VExpansionPanelHeader: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_12__["default"],VExpansionPanels: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_13__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_14__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_15__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_16__["default"]})
+
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBreadcrumbs: vuetify_lib_components_VBreadcrumbs__WEBPACK_IMPORTED_MODULE_4__["default"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["default"],VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardText,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardTitle,VCheckbox: vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_8__["default"],VChip: vuetify_lib_components_VChip__WEBPACK_IMPORTED_MODULE_9__["default"],VExpansionPanel: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_10__["default"],VExpansionPanelContent: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_11__["default"],VExpansionPanelHeader: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_12__["default"],VExpansionPanels: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_13__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_14__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_15__["default"],VRadio: vuetify_lib_components_VRadioGroup__WEBPACK_IMPORTED_MODULE_16__["default"],VRadioGroup: vuetify_lib_components_VRadioGroup__WEBPACK_IMPORTED_MODULE_17__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_18__["default"]})
 
 
 /* hot reload */
@@ -2459,6 +2725,310 @@ __webpack_require__.r(__webpack_exports__);
 
 }));
 //# sourceMappingURL=VForm.js.map
+
+/***/ }),
+
+/***/ "./node_modules/vuetify/lib/components/VRadioGroup/VRadio.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/vuetify/lib/components/VRadioGroup/VRadio.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _src_components_VRadioGroup_VRadio_sass__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../src/components/VRadioGroup/VRadio.sass */ "./node_modules/vuetify/src/components/VRadioGroup/VRadio.sass");
+/* harmony import */ var _VLabel__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../VLabel */ "./node_modules/vuetify/lib/components/VLabel/index.js");
+/* harmony import */ var _VIcon__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../VIcon */ "./node_modules/vuetify/lib/components/VIcon/index.js");
+/* harmony import */ var _VInput__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../VInput */ "./node_modules/vuetify/lib/components/VInput/index.js");
+/* harmony import */ var _mixins_binds_attrs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../mixins/binds-attrs */ "./node_modules/vuetify/lib/mixins/binds-attrs/index.js");
+/* harmony import */ var _mixins_colorable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../mixins/colorable */ "./node_modules/vuetify/lib/mixins/colorable/index.js");
+/* harmony import */ var _mixins_groupable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../mixins/groupable */ "./node_modules/vuetify/lib/mixins/groupable/index.js");
+/* harmony import */ var _mixins_rippleable__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../mixins/rippleable */ "./node_modules/vuetify/lib/mixins/rippleable/index.js");
+/* harmony import */ var _mixins_themeable__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../mixins/themeable */ "./node_modules/vuetify/lib/mixins/themeable/index.js");
+/* harmony import */ var _mixins_selectable__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../mixins/selectable */ "./node_modules/vuetify/lib/mixins/selectable/index.js");
+/* harmony import */ var _util_helpers__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../util/helpers */ "./node_modules/vuetify/lib/util/helpers.js");
+/* harmony import */ var _util_mixins__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/mixins */ "./node_modules/vuetify/lib/util/mixins.js");
+/* harmony import */ var _util_mergeData__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../util/mergeData */ "./node_modules/vuetify/lib/util/mergeData.js");
+// Styles
+
+
+
+ // Mixins
+
+
+
+
+
+
+ // Utilities
+
+
+
+
+const baseMixins = (0,_util_mixins__WEBPACK_IMPORTED_MODULE_1__["default"])(_mixins_binds_attrs__WEBPACK_IMPORTED_MODULE_2__["default"], _mixins_colorable__WEBPACK_IMPORTED_MODULE_3__["default"], _mixins_rippleable__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_mixins_groupable__WEBPACK_IMPORTED_MODULE_5__.factory)('radioGroup'), _mixins_themeable__WEBPACK_IMPORTED_MODULE_6__["default"]);
+/* @vue/component */
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (baseMixins.extend().extend({
+  name: 'v-radio',
+  inheritAttrs: false,
+  props: {
+    disabled: Boolean,
+    id: String,
+    label: String,
+    name: String,
+    offIcon: {
+      type: String,
+      default: '$radioOff'
+    },
+    onIcon: {
+      type: String,
+      default: '$radioOn'
+    },
+    readonly: Boolean,
+    value: {
+      default: null
+    }
+  },
+  data: () => ({
+    isFocused: false
+  }),
+  computed: {
+    classes() {
+      return {
+        'v-radio--is-disabled': this.isDisabled,
+        'v-radio--is-focused': this.isFocused,
+        ...this.themeClasses,
+        ...this.groupClasses
+      };
+    },
+
+    computedColor() {
+      return _mixins_selectable__WEBPACK_IMPORTED_MODULE_7__["default"].options.computed.computedColor.call(this);
+    },
+
+    computedIcon() {
+      return this.isActive ? this.onIcon : this.offIcon;
+    },
+
+    computedId() {
+      return _VInput__WEBPACK_IMPORTED_MODULE_8__["default"].options.computed.computedId.call(this);
+    },
+
+    hasLabel: _VInput__WEBPACK_IMPORTED_MODULE_8__["default"].options.computed.hasLabel,
+
+    hasState() {
+      return (this.radioGroup || {}).hasState;
+    },
+
+    isDisabled() {
+      return this.disabled || !!this.radioGroup && this.radioGroup.isDisabled;
+    },
+
+    isReadonly() {
+      return this.readonly || !!this.radioGroup && this.radioGroup.isReadonly;
+    },
+
+    computedName() {
+      if (this.name || !this.radioGroup) {
+        return this.name;
+      }
+
+      return this.radioGroup.name || `radio-${this.radioGroup._uid}`;
+    },
+
+    rippleState() {
+      return _mixins_selectable__WEBPACK_IMPORTED_MODULE_7__["default"].options.computed.rippleState.call(this);
+    },
+
+    validationState() {
+      return (this.radioGroup || {}).validationState || this.computedColor;
+    }
+
+  },
+  methods: {
+    genInput(args) {
+      // We can't actually use the mixin directly because
+      // it's made for standalone components, but its
+      // genInput method is exactly what we need
+      return _mixins_selectable__WEBPACK_IMPORTED_MODULE_7__["default"].options.methods.genInput.call(this, 'radio', args);
+    },
+
+    genLabel() {
+      if (!this.hasLabel) return null;
+      return this.$createElement(_VLabel__WEBPACK_IMPORTED_MODULE_9__["default"], {
+        on: {
+          // Label shouldn't cause the input to focus
+          click: _mixins_selectable__WEBPACK_IMPORTED_MODULE_7__.prevent
+        },
+        attrs: {
+          for: this.computedId
+        },
+        props: {
+          color: this.validationState,
+          focused: this.hasState
+        }
+      }, (0,_util_helpers__WEBPACK_IMPORTED_MODULE_10__.getSlot)(this, 'label') || this.label);
+    },
+
+    genRadio() {
+      const {
+        title,
+        ...radioAttrs
+      } = this.attrs$;
+      return this.$createElement('div', {
+        staticClass: 'v-input--selection-controls__input'
+      }, [this.$createElement(_VIcon__WEBPACK_IMPORTED_MODULE_11__["default"], this.setTextColor(this.validationState, {
+        props: {
+          dense: this.radioGroup && this.radioGroup.dense
+        }
+      }), this.computedIcon), this.genInput({
+        name: this.computedName,
+        value: this.value,
+        ...radioAttrs
+      }), this.genRipple(this.setTextColor(this.rippleState))]);
+    },
+
+    onFocus(e) {
+      this.isFocused = true;
+      this.$emit('focus', e);
+    },
+
+    onBlur(e) {
+      this.isFocused = false;
+      this.$emit('blur', e);
+    },
+
+    onChange() {
+      if (this.isDisabled || this.isReadonly || this.isActive) return;
+      this.toggle();
+    },
+
+    onKeydown: () => {}
+  },
+
+  render(h) {
+    const data = {
+      staticClass: 'v-radio',
+      class: this.classes,
+      on: (0,_util_mergeData__WEBPACK_IMPORTED_MODULE_12__.mergeListeners)({
+        click: this.onChange
+      }, this.listeners$),
+      attrs: {
+        title: this.attrs$.title
+      }
+    };
+    return h('div', data, [this.genRadio(), this.genLabel()]);
+  }
+
+}));
+//# sourceMappingURL=VRadio.js.map
+
+/***/ }),
+
+/***/ "./node_modules/vuetify/lib/components/VRadioGroup/VRadioGroup.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/vuetify/lib/components/VRadioGroup/VRadioGroup.js ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _src_styles_components_selection_controls_sass__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../src/styles/components/_selection-controls.sass */ "./node_modules/vuetify/src/styles/components/_selection-controls.sass");
+/* harmony import */ var _src_components_VRadioGroup_VRadioGroup_sass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../src/components/VRadioGroup/VRadioGroup.sass */ "./node_modules/vuetify/src/components/VRadioGroup/VRadioGroup.sass");
+/* harmony import */ var _VInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../VInput */ "./node_modules/vuetify/lib/components/VInput/index.js");
+/* harmony import */ var _VItemGroup_VItemGroup__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../VItemGroup/VItemGroup */ "./node_modules/vuetify/lib/components/VItemGroup/VItemGroup.js");
+/* harmony import */ var _util_mixins__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/mixins */ "./node_modules/vuetify/lib/util/mixins.js");
+// Styles
+
+ // Extensions
+
+
+ // Types
+
+
+const baseMixins = (0,_util_mixins__WEBPACK_IMPORTED_MODULE_2__["default"])(_VItemGroup_VItemGroup__WEBPACK_IMPORTED_MODULE_3__.BaseItemGroup, _VInput__WEBPACK_IMPORTED_MODULE_4__["default"]);
+/* @vue/component */
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (baseMixins.extend({
+  name: 'v-radio-group',
+
+  provide() {
+    return {
+      radioGroup: this
+    };
+  },
+
+  props: {
+    column: {
+      type: Boolean,
+      default: true
+    },
+    height: {
+      type: [Number, String],
+      default: 'auto'
+    },
+    name: String,
+    row: Boolean,
+    // If no value set on VRadio
+    // will match valueComparator
+    // force default to null
+    value: null
+  },
+  computed: {
+    classes() {
+      return { ..._VInput__WEBPACK_IMPORTED_MODULE_4__["default"].options.computed.classes.call(this),
+        'v-input--selection-controls v-input--radio-group': true,
+        'v-input--radio-group--column': this.column && !this.row,
+        'v-input--radio-group--row': this.row
+      };
+    }
+
+  },
+  methods: {
+    genDefaultSlot() {
+      return this.$createElement('div', {
+        staticClass: 'v-input--radio-group__input',
+        attrs: {
+          id: this.id,
+          role: 'radiogroup',
+          'aria-labelledby': this.computedId
+        }
+      }, _VInput__WEBPACK_IMPORTED_MODULE_4__["default"].options.methods.genDefaultSlot.call(this));
+    },
+
+    genInputSlot() {
+      const render = _VInput__WEBPACK_IMPORTED_MODULE_4__["default"].options.methods.genInputSlot.call(this);
+      delete render.data.on.click;
+      return render;
+    },
+
+    genLabel() {
+      const label = _VInput__WEBPACK_IMPORTED_MODULE_4__["default"].options.methods.genLabel.call(this);
+      if (!label) return null;
+      label.data.attrs.id = this.computedId; // WAI considers this an orphaned label
+
+      delete label.data.attrs.for;
+      label.tag = 'legend';
+      return label;
+    },
+
+    onClick: _VItemGroup_VItemGroup__WEBPACK_IMPORTED_MODULE_3__.BaseItemGroup.options.methods.onClick
+  },
+
+  render(h) {
+    const vnode = _VInput__WEBPACK_IMPORTED_MODULE_4__["default"].options.render.call(this, h);
+
+    this._b(vnode.data, 'div', this.attrs$);
+
+    return vnode;
+  }
+
+}));
+//# sourceMappingURL=VRadioGroup.js.map
 
 /***/ })
 
