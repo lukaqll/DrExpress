@@ -121,6 +121,24 @@ const commom = {
             message: commom.errorMessages(message)
         }
         window.location.href = `/login?`+new URLSearchParams(query)
+    },
+
+    toMoney: (str, currency=false) => {
+        if(str == null || str == '' || !str)
+            return currency ? ('R$ ' + '0,00') : '0,00'
+
+        if(parseFloat(str) > 0){
+
+            let val = parseFloat(str).toFixed(2)
+            let array = parseFloat(val).toLocaleString("pt-BR", {currency:"BRL"}).split(',')
+            
+            let decimal = array[1] ? array[1].padEnd(2, '0') : '00'
+
+            const toReturn = ( array[0] + ',' + decimal )
+            return currency ? ('R$ ' + toReturn) : toReturn
+        } else {
+            return currency ? ('R$ ' + '0,00') : '0,00'
+        }
     }
 }
 

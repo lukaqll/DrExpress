@@ -11,6 +11,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -29,10 +31,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-//
-//
-//
-//
 //
 //
 //
@@ -616,6 +614,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         success: function success(resp) {
           console.log(resp);
           _this2.loading = false;
+
+          _this2.$commom.success({
+            title: 'Produto cadastrado com sucesso!'
+          });
+
+          _this2.$router.push('/dashboard/produtos');
         },
         error: function error() {
           return _this2.loading = false;
@@ -623,33 +627,42 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       });
     },
     validateData: function validateData() {
-      var errors = []; // if( !this.selectedCategory )
-      //     errors.push("Selecione uma categoria")
-      // if( this.selectedCategory && !!this.selectedCategory.linkable )
-      //     errors.push("Categoria inválida")
-      // const requiredProductFields = {
-      //     brand: 'Marca', 
-      //     model: 'Modelo', 
-      //     name: 'Título', 
-      //     price: 'Preço', 
-      //     qtd: 'Quantidade'
-      // }
-      // for(const field in requiredProductFields){
-      //     if( !this.product[field] || !this.product[field].length )
-      //         errors.push(`Informe a o campo <b>${requiredProductFields[field]}</b>`)
-      // }
-      // // validate required specs
-      // if( this.selectedCategory ){
-      //     for( const spec of this.selectedCategory.specs ){
-      //         if(spec.is_required){
-      //             if( !this.specs[spec.id] || !this.specs[spec.id].length )
-      //                 errors.push(`Informe a o campo <b>${spec.name}</b>`)
-      //         }
-      //     }
-      // }
-      // if( !this.images.length )
-      //     errors.push("Insira ao menos uma imagem do produto")
+      var errors = [];
+      if (!this.selectedCategory) errors.push("Selecione uma categoria");
+      if (this.selectedCategory && !!this.selectedCategory.linkable) errors.push("Categoria inválida");
+      var requiredProductFields = {
+        brand: 'Marca',
+        model: 'Modelo',
+        name: 'Título',
+        price: 'Preço',
+        qtd: 'Quantidade'
+      };
 
+      for (var field in requiredProductFields) {
+        if (!this.product[field] || !this.product[field].length) errors.push("Informe a o campo <b>".concat(requiredProductFields[field], "</b>"));
+      } // validate required specs
+
+
+      if (this.selectedCategory) {
+        var _iterator = _createForOfIteratorHelper(this.selectedCategory.specs),
+            _step;
+
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            var spec = _step.value;
+
+            if (spec.is_required) {
+              if (!this.specs[spec.id] || !this.specs[spec.id].length) errors.push("Informe a o campo <b>".concat(spec.name, "</b>"));
+            }
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
+        }
+      }
+
+      if (!this.images.length) errors.push("Insira ao menos uma imagem do produto");
       return errors;
     },
     getCategoriesTree: function getCategoriesTree() {
@@ -3166,23 +3179,6 @@ var render = function () {
           { attrs: { color: "h-100" } },
           [
             _c("v-card-title", [_vm._v("Seu Produto")]),
-            _vm._v(" "),
-            _c(
-              "v-btn",
-              {
-                attrs: { color: "primary", loading: _vm.loading },
-                on: { click: _vm.createProduct },
-              },
-              [
-                _c("v-icon", { staticClass: "mr-2", attrs: { small: "" } }, [
-                  _vm._v("fa fa-check"),
-                ]),
-                _vm._v(
-                  "\n                                Salvar\n                            "
-                ),
-              ],
-              1
-            ),
             _vm._v(" "),
             _c("v-card-text", [
               _c("div", { staticClass: "row" }, [

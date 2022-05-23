@@ -5,6 +5,7 @@
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class StockLogController extends Controller
 {
@@ -13,79 +14,27 @@ class StockLogController extends Controller
         parent::__construct();
     }
 
+
     /**
-     * list all
+     * entry
      * 
      * @return  json
      */
-    public function list( Request $request )
-    {
-        try {
-
-            $dataFilter = $request->all();
-            $result = $this->stockLogService->list( $dataFilter, ['id'] );
-
-            $response = [ 'status' => 'success', 'data' => ($result) ];
-            
-        } catch ( ValidationException $e ){
-
-            $response = [ 'status' => 'error', 'message' => $e->errors() ];
-        }
-        return response()->json( $response );
-    }
-
-    /**
-     * get by key and value
-     * 
-     * @return  json
-     */
-    public function get( Request $request ){
+    public function entry( Request $request ){
 
         try {
-
-            $dataFilter = $request->all();
-            $result = $this->stockLogService->get( $dataFilter );
-    
-            $response = [ 'status' => 'success', 'data' => ($result) ];
-        } catch ( ValidationException $e ){
-
-            $response = [ 'status' => 'error', 'message' => $e->errors() ];
-        }
-        return response()->json( $response ); 
-    }
-
-    /**
-     * get by id
-     * 
-     * @return  json
-     */
-    public function getById( $id ){
-
-        try {
-
-            $result = $this->stockLogService->get( ['id' => $id] );
-            $response = [ 'status' => 'success', 'data' => ($result) ];
-
-        } catch ( ValidationException $e ){
-
-            $response = [ 'status' => 'error', 'message' => $e->errors() ];
-        }
-        return response()->json( $response ); 
-    }
-
-    /**
-     * create
-     * 
-     * @return  json
-     */
-    public function create( Request $request ){
-
-        try {
-
+            $this->gate('update-product');
             $validData = $request->validate([
-                'name' => 'required|string|unique:table',
+                'amount' => 'required|numeric|min:1',
+                'id_product' => 'required|exists:products,id',
             ]);
+            $validData['type'] = 'E';
             
+            $user = auth('api')->user();
+            $product = $this->productService->find($validData['id_product']);
+            if($product->id_user != $user->id)
+                throw new HttpException(403, 'Ação não autorizada');
+
             $created = $this->stockLogService->create( $validData );
             $response = [ 'status' => 'success', 'data' => ($created) ];
 
@@ -98,19 +47,30 @@ class StockLogController extends Controller
     }
 
     /**
-     * update
+     * out
      * 
      * @return  json
      */
-    public function update( Request $request, $id ){
+    public function out( Request $request ){
 
         try {
-            
+            $this->gate('update-product');
             $validData = $request->validate([
-                'name' => 'required|string|unique:table,name,'.$id,
+                'amount' => 'required|numeric|min:1',
+                'id_product' => 'required|exists:products,id',
             ]);
-            $updated = $this->stockLogService->updateById( $id, $validData);
-            $response = [ 'status' => 'success', 'data' => ($updated) ];
+            $validData['type'] = 'S';
+            
+            $user = auth('api')->user();
+            $product = $this->productService->find($validData['id_product']);
+            if($product->id_user != $user->id)
+                throw new HttpException(403, 'Ação não autorizada');
+
+            if( $validData['amount'] > $product->getAmount() )
+                $this->throwException("Não é possível dar saída numa quantidade maior que a disponível");
+
+            $created = $this->stockLogService->create( $validData );
+            $response = [ 'status' => 'success', 'data' => ($created) ];
 
         } catch ( ValidationException $e ){
             
@@ -120,23 +80,5 @@ class StockLogController extends Controller
         return response()->json( $response );
     }
 
-    /**
-     * delete
-     * 
-     * @return  json
-     */
-    public function delete( $id ){
 
-        try {
-
-            $deleted = $this->stockLogService->deleteById( $id );
-            $response = [ 'status' => 'success', 'data' => ($deleted) ];
-
-        } catch ( ValidationException $e ){
-            
-            $response = [ 'status' => 'error', 'message' => $e->errors() ];
-        }
-
-        return response()->json( $response );
-    }
 }

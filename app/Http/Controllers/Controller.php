@@ -14,6 +14,7 @@ use App\Services\ProductSpecService;
 use App\Services\RoleService;
 use App\Services\SpecItemService;
 use App\Services\SpecService;
+use App\Services\StockLogService;
 use App\Services\UfService;
 use App\Services\UserService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -42,6 +43,7 @@ class Controller extends BaseController
     protected $brandService;
     protected $productSpecService;
     protected $productSpecItemService;
+    protected $stockLogService;
 
     public function __construct()
     {
@@ -59,6 +61,7 @@ class Controller extends BaseController
         $this->brandService = new BrandService;    
         $this->productSpecService = new ProductSpecService;    
         $this->productSpecItemService = new ProductSpecItemService;    
+        $this->stockLogService = new StockLogService;    
     }
 
     protected function gate($slug, $attr=[]){

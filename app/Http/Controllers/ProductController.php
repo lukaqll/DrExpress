@@ -3,9 +3,12 @@
  namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ProductController extends Controller
 {
@@ -19,14 +22,16 @@ class ProductController extends Controller
      * 
      * @return  json
      */
-    public function list( Request $request )
+    public function listMe( Request $request )
     {
         try {
 
-            $dataFilter = $request->all();
-            $result = $this->productService->list( $dataFilter, ['id'] );
+            $user = auth('api')->user();
 
-            $response = [ 'status' => 'success', 'data' => ($result) ];
+            $dataFilter = $request->all();
+            $result = $this->productService->list( ['id_user' => $user->ud], ['id'], 'desc' );
+
+            $response = [ 'status' => 'success', 'data' => ProductResource::collection($result) ];
             
         } catch ( ValidationException $e ){
 
@@ -60,12 +65,16 @@ class ProductController extends Controller
      * 
      * @return  json
      */
-    public function getById( $id ){
+    public function getMe( $id ){
 
         try {
-
+            $user = auth('api')->user();
             $result = $this->productService->get( ['id' => $id] );
-            $response = [ 'status' => 'success', 'data' => ($result) ];
+
+            if( $result->id_user != $user->id )
+                throw new HttpException(403, 'Ação não autorizada');
+
+            $response = [ 'status' => 'success', 'data' => new ProductResource($result) ];
 
         } catch ( ValidationException $e ){
 
@@ -83,6 +92,8 @@ class ProductController extends Controller
         $this->gate('create-product');
 
         try {
+            DB::beginTransaction();
+
             $data = json_decode($request->get('data'), true);
             $images = $request->file('images');
 
@@ -109,15 +120,15 @@ class ProductController extends Controller
 
             $validData = $validator->validate();
             $imagesData = $imagesValidator->validate();
-                        
-            $validData['price'] = $this->unmaskMoney($validData['price']);
-            dd($validData);
 
-            $created = $this->productService->createProduct( $validData );
+            $validData['price'] = $this->unmaskMoney($validData['price']);
+
+            $created = $this->productService->createProduct( $validData, $imagesData['images'] );
             $response = [ 'status' => 'success', 'data' => ($created) ];
 
+            DB::commit();
         } catch ( ValidationException $e ){
-            
+            DB::rollBack();
             $response = [ 'status' => 'error', 'message' => $e->errors() ];
         }
 
@@ -125,22 +136,68 @@ class ProductController extends Controller
     }
 
     /**
-     * update
+     * general update
      * 
      * @return  json
      */
-    public function update( Request $request, $id ){
+    public function generalUpdate( Request $request, $id ){
+        $this->gate('update-product');
 
         try {
             
+
+            $user = auth('api')->user();
+            $product = $this->productService->find($id);
+            if($product->id_user != $user->id)
+                throw new HttpException(403, 'Ação não autorizada');
+
             $validData = $request->validate([
-                'name' => 'required|string|unique:table,name,'.$id,
+                'name' => 'required|string|min:5',
+                'brand' => 'required|string',
+                'model' => 'required|string',
+                'price' => 'required|string',
             ]);
-            $updated = $this->productService->updateById( $id, $validData);
+            $validData['price'] = $this->unmaskMoney($validData['price']);
+
+            if( empty($validData['price']) || $validData['price'] <= 0 )
+                $this->throwException("informe um preço válido");
+
+            $updated = $this->productService->updateById( $id, $validData );
             $response = [ 'status' => 'success', 'data' => ($updated) ];
 
         } catch ( ValidationException $e ){
-            
+            $response = [ 'status' => 'error', 'message' => $e->errors() ];
+        }
+
+        return response()->json( $response );
+    }
+
+    /**
+     * general update
+     * 
+     * @return  json
+     */
+    public function otherDataUpdate( Request $request, $id ){
+        $this->gate('update-product');
+
+        try {
+            $user = auth('api')->user();
+            $product = $this->productService->find($id);
+            if($product->id_user != $user->id)
+                throw new HttpException(403, 'Ação não autorizada');
+
+            $validData = $request->validate([
+                'color' => 'nullable|string',
+                'guarantee' => 'nullable|numeric',
+                'description' => 'nullable|string',
+            ]);
+            if( empty($validData['guarantee']) )
+                $validData['guarantee'] = 0;
+
+            $updated = $this->productService->updateById( $id, $validData );
+            $response = [ 'status' => 'success', 'data' => ($updated) ];
+
+        } catch ( ValidationException $e ){
             $response = [ 'status' => 'error', 'message' => $e->errors() ];
         }
 

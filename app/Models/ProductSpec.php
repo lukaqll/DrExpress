@@ -19,4 +19,8 @@ class ProductSpec extends Model
     ];
     
     public $timestamps = false;
+
+    public function productSpecItems(){
+        return $this->hasManyThrough(SpecItem::class, 'product_spec_items', 'id_product_spec', 'id_spec_item');
+    }
 }

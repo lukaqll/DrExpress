@@ -25,4 +25,10 @@ class Spec extends Model
     public function items(){
         return $this->hasMany(SpecItem::class, 'id_spec', 'id');
     }
+
+    public function productSpec($idProduct){
+
+        return $this->hasMany(ProductSpec::class, 'id_spec')
+                    ->where('id_product', $idProduct);
+    }
 }

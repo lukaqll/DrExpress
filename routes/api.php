@@ -11,6 +11,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\SpecController;
+use App\Http\Controllers\StockLogController;
 use App\Http\Controllers\UfController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -135,7 +136,14 @@ Route::group(['middleware' => ['apiJwt']], function(){
      */
     Route::post('/product', [ProductController::class, 'create']);
     Route::get('/product/me', [ProductController::class, 'listMe']);
+    Route::get('/product/me/{id}', [ProductController::class, 'getMe']);
+    Route::put('/product/{id}/general', [ProductController::class, 'generalUpdate']);
+    Route::put('/product/{id}/other-data', [ProductController::class, 'otherDataUpdate']);
 
-
+    /**
+     * stock
+     */
+    Route::post('/stock/entry', [StockLogController::class, 'entry']);
+    Route::post('/stock/out', [StockLogController::class, 'out']);
 
 });

@@ -18,7 +18,7 @@ class SpecService extends AbstractService
         $errors = [];
         foreach( $category->specs as $spec ){
 
-            if( empty($spec->is_multiple) && count($specs[$spec->id]) > 1 ){
+            if( empty($spec->is_multiple) && is_array($specs[$spec->id]) && count($specs[$spec->id]) > 1 ){
                 $errors[] = "Ĩnforme apenas um item em $spec->name";
             }
 

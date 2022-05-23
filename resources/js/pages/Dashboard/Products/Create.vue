@@ -398,10 +398,6 @@
         <div class="col-lg-3 col-md-4 col-sm-4">
             <v-card color="h-100">
                 <v-card-title>Seu Produto</v-card-title>
-                <v-btn @click="createProduct" color="primary" :loading="loading">
-                                    <v-icon small class="mr-2">fa fa-check</v-icon>
-                                    Salvar
-                                </v-btn>
                 <v-card-text>
                     <div class="row">
                         <div class="col-12">
@@ -563,10 +559,8 @@ export default {
                 id_category: this.selectedCategory.id,
                 principal_image: this.principalImage
             }
-
             const formData = new FormData()
             formData.append('data', JSON.stringify(data))
-
             for(const i in this.images)
                 formData.append('images[]', this.images[i])
 
@@ -581,6 +575,8 @@ export default {
                 success: resp => {
                     console.log(resp)
                     this.loading = false
+                    this.$commom.success({title: 'Produto cadastrado com sucesso!'})
+                    this.$router.push('/dashboard/produtos')
                     
                 },
                 error: () => this.loading = false
@@ -589,38 +585,38 @@ export default {
 
         validateData() {
             const errors = []
-            // if( !this.selectedCategory )
-            //     errors.push("Selecione uma categoria")
+            if( !this.selectedCategory )
+                errors.push("Selecione uma categoria")
 
-            // if( this.selectedCategory && !!this.selectedCategory.linkable )
-            //     errors.push("Categoria inválida")
+            if( this.selectedCategory && !!this.selectedCategory.linkable )
+                errors.push("Categoria inválida")
 
-            // const requiredProductFields = {
-            //     brand: 'Marca', 
-            //     model: 'Modelo', 
-            //     name: 'Título', 
-            //     price: 'Preço', 
-            //     qtd: 'Quantidade'
-            // }
-            // for(const field in requiredProductFields){
-            //     if( !this.product[field] || !this.product[field].length )
-            //         errors.push(`Informe a o campo <b>${requiredProductFields[field]}</b>`)
-            // }
+            const requiredProductFields = {
+                brand: 'Marca', 
+                model: 'Modelo', 
+                name: 'Título', 
+                price: 'Preço', 
+                qtd: 'Quantidade'
+            }
+            for(const field in requiredProductFields){
+                if( !this.product[field] || !this.product[field].length )
+                    errors.push(`Informe a o campo <b>${requiredProductFields[field]}</b>`)
+            }
 
-            // // validate required specs
-            // if( this.selectedCategory ){
-            //     for( const spec of this.selectedCategory.specs ){
-            //         if(spec.is_required){
+            // validate required specs
+            if( this.selectedCategory ){
+                for( const spec of this.selectedCategory.specs ){
+                    if(spec.is_required){
 
-            //             if( !this.specs[spec.id] || !this.specs[spec.id].length )
-            //                 errors.push(`Informe a o campo <b>${spec.name}</b>`)
+                        if( !this.specs[spec.id] || !this.specs[spec.id].length )
+                            errors.push(`Informe a o campo <b>${spec.name}</b>`)
 
-            //         }
-            //     }
-            // }
+                    }
+                }
+            }
 
-            // if( !this.images.length )
-            //     errors.push("Insira ao menos uma imagem do produto")
+            if( !this.images.length )
+                errors.push("Insira ao menos uma imagem do produto")
 
             return errors
         },

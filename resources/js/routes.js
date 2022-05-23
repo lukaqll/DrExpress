@@ -120,7 +120,7 @@ const routes = [
     },
     {
         path: '/admin/sellers/create',
-        name: 'admin.sellers',
+        name: 'admin.sellers.create',
         component: page('Admin/Sellers/Create'),
         meta: {
             base: 'admin',
@@ -129,7 +129,7 @@ const routes = [
     },
     {
         path: '/admin/sellers/:id/update',
-        name: 'admin.sellers',
+        name: 'admin.sellers.update',
         component: page('Admin/Sellers/Update'),
         meta: {
             base: 'admin',
@@ -184,7 +184,7 @@ const routes = [
     // products
     {
         path: '/dashboard/produtos',
-        name: 'dash.adresses',
+        name: 'dash.products',
         component: page('Dashboard/Products'),
         meta: {
             base: 'dashboard',
@@ -193,12 +193,21 @@ const routes = [
     },
     {
         path: '/dashboard/produtos/novo',
-        name: 'dash.adresses',
+        name: 'dash.product.create',
         component: page('Dashboard/Products/Create.vue'),
         meta: {
             base: 'dashboard',
             can: ['create-products'],
             defaultDrawer: 'mini'
+        }
+    },
+    {
+        path: '/dashboard/produtos/:id/editar',
+        name: 'dash.product.update',
+        component: page('Dashboard/Products/Update.vue'),
+        meta: {
+            base: 'dashboard',
+            can: ['update-products']
         }
     },
 ]

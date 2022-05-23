@@ -37,136 +37,6 @@
             </v-card-text>
         </v-card>
 
-        <!-- edit user -->
-        <v-dialog max-width="1000" v-model="editUserModal">
-            <template v-slot:default="dialog">
-                <v-card>
-                    <v-card-title>
-                        Editar Usuário
-                        <v-tabs v-model="editionTab">
-                            <v-tab>Login</v-tab>
-                            <v-tab>Dados</v-tab>
-                            <v-tab>Endereço</v-tab>
-                            <v-tab>Funções</v-tab>
-
-                        </v-tabs>
-                    </v-card-title>
-                    <v-card-text>
-                        <v-form ref="updateForm" id="edit-user" @submit.prevent="updateUser">
-                            <v-tabs-items v-model="editionTab">
-                                <v-tab-item>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <v-text-field autofocus :rules="userRules.name" v-model="editUser.name" label="nome"/>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <v-text-field type="email" :rules="userRules.email" v-model="editUser.email" label="E-mail"/>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <v-btn v-if="$can('update-users')" color="primary" @click="() => getUser(editUser.id, true)">
-                                                <v-icon small>fa fa-key</v-icon>
-                                                Alterar Senha
-                                            </v-btn>
-                                        </div>
-                                    </div>
-                                </v-tab-item>
-                                <v-tab-item>
-                                    <div class="row">
-                                        <div class="col-md-6">
-
-                                            <v-text-field-simplemask
-                                                label="CPF/CNPJ"
-                                                v-model="editUser.doc_number"
-                                                :options="{inputMask: docNumberMask, outputMask: docNumberMask}"
-                                                :rules="userRules.doc_number"
-                                            />
-                                        </div>
-                                        <div class="col-md-6">
-                                            <v-text-field label="Telefone" v-model="editUser.phone" v-mask="'(##) #####-####'"/>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <v-text-field type="date" v-model="editUser.birthdate" label="Nascimento"/>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <v-text-field v-model="editUser.cro" label="CRO"/>
-                                        </div>
-                                    </div>
-                                </v-tab-item>
-                                <v-tab-item>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <v-autocomplete
-                                                label='Estado'
-                                                :items="ufsOptions"
-                                                v-model="editUser.id_uf"
-                                            />
-                                        </div>
-                                        <div class="col-md-6">
-                                            <v-autocomplete
-                                                label='Cidade'
-                                                :items="citiesEditOptions"
-                                                v-model="editUser.id_city"
-                                            />
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <v-checkbox
-                                                    v-model="editUser.is_delivery"
-                                                    label="Delivery"
-                                                />
-                                            </div>
-                                            <div class="col-md-3">
-                                                <v-checkbox
-                                                    v-model="editUser.is_physical"
-                                                    label="Loja Física"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </v-tab-item>
-                                <v-tab-item>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <v-autocomplete 
-                                                label="Funções" 
-                                                :items="rolesOptions"
-                                                v-model="editUser.id_roles"
-                                                chips 
-                                                multiple
-                                            >
-                                                <template v-slot:selection="data">
-                                                    <v-chip
-                                                        v-bind="data.attrs"
-                                                        :input-value="data.selected"
-                                                        close
-                                                        @click="data.select"
-                                                        @click:close="removeRole(data.item)"
-                                                    >
-                                                        {{ data.item.text }}
-                                                    </v-chip>
-                                                </template>
-                                            </v-autocomplete>
-                                        </div>
-                                    </div>
-                                </v-tab-item>
-                            </v-tabs-items>
-                            <div class="row">
-                                
-                                <div class="col-md-12" v-if="userErrors && userErrors.length">
-                                    <v-alert v-html="userErrors" type="error"></v-alert>
-                                </div>
-                            </div>
-                        </v-form>
-                    </v-card-text>
-                    <v-card-actions class="justify-end">
-                        <v-btn text @click="dialog.value = false">Fechar</v-btn>
-                        <v-btn form="edit-user" :loading="saveLoading" type="submit" color="primary">Salvar</v-btn>
-                    </v-card-actions>
-                </v-card>
-            </template>
-        </v-dialog>
 
     </div>
 </template>
@@ -174,14 +44,7 @@
 export default {
     data: () => ({
         users: [],
-        editUser: {},
-        editUserModal: false,
-        passwordModal: false,
-        userErrors: '',
-        roles: [],
-        saveLoading: false,
         loading: true,
-        editionTab: null,
         search: '',
 
         usersHeaders: [
@@ -194,40 +57,10 @@ export default {
             {text: '', value: 'actions_header'},
         ],
 
-        userRules: {
-            name: [v => !!v || 'Informe o nome'],
-            phone: [v => !!v || 'Informe o telefone'],
-            doc_number: [v => !!v || 'Informe o CPF/CNPJ'],
-            email: [
-                v => !!v || 'Insira o e-mail',
-                v => /.+@.+/.test(v) || 'E-mail inválido',
-            ],
-            password: [
-                v => !!v || 'Insira a senha',
-                v => (v && v.length >= 6) || 'A senha deve conter pelo menos 6 caracteres',
-            ],
-            password_confirmation: [
-                v => !!v || 'Confirme a senha',
-                v => (v && v.length >= 6) || 'A senha deve conter pelo menos 6 caracteres'
-            ],
-        }
     }),
 
     mounted(){
         this.getUsers()
-    },
-
-    watch: {
-        editUserModal: function(v) {
-            this.userErrors = ''
-            if(!v)
-                this.editUser = {}
-        },
-
-        
-    },
-
-    computed: {
     },
 
     methods: {
@@ -253,9 +86,6 @@ export default {
                 }
             })
         },
-
-        
-        
 
     }
 }

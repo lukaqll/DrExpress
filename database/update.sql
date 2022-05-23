@@ -69,3 +69,16 @@ DROP COLUMN `id_spec_item`,
 ADD COLUMN `name` VARCHAR(60) NOT NULL AFTER `id_product_spec`,
 DROP INDEX `fk_product_spec_items_2_idx` ;
 ;
+
+------
+
+ALTER TABLE `dr_express`.`products` 
+ADD COLUMN `id_category` INT NOT NULL AFTER `id_user`,
+ADD INDEX `fk_products_1_idx` (`id_category` ASC);
+;
+ALTER TABLE `dr_express`.`products` 
+ADD CONSTRAINT `fk_products_1`
+  FOREIGN KEY (`id_category`)
+  REFERENCES `dr_express`.`categories` (`id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
