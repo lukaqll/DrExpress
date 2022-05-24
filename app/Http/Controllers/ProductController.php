@@ -145,12 +145,12 @@ class ProductController extends Controller
 
         try {
             
-
             $user = auth('api')->user();
             $product = $this->productService->find($id);
             if($product->id_user != $user->id)
                 throw new HttpException(403, 'Ação não autorizada');
 
+            DB::beginTransaction();
             $validData = $request->validate([
                 'name' => 'required|string|min:5',
                 'brand' => 'required|string',
@@ -164,8 +164,9 @@ class ProductController extends Controller
 
             $updated = $this->productService->updateById( $id, $validData );
             $response = [ 'status' => 'success', 'data' => ($updated) ];
-
+            DB::commit();
         } catch ( ValidationException $e ){
+            DB::rollBack();
             $response = [ 'status' => 'error', 'message' => $e->errors() ];
         }
 
@@ -203,6 +204,64 @@ class ProductController extends Controller
 
         return response()->json( $response );
     }
+
+    /**
+     * category update
+     * 
+     * @return  json
+     */
+    public function updateCategory( Request $request, $id ){
+        $this->gate('update-product');
+
+        try {
+            $user = auth('api')->user();
+            $product = $this->productService->find($id);
+            if($product->id_user != $user->id)
+                throw new HttpException(403, 'Ação não autorizada');
+
+            $validData = $request->validate([
+                'id_category' => 'required|exists:categories,id',
+                'specs' => 'nullable',
+            ]);
+
+            $updated = $this->productService->updateCategory( $product, $validData );
+            $response = [ 'status' => 'success', 'data' => ($updated) ];
+
+        } catch ( ValidationException $e ){
+            $response = [ 'status' => 'error', 'message' => $e->errors() ];
+        }
+
+        return response()->json( $response );
+    }
+
+    /**
+     * specs update
+     * 
+     * @return  json
+     */
+    public function updateSpecs( Request $request, $id ){
+        $this->gate('update-product');
+
+        try {
+            $user = auth('api')->user();
+            $product = $this->productService->find($id);
+            if($product->id_user != $user->id)
+                throw new HttpException(403, 'Ação não autorizada');
+
+            $validData = $request->validate([
+                'specs' => 'required|array',
+            ]);
+
+            $updated = $this->productService->updateSpecs( $product, $validData );
+            $response = [ 'status' => 'success', 'data' => ($updated) ];
+
+        } catch ( ValidationException $e ){
+            $response = [ 'status' => 'error', 'message' => $e->errors() ];
+        }
+
+        return response()->json( $response );
+    }
+
 
     /**
      * delete

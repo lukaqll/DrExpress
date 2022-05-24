@@ -210,6 +210,15 @@ const routes = [
             can: ['update-products']
         }
     },
+    {
+        path: '/dashboard/produtos/:id/editar/categoria',
+        name: 'dash.product.update-category',
+        component: page('Dashboard/Products/UpdateCategory.vue'),
+        meta: {
+            base: 'dashboard',
+            can: ['update-products']
+        }
+    },
 ]
 
 

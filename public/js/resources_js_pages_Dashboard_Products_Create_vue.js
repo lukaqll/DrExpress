@@ -495,7 +495,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   data: function data() {
     return {
       product: {},
-      step: 5,
+      step: 1,
       categoriesTree: [],
       loading: false,
       selectedCategoryParent: null,
@@ -513,7 +513,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       if (!this.selectedCategoryParent) {
         return this.categoriesTree;
       } else {
-        return this.selectedCategoryParent.linkable ? this.selectedCategoryParent.children : null;
+        return !!this.selectedCategoryParent.linkable ? this.selectedCategoryParent.children : null;
       }
     },
     categoryFlowItems: function categoryFlowItems() {
@@ -691,7 +691,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }
     },
     backCategoryHandle: function backCategoryHandle() {
-      if (this.selectedCategoryParent.id_parent) {
+      if (!!this.selectedCategoryParent.id_parent) {
         var cat = this.findCategory(this.selectedCategoryParent.id_parent, this.categoriesTree[0]);
         this.selectedCategoryParent = _objectSpread({}, cat);
       } else {
@@ -715,6 +715,23 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         }
 
         return result;
+      } else {
+        var _iterator2 = _createForOfIteratorHelper(this.categoriesTree),
+            _step2;
+
+        try {
+          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+            var cat = _step2.value;
+
+            if (cat.id == id) {
+              return cat;
+            }
+          }
+        } catch (err) {
+          _iterator2.e(err);
+        } finally {
+          _iterator2.f();
+        }
       }
 
       return null;

@@ -462,7 +462,7 @@
 export default {
     data: () => ({
         product: {},
-        step: 5,
+        step: 1,
         categoriesTree: [],
         loading: false,
         selectedCategoryParent: null,
@@ -480,7 +480,7 @@ export default {
             if( !this.selectedCategoryParent ){
                 return this.categoriesTree
             } else {
-                return this.selectedCategoryParent.linkable ? this.selectedCategoryParent.children : null
+                return !!this.selectedCategoryParent.linkable ? this.selectedCategoryParent.children : null
             }
         },
         categoryFlowItems(){
@@ -650,7 +650,7 @@ export default {
         },
 
         backCategoryHandle(){
-            if( this.selectedCategoryParent.id_parent ){
+            if( !!this.selectedCategoryParent.id_parent ){
                 const cat = this.findCategory(this.selectedCategoryParent.id_parent, this.categoriesTree[0])
                 this.selectedCategoryParent = {...cat}
             } else {
@@ -674,6 +674,12 @@ export default {
                     result = this.findCategory(id, category.children[i]);
                 }
                 return result;
+            } else {
+                for(const cat of this.categoriesTree){
+                    if(cat.id == id){
+                        return  cat
+                    }
+                }
             }
             return null;
         },

@@ -8,6 +8,7 @@ use App\Services\CategoryService;
 use App\Services\CityService;
 use App\Services\DistrictService;
 use App\Services\PermissionService;
+use App\Services\ProductImageService;
 use App\Services\ProductService;
 use App\Services\ProductSpecItemService;
 use App\Services\ProductSpecService;
@@ -44,6 +45,7 @@ class Controller extends BaseController
     protected $productSpecService;
     protected $productSpecItemService;
     protected $stockLogService;
+    protected $productImageService;
 
     public function __construct()
     {
@@ -62,6 +64,7 @@ class Controller extends BaseController
         $this->productSpecService = new ProductSpecService;    
         $this->productSpecItemService = new ProductSpecItemService;    
         $this->stockLogService = new StockLogService;    
+        $this->productImageService = new ProductImageService;    
     }
 
     protected function gate($slug, $attr=[]){

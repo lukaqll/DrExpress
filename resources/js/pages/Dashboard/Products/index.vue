@@ -9,6 +9,7 @@
                             is="v-btn"
                             color="primary" text
                             to="/dashboard/produtos/novo"
+                            class="float-right"
                         >
                             Novo Anúncio
                         </router-link>
@@ -56,14 +57,37 @@
                             </td>
                             <td> R$ {{$commom.toMoney(prod.price)}}</td>
                             <td>
-                                <router-view
-                                    icon
-                                    color="primary"
-                                    is="v-btn"
-                                    :to="`/dashboard/produtos/${prod.id}/editar`"
-                                >
-                                    <v-icon small>fa fa-edit</v-icon>
-                                </router-view>
+                                <v-menu offset-y>
+                                    <template v-slot:activator="{ on }">
+                                        <v-btn icon v-on="on">
+                                            <v-icon small>fa fa-ellipsis-vertical</v-icon>
+                                        </v-btn>
+                                    </template>
+                                    <v-list dense>
+                                        <router-view
+                                            is="v-list-item"
+                                            :to="`/dashboard/produtos/${prod.id}/editar`"
+                                        >
+                                            <v-list-item-title>
+                                                <v-icon small class="mr-2">fa fa-edit</v-icon>
+                                                Editar
+                                            </v-list-item-title>
+                                        </router-view>
+                                        <v-list-item link>
+                                            <v-list-item-title>
+                                                <v-icon small class="mr-2">fa fa-pause</v-icon>
+                                                Pausar Anúncio
+                                            </v-list-item-title>
+                                        </v-list-item>
+                                        <v-list-item link >
+                                            <v-list-item-title>
+                                                <v-icon color="error" small class="mr-2">fa fa-trash</v-icon>
+                                                Deletar
+                                            </v-list-item-title>
+                                        </v-list-item>
+                                    </v-list>
+                                </v-menu>
+
                             </td>
                         </tr>
                     </tbody>

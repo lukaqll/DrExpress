@@ -75,35 +75,8 @@ class ProductService extends AbstractService
             $this->productImageService->uploadImage($product, $image, intval($data['principal_image'])==$index);
         }
 
-
         // specs
-        foreach( $data['specs'] as $idSpec => $specItems ){
-            
-            // verify spec category
-            $spec = $this->specService->find($idSpec);
-            if( $spec->id_category != $category->id )
-                $this->throwException("Falha ao atribuir a especificação $spec->name");
-
-            $productSpec = $this->productSpecService->create([
-                'id_product' => $product->id,
-                'id_spec' => $idSpec
-            ]);
-
-            // add items
-            if( is_array($specItems) ){
-                foreach( $specItems as $specItem ){
-                    $this->productSpecItemService->create([
-                        'id_product_spec' => $productSpec->id,
-                        'name' => $specItem
-                    ]);
-                }
-            } else {
-                $this->productSpecItemService->create([
-                    'id_product_spec' => $productSpec->id,
-                    'name' => $specItems
-                ]);
-            }
-        }
+        $this->specService->addProductSpecs($product, $data['specs']);
 
         // stock
         $this->stockLogService->entry($product, $data['qtd']);
@@ -111,4 +84,46 @@ class ProductService extends AbstractService
         return $product;
     }
     
+
+    public function updateCategory( Product $product, array $data ){
+
+        $category = $this->categoryService->find( $data['id_category'] );
+
+        if( !empty($category->linkable) )
+            $this->throwException('Categoria inválida');
+
+        $specErrors = $this->specService->validateRequiredSpecs($category, $data['specs']);
+        if( !empty($specErrors) )
+            $this->throwException($specErrors);
+
+        $product->update(['id_category' => $category->id]);
+
+        // remove current specs
+        $this->specService->removeAllProductSpecs($product);
+        
+        // save all again
+        $this->specService->addProductSpecs($product, $data['specs']);
+
+        return $product;
+    }
+
+    public function updateSpecs( Product $product, array $data ){
+
+        $category = $product->category;
+
+        if( !empty($category->linkable) )
+            $this->throwException('Categoria inválida');
+
+        $specErrors = $this->specService->validateRequiredSpecs($category, $data['specs']);
+        if( !empty($specErrors) )
+            $this->throwException($specErrors);
+
+        // remove current specs
+        $this->specService->removeAllProductSpecs($product);
+        
+        // save all again
+        $this->specService->addProductSpecs($product, $data['specs']);
+
+        return $product;
+    }
 }

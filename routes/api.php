@@ -8,6 +8,7 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\SpecController;
@@ -139,6 +140,12 @@ Route::group(['middleware' => ['apiJwt']], function(){
     Route::get('/product/me/{id}', [ProductController::class, 'getMe']);
     Route::put('/product/{id}/general', [ProductController::class, 'generalUpdate']);
     Route::put('/product/{id}/other-data', [ProductController::class, 'otherDataUpdate']);
+    Route::put('/product/{id}/update-category', [ProductController::class, 'updateCategory']);
+    Route::put('/product/{id}/update-specs', [ProductController::class, 'updateSpecs']);
+    // images
+    Route::post('/product/{id}/upload-image', [ProductImageController::class, 'uploadImage']);
+    Route::post('/product/{id}/remove-image', [ProductImageController::class, 'removeImage']);
+    Route::post('/product/{id}/set-principal-image', [ProductImageController::class, 'setPrincipalImage']);
 
     /**
      * stock
