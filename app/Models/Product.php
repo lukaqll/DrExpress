@@ -26,6 +26,8 @@ class Product extends Model
         'price',
         'slug',
         'guarantee',
+        'status',
+        'deleted',
         'created_at',
         'updated_at',
     ];
@@ -138,5 +140,14 @@ class Product extends Model
         }
 
         return $specs;
+    }
+
+    public function statusText(){
+        $status = [
+            'active' => 'Ativo',
+            'paused' => 'Pausado',
+        ];
+
+        return !empty($status[$this->status]) ? $status[$this->status] : $this->status;
     }
 }

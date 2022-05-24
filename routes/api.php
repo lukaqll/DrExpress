@@ -142,6 +142,9 @@ Route::group(['middleware' => ['apiJwt']], function(){
     Route::put('/product/{id}/other-data', [ProductController::class, 'otherDataUpdate']);
     Route::put('/product/{id}/update-category', [ProductController::class, 'updateCategory']);
     Route::put('/product/{id}/update-specs', [ProductController::class, 'updateSpecs']);
+    Route::post('/product/{id}/toggle-status', [ProductController::class, 'toggleStatus']);
+    Route::delete('/product/{id}', [ProductController::class, 'delete']);
+
     // images
     Route::post('/product/{id}/upload-image', [ProductImageController::class, 'uploadImage']);
     Route::post('/product/{id}/remove-image', [ProductImageController::class, 'removeImage']);

@@ -26,6 +26,8 @@
                             <th>Categoria</th>
                             <th>Preço</th>
                             <th></th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -36,10 +38,10 @@
                                         <v-img :src="prod.principal_image" class="mr-3" width="55" rounded elevation="2"/>
                                     </div> 
                                     <div class="col-md-10">
-                                        <small>#{{ prod.id }}</small> <br>
-                                        <b>{{ prod.name }}</b> <br>
+                                        <small>#{{ prod.id }}</small><br>
+                                        <b>{{ prod.name }}</b><br>
                                         <small>{{ prod.brand }} - {{ prod.model }}</small>
-                                        <small>{{ prod.amount }} Unidade</small> <br>
+                                        <v-chip x-small>{{ prod.amount }} Unidades</v-chip>
                                     </div> 
                                 </div>
                             </td>
@@ -55,9 +57,18 @@
                                     </template>
                                 </v-breadcrumbs>
                             </td>
-                            <td> R$ {{$commom.toMoney(prod.price)}}</td>
+                            <td>R$ {{$commom.toMoney(prod.price)}}</td>
                             <td>
-                                <v-menu offset-y>
+                                {{ $commom.dateFormat(prod.created_at) }} <br>
+                                <small>{{ prod.created_for_humans }}</small>
+                            </td>
+                            <td>
+                                <v-chip x-small :color="prod.status == 'paused'?'warning':'success'">
+                                    {{prod.status_text}}
+                                </v-chip>
+                            </td>
+                            <td>
+                                <v-menu offset-x offset-y min-width="200">
                                     <template v-slot:activator="{ on }">
                                         <v-btn icon v-on="on">
                                             <v-icon small>fa fa-ellipsis-vertical</v-icon>
@@ -73,16 +84,20 @@
                                                 Editar
                                             </v-list-item-title>
                                         </router-view>
-                                        <v-list-item link>
-                                            <v-list-item-title>
+                                        <v-list-item link @click="() => toggleStatus(prod.id)">
+                                            <v-list-item-title v-if="prod.status == 'active'">
                                                 <v-icon small class="mr-2">fa fa-pause</v-icon>
-                                                Pausar Anúncio
+                                                Pausar
+                                            </v-list-item-title>
+                                            <v-list-item-title v-else>
+                                                <v-icon small class="mr-2">fa fa-play</v-icon>
+                                                Reativar
                                             </v-list-item-title>
                                         </v-list-item>
-                                        <v-list-item link >
+                                        <v-list-item link @click="() => deleteProduct(prod.id)" v-if="prod.status == 'paused'">
                                             <v-list-item-title>
                                                 <v-icon color="error" small class="mr-2">fa fa-trash</v-icon>
-                                                Deletar
+                                                Remover
                                             </v-list-item-title>
                                         </v-list-item>
                                     </v-list>
@@ -134,11 +149,31 @@ export default {
 
         toggleStatus(id){
             this.$commom.request({
-                url: '/product/me/'+id+'/toggle-status',
-                type: 'put',
+                url: '/product/'+id+'/toggle-status',
+                type: 'post',
                 auth: true,
                 success: resp => {
                     this.getProducts()
+                }
+            })
+        },
+
+        deleteProduct(id){
+
+            this.$commom.confirm({
+                title: 'Deseja deletar este produto?',
+                message: 'Esteja ciente que esta ação é irreversível. Você pode pausar o anúncio ao invés de deletá-lo.',
+                onConfirm: () => {
+
+                    this.$commom.request({
+                        url: '/product/'+id+'',
+                        type: 'delete',
+                        auth: true,
+                        success: resp => {
+                            this.getProducts()
+                            this.$commom.success({title: 'Produto deletado'})
+                        }
+                    })
                 }
             })
         },

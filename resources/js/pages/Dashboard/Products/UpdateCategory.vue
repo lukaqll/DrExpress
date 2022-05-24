@@ -9,18 +9,29 @@
                             <v-img :src="product.principal_image" class="rounded img-fluid"/>
                         </v-card>
                     </div>
-                    <div class="col-md-10 col-lg-10 col-9">
-                        <p class="h3">{{ product.name }}</p>
-                        <v-breadcrumbs :items="product.category_flow" divider=">" class="p-0">
-                            <template v-slot:item="{ item }">
-                                <v-breadcrumbs-item
-                                    :href="item.href"
-                                    :disabled="item.disabled"
-                                >
-                                    {{ item }}
-                                </v-breadcrumbs-item>
-                            </template>
-                        </v-breadcrumbs>
+                    <div class="col-md-10 col-lg-10 col-9 w-100">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <p class="h3 m-0">{{ product.name }}</p>
+                                <v-chip x-small :color="product.status == 'paused'?'warning':'success'">
+                                    {{product.status_text}}
+                                </v-chip>
+                                <v-breadcrumbs :items="product.category_flow" divider=">" class="p-0">
+                                    <template v-slot:item="{ item }">
+                                        <v-breadcrumbs-item
+                                            :href="item.href"
+                                            :disabled="item.disabled"
+                                        >
+                                            {{ item }}
+                                        </v-breadcrumbs-item>
+                                    </template>
+                                </v-breadcrumbs>
+                            </div>
+                            <router-link is="v-btn" :to="`/dashboard/produtos/${product.id}/editar`" text class="float-right" >
+                                <v-icon small>fa fa-chevron-left</v-icon>
+                                Voltar
+                            </router-link>
+                        </div>
                     </div>
 
                     <v-card class="mt-4" :loading="loading" :disabled="loading">

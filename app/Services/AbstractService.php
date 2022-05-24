@@ -48,7 +48,13 @@ abstract class AbstractService{
      */
     public function find( $id )
     {
-        return $this->model->find( intval( $id ) );
+        $filterable = $this->model;
+
+        if( $this->findColumn('deleted') ){
+            $filterable = $filterable->where('deleted', '!=', 1);
+        }
+
+        return $filterable->find( intval( $id ) );
     }
 
     /**

@@ -26,8 +26,11 @@ class ProductResource extends JsonResource
             'price_currency' => number_format($this->price, 2, ',', '.'),
             'slug' => $this->slug,
             'guarantee' => $this->guarantee,
+            'status' => $this->status,
+            'status_text' => $this->statusText(),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at, 
+            'created_for_humans' => $this->created_at->diffForHumans(),
 
             'images'          => $this->defaultImages(),
             'principal_image' => $this->principalImage(),

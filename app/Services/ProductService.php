@@ -57,19 +57,18 @@ class ProductService extends AbstractService
         // create product
         $productData = [
             'id_user'     => $user->id,
-            'id_category'    => $data['id_category'],
+            'id_category' => $data['id_category'],
             'name'        => $data['name']??'',
             'description' => $data['description']??'',
             'brand'       => $data['brand']??1,
             'color'       => $data['color']??'',
             'model'       => $data['model']??'',
             'price'       => $data['price'],
-            'guarantee'   => $data['guarantee']??0
+            'guarantee'   => $data['guarantee']??0,
+            'status'      => 'active'
         ];
         $product = $this->create($productData);
-        $slug = Str::slug($product->name.' '.$product->id);
-        $product->update(['slug' => $slug]);
-
+        $this->updateSlug($product);
         // upload files
         foreach( $images as $index => $image ){
             $this->productImageService->uploadImage($product, $image, intval($data['principal_image'])==$index);
@@ -85,6 +84,9 @@ class ProductService extends AbstractService
     }
     
 
+    /**
+     * update category
+     */
     public function updateCategory( Product $product, array $data ){
 
         $category = $this->categoryService->find( $data['id_category'] );
@@ -107,6 +109,9 @@ class ProductService extends AbstractService
         return $product;
     }
 
+    /**
+     * update specs
+     */
     public function updateSpecs( Product $product, array $data ){
 
         $category = $product->category;
@@ -125,5 +130,14 @@ class ProductService extends AbstractService
         $this->specService->addProductSpecs($product, $data['specs']);
 
         return $product;
+    }
+
+    /**
+     * update slug
+     */
+    public function updateSlug(Product $product){
+        $slug = Str::slug($product->name.' '.$product->id);
+        $product->update(['slug' => $slug]);
+        return $slug;
     }
 }

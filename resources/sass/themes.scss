@@ -20,6 +20,7 @@ $color-darkmode-card-light : #636d89;
 
     .v-card, 
     .v-navigation-drawer,
+    .v-expansion-panel-header,
     .v-expansion-panel-content,
     .v-data-table,
     .v-list,
@@ -31,7 +32,6 @@ $color-darkmode-card-light : #636d89;
     }
 
     .v-toolbar,
-    .v-expansion-panel-header,
     .v-data-table tr:hover,
     .v-btn--has-bg
     {

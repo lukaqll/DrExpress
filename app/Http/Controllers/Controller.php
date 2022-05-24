@@ -97,4 +97,9 @@ class Controller extends BaseController
         $str = str_replace('', '', $str);
         return floatval($str);
     }
+
+    protected function cannot($slug, $class){
+        // if( auth('api')->user()->cannot($slug, $class) )
+        //     throw new HttpException(403, 'Ação não autorizada');
+    }
 }

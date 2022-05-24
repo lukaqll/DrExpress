@@ -67,14 +67,13 @@ class ProductController extends Controller
      */
     public function getMe( $id ){
 
+        $this->gate('update-product');
+        $product = $this->productService->find($id);
+        $this->authorize('update', $product);
+
         try {
-            $user = auth('api')->user();
-            $result = $this->productService->get( ['id' => $id] );
 
-            if( $result->id_user != $user->id )
-                throw new HttpException(403, 'Ação não autorizada');
-
-            $response = [ 'status' => 'success', 'data' => new ProductResource($result) ];
+            $response = [ 'status' => 'success', 'data' => new ProductResource($product) ];
 
         } catch ( ValidationException $e ){
 
@@ -141,15 +140,12 @@ class ProductController extends Controller
      * @return  json
      */
     public function generalUpdate( Request $request, $id ){
+        
         $this->gate('update-product');
+        $product = $this->productService->find($id);
+        $this->authorize('update', $product);
 
         try {
-            
-            $user = auth('api')->user();
-            $product = $this->productService->find($id);
-            if($product->id_user != $user->id)
-                throw new HttpException(403, 'Ação não autorizada');
-
             DB::beginTransaction();
             $validData = $request->validate([
                 'name' => 'required|string|min:5',
@@ -161,8 +157,10 @@ class ProductController extends Controller
 
             if( empty($validData['price']) || $validData['price'] <= 0 )
                 $this->throwException("informe um preço válido");
-
+            
             $updated = $this->productService->updateById( $id, $validData );
+            $this->productService->updateSlug($updated);
+
             $response = [ 'status' => 'success', 'data' => ($updated) ];
             DB::commit();
         } catch ( ValidationException $e ){
@@ -179,14 +177,12 @@ class ProductController extends Controller
      * @return  json
      */
     public function otherDataUpdate( Request $request, $id ){
+        
         $this->gate('update-product');
+        $product = $this->productService->find($id);
+        $this->authorize('update', $product);
 
         try {
-            $user = auth('api')->user();
-            $product = $this->productService->find($id);
-            if($product->id_user != $user->id)
-                throw new HttpException(403, 'Ação não autorizada');
-
             $validData = $request->validate([
                 'color' => 'nullable|string',
                 'guarantee' => 'nullable|numeric',
@@ -211,13 +207,12 @@ class ProductController extends Controller
      * @return  json
      */
     public function updateCategory( Request $request, $id ){
+        
         $this->gate('update-product');
+        $product = $this->productService->find($id);
+        $this->authorize('update', $product);
 
         try {
-            $user = auth('api')->user();
-            $product = $this->productService->find($id);
-            if($product->id_user != $user->id)
-                throw new HttpException(403, 'Ação não autorizada');
 
             $validData = $request->validate([
                 'id_category' => 'required|exists:categories,id',
@@ -241,12 +236,10 @@ class ProductController extends Controller
      */
     public function updateSpecs( Request $request, $id ){
         $this->gate('update-product');
+        $product = $this->productService->find($id);
+        $this->authorize('update', $product);
 
         try {
-            $user = auth('api')->user();
-            $product = $this->productService->find($id);
-            if($product->id_user != $user->id)
-                throw new HttpException(403, 'Ação não autorizada');
 
             $validData = $request->validate([
                 'specs' => 'required|array',
@@ -262,6 +255,35 @@ class ProductController extends Controller
         return response()->json( $response );
     }
 
+    /**
+     * toggle product status
+     * 
+     * @return  json
+     */
+    public function toggleStatus( $id ){
+        $this->gate('update-product');
+        $product = $this->productService->find($id);
+        $this->authorize('update', $product);
+
+        try {
+
+            $toStatus = 'paused';
+            if( $product->status == 'active' ){
+                $toStatus = 'paused';
+            } else {
+                $toStatus = 'active';
+            }
+
+            $updated = $this->productService->updateById( $id, ['status' => $toStatus] );
+            $response = [ 'status' => 'success', 'data' => ($updated) ];
+
+        } catch ( ValidationException $e ){
+            
+            $response = [ 'status' => 'error', 'message' => $e->errors() ];
+        }
+
+        return response()->json( $response );
+    }
 
     /**
      * delete
@@ -269,10 +291,16 @@ class ProductController extends Controller
      * @return  json
      */
     public function delete( $id ){
+        $this->gate('update-product');
+        $product = $this->productService->find($id);
+        $this->authorize('update', $product);
 
         try {
 
-            $deleted = $this->productService->deleteById( $id );
+            if($product->status != 'paused')
+                $this->throwException('O anúncio deve estar pausado para ser removido');
+
+            $deleted = $this->productService->updateById( $id, ['deleted' => 1] );
             $response = [ 'status' => 'success', 'data' => ($deleted) ];
 
         } catch ( ValidationException $e ){

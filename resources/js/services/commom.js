@@ -139,7 +139,21 @@ const commom = {
         } else {
             return currency ? ('R$ ' + '0,00') : '0,00'
         }
-    }
+    },
+
+    dateFormat: function(str, time = false) {
+
+        if (str == null || str == '' || !str) return ''
+
+        const dateTimeSplit = str.match('T') ? str.split('T') : str.split(' ')
+
+        const parts = dateTimeSplit[0].split('-')
+        const day = parts[2]
+        const month = parts[1]
+        const year = parts[0]
+
+        return day + '/' + month + '/' + year + (dateTimeSplit[1] && time ? (' ' + dateTimeSplit[1].split('.')[0]) : '')
+    },
 }
 
 export default commom

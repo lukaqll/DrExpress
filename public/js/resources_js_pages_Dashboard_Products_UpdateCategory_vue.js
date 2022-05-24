@@ -176,6 +176,17 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -823,47 +834,99 @@ var render = function () {
               1
             ),
             _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "col-md-10 col-lg-10 col-9" },
-              [
-                _c("p", { staticClass: "h3" }, [
-                  _vm._v(_vm._s(_vm.product.name)),
-                ]),
-                _vm._v(" "),
-                _c("v-breadcrumbs", {
-                  staticClass: "p-0",
-                  attrs: { items: _vm.product.category_flow, divider: ">" },
-                  scopedSlots: _vm._u([
-                    {
-                      key: "item",
-                      fn: function (ref) {
-                        var item = ref.item
-                        return [
-                          _c(
-                            "v-breadcrumbs-item",
-                            {
-                              attrs: {
-                                href: item.href,
-                                disabled: item.disabled,
-                              },
-                            },
-                            [
-                              _vm._v(
-                                "\n                                " +
-                                  _vm._s(item) +
-                                  "\n                            "
-                              ),
-                            ]
+            _c("div", { staticClass: "col-md-10 col-lg-10 col-9 w-100" }, [
+              _c(
+                "div",
+                { staticClass: "d-flex justify-content-between" },
+                [
+                  _c(
+                    "div",
+                    [
+                      _c("p", { staticClass: "h3 m-0" }, [
+                        _vm._v(_vm._s(_vm.product.name)),
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "v-chip",
+                        {
+                          attrs: {
+                            "x-small": "",
+                            color:
+                              _vm.product.status == "paused"
+                                ? "warning"
+                                : "success",
+                          },
+                        },
+                        [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(_vm.product.status_text) +
+                              "\n                            "
                           ),
                         ]
+                      ),
+                      _vm._v(" "),
+                      _c("v-breadcrumbs", {
+                        staticClass: "p-0",
+                        attrs: {
+                          items: _vm.product.category_flow,
+                          divider: ">",
+                        },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "item",
+                            fn: function (ref) {
+                              var item = ref.item
+                              return [
+                                _c(
+                                  "v-breadcrumbs-item",
+                                  {
+                                    attrs: {
+                                      href: item.href,
+                                      disabled: item.disabled,
+                                    },
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                        " +
+                                        _vm._s(item) +
+                                        "\n                                    "
+                                    ),
+                                  ]
+                                ),
+                              ]
+                            },
+                          },
+                        ]),
+                      }),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      tag: "router-link",
+                      staticClass: "float-right",
+                      attrs: {
+                        to: "/dashboard/produtos/" + _vm.product.id + "/editar",
+                        text: "",
                       },
                     },
-                  ]),
-                }),
-              ],
-              1
-            ),
+                    [
+                      _c("v-icon", { attrs: { small: "" } }, [
+                        _vm._v("fa fa-chevron-left"),
+                      ]),
+                      _vm._v(
+                        "\n                            Voltar\n                        "
+                      ),
+                    ],
+                    1
+                  ),
+                ],
+                1
+              ),
+            ]),
             _vm._v(" "),
             _c(
               "v-card",
@@ -1265,14 +1328,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/VBtn.js");
 /* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/VCard.js");
 /* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
-/* harmony import */ var vuetify_lib_components_VCombobox__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VCombobox */ "./node_modules/vuetify/lib/components/VCombobox/VCombobox.js");
-/* harmony import */ var vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VDivider */ "./node_modules/vuetify/lib/components/VDivider/VDivider.js");
-/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
-/* harmony import */ var vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VImg */ "./node_modules/vuetify/lib/components/VImg/VImg.js");
-/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/VList.js");
-/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/VListItem.js");
-/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/VListItemAction.js");
-/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/index.js");
+/* harmony import */ var vuetify_lib_components_VChip__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VChip */ "./node_modules/vuetify/lib/components/VChip/VChip.js");
+/* harmony import */ var vuetify_lib_components_VCombobox__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VCombobox */ "./node_modules/vuetify/lib/components/VCombobox/VCombobox.js");
+/* harmony import */ var vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VDivider */ "./node_modules/vuetify/lib/components/VDivider/VDivider.js");
+/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
+/* harmony import */ var vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VImg */ "./node_modules/vuetify/lib/components/VImg/VImg.js");
+/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/VList.js");
+/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/VListItem.js");
+/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/VListItemAction.js");
+/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/index.js");
 
 
 
@@ -1310,7 +1374,8 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAlert: vuetify_lib_components_VAlert__WEBPACK_IMPORTED_MODULE_4__["default"],VBreadcrumbs: vuetify_lib_components_VBreadcrumbs__WEBPACK_IMPORTED_MODULE_5__["default"],VBreadcrumbsItem: vuetify_lib_components_VBreadcrumbs__WEBPACK_IMPORTED_MODULE_6__["default"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_7__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__["default"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__.VCardActions,VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__.VCardText,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__.VCardTitle,VCombobox: vuetify_lib_components_VCombobox__WEBPACK_IMPORTED_MODULE_10__["default"],VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_11__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_12__["default"],VImg: vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_13__["default"],VList: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_14__["default"],VListItem: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_15__["default"],VListItemAction: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_16__["default"],VListItemContent: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_17__.VListItemContent,VListItemTitle: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_17__.VListItemTitle})
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAlert: vuetify_lib_components_VAlert__WEBPACK_IMPORTED_MODULE_4__["default"],VBreadcrumbs: vuetify_lib_components_VBreadcrumbs__WEBPACK_IMPORTED_MODULE_5__["default"],VBreadcrumbsItem: vuetify_lib_components_VBreadcrumbs__WEBPACK_IMPORTED_MODULE_6__["default"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_7__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__["default"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__.VCardActions,VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__.VCardText,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__.VCardTitle,VChip: vuetify_lib_components_VChip__WEBPACK_IMPORTED_MODULE_10__["default"],VCombobox: vuetify_lib_components_VCombobox__WEBPACK_IMPORTED_MODULE_11__["default"],VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_12__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_13__["default"],VImg: vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_14__["default"],VList: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_15__["default"],VListItem: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_16__["default"],VListItemAction: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_17__["default"],VListItemContent: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_18__.VListItemContent,VListItemTitle: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_18__.VListItemTitle})
 
 
 /* hot reload */

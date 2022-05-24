@@ -82,3 +82,10 @@ ADD CONSTRAINT `fk_products_1`
   REFERENCES `dr_express`.`categories` (`id`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
+
+
+------
+
+ALTER TABLE `dr_express`.`products` 
+ADD COLUMN `status` VARCHAR(45) NOT NULL AFTER `slug`,
+ADD COLUMN `deleted` TINYINT(1) NULL DEFAULT 0 AFTER `status`;

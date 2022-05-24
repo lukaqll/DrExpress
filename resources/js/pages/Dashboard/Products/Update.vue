@@ -8,294 +8,350 @@
                             <v-img :src="product.principal_image" class="rounded img-fluid"/>
                         </v-card>
                     </div>
-                    <div class="col-md-10 col-lg-10 col-9">
-                        <p class="h3">{{ product.name }}</p>
-                        <v-breadcrumbs :items="product.category_flow" divider=">" class="p-0">
-                            <template v-slot:item="{ item }">
-                                <v-breadcrumbs-item
-                                    :href="item.href"
-                                    :disabled="item.disabled"
-                                >
-                                    {{ item }}
-                                </v-breadcrumbs-item>
-                            </template>
-                        </v-breadcrumbs>
+                    <div class="col-md-10 col-lg-10 col-9 w-100">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <p class="h3 m-0">{{ staticProduct.name }}</p>
+                                <v-chip x-small :color="staticProduct.status == 'paused'?'warning':'success'">
+                                    {{staticProduct.status_text}}
+                                </v-chip>
+                                <v-breadcrumbs :items="product.category_flow" divider=">" class="p-0">
+                                    <template v-slot:item="{ item }">
+                                        <v-breadcrumbs-item
+                                            :href="item.href"
+                                            :disabled="item.disabled"
+                                        >
+                                            {{ item }}
+                                        </v-breadcrumbs-item>
+                                    </template>
+                                </v-breadcrumbs>
+                            </div>
+                            <router-link is="v-btn" to="/dashboard/produtos" text class="float-right" >
+                                <v-icon small>fa fa-chevron-left</v-icon>
+                                Voltar
+                            </router-link>
+                        </div>
                     </div>
-                    <v-card :disabled="generalLoading">
-                        <v-card-title>Geral</v-card-title>
-                        <v-card-text>
+                    <v-expansion-panels multiple >
 
-                            <div class="row">
-                                <div class="col-12">
-                                    <v-text-field label="Título" v-model="product.name"/>
+                        <!-- general -->
+                        <v-expansion-panel >
+                            <v-expansion-panel-header>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <v-card-title>Geral</v-card-title>
+                                    </div>
+                                    <div class="col-md-8 d-flex align-items-center">
+                                        <div>
+                                            <span>{{ staticProduct.name }}</span> <br>
+                                            <span>{{ staticProduct.brand }} - {{ staticProduct.model }}</span> <br>
+                                            R$ {{ staticProduct.price_currency }}
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <v-combobox
-                                        :items="brands"
-                                        item-text="name"
-                                        label="Marca"
-                                        hide-no-data
-                                        v-model="product.brand"
-                                        item-value="name"
-                                        :return-object="false"
-                                        allow-overflow
-                                    />
+                            </v-expansion-panel-header>
+                            <v-expansion-panel-content>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <v-text-field label="Título" v-model="product.name"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <v-combobox
+                                            :items="brands"
+                                            item-text="name"
+                                            label="Marca"
+                                            hide-no-data
+                                            v-model="product.brand"
+                                            item-value="name"
+                                            :return-object="false"
+                                            allow-overflow
+                                        />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <v-text-field label="Modelo" v-model="product.model"/>
+                                    </div>
+                                    <div class="col-md-6" v-if="product.price">
+                                        <v-text-field label="Preço" v-model="product.price" v-money="{}"/>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <v-card outlined>
+                                            <v-card-text>
+                                                <div v-if="!stockEntry && !stockOut">
+                                                    <span>{{ product.amount }} unidades disponíveis</span><br>
+                                                    <v-btn text color="primary" outlined @click="stockEntry=true">Dar entrada em mais unidades</v-btn>
+                                                    <v-btn text color="error" outlined @click="stockOut=true">Dar saída</v-btn>
+                                                </div>
+                                                <div class="row" v-if="stockEntry">
+                                                    <div class="col-md-6">
+                                                        <v-text-field 
+                                                            label="Em quantos itens quer dar entrada?" 
+                                                            type="number" min="1" v-model="stockEntryAmuont"
+                                                            hint="A quantidade informada será acrescentada à quantidade disponível atual"    
+                                                            persistent-hint
+                                                        />
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <v-btn text @click="stockEntry=false">Cancelar</v-btn>
+                                                        <v-btn @click="entryStock" color="primary">Entrada</v-btn>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="row" v-if="stockOut">
+                                                    <div class="col-md-6">
+                                                        <v-text-field 
+                                                            label="Em quantos itens quer dar saída?" 
+                                                            type="number" min="1" :max="product.amount" v-model="stockOutAmuont"
+                                                            hint="A quantidade informada será decrementada à quantidade disponível atual"    
+                                                            persistent-hint
+                                                        />
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <v-btn text @click="stockOut=false">Cancelar</v-btn>
+                                                        <v-btn @click="outStock" color="error">Dar saída</v-btn>
+                                                    </div>
+                                                </div>
+                                            </v-card-text>
+                                        </v-card>
+                                    </div>
+                                    
                                 </div>
-                                <div class="col-md-6">
-                                    <v-text-field label="Modelo" v-model="product.model"/>
+                                <div class="row">
+                                    <div class="col-md-12 text-right">
+                                        <v-btn @click="generalUpdate" color="primary" :loading="generalLoading">
+                                            <v-icon small class="mr-2">fa fa-check</v-icon>
+                                            Salvar
+                                        </v-btn>
+                                    </div>
                                 </div>
-                                <div class="col-md-6" v-if="product.price">
-                                    <v-text-field label="Preço" v-model="product.price" v-money="{}"/>
-                                </div>
-                                <div class="col-md-12">
-                                    <v-card outlined>
-                                        <v-card-text>
-                                            <div v-if="!stockEntry && !stockOut">
-                                                <span>{{ product.amount }} unidades disponíveis</span><br>
-                                                <v-btn text color="primary" outlined @click="stockEntry=true">Dar entrada em mais unidades</v-btn>
-                                                <v-btn text color="error" outlined @click="stockOut=true">Dar saída</v-btn>
-                                            </div>
-                                            <div class="row" v-if="stockEntry">
-                                                <div class="col-md-6">
-                                                    <v-text-field 
-                                                        label="Em quantos itens quer dar entrada?" 
-                                                        type="number" min="1" v-model="stockEntryAmuont"
-                                                        hint="A quantidade informada será acrescentada à quantidade disponível atual"    
-                                                        persistent-hint
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+                        
+                        <!-- images -->
+                        <v-expansion-panel>
+                            <v-expansion-panel-header>
+                                <v-card-title>
+                                    Imagens 
+                                    
+                                    <small class="ml-3" v-if="staticProduct.images && staticProduct.images.length">
+                                        ({{ staticProduct.images.length }} imagens)
+                                    </small>
+                                </v-card-title>
+                            </v-expansion-panel-header>
+                            <v-expansion-panel-content>
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-4 col-4" v-for="(img, i) in product.images" :key="i">
+                                        <v-menu offset-y absolute>
+                                            <template v-slot:activator="{ on }">
+                                                <v-card>
+                                                    <v-img 
+                                                        v-on="on" 
+                                                        class="elevation-2 rounded-lg cursor-pointer"  
+                                                        contain
+                                                        :src="img.src"
                                                     />
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <v-btn text @click="stockEntry=false">Cancelar</v-btn>
-                                                    <v-btn @click="entryStock" color="primary">Entrada</v-btn>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="row" v-if="stockOut">
-                                                <div class="col-md-6">
-                                                    <v-text-field 
-                                                        label="Em quantos itens quer dar saída?" 
-                                                        type="number" min="1" :max="product.amount" v-model="stockOutAmuont"
-                                                        hint="A quantidade informada será decrementada à quantidade disponível atual"    
-                                                        persistent-hint
-                                                    />
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <v-btn text @click="stockOut=false">Cancelar</v-btn>
-                                                    <v-btn @click="outStock" color="error">Dar saída</v-btn>
-                                                </div>
-                                            </div>
-                                        </v-card-text>
-                                    </v-card>
+                                                    <span v-if="!!img.is_principal" class="badge bg-success w-100 opacity-50" style="z-index: 100">Principal</span>
+                                                </v-card>
+                                            </template>
+                                            <v-card flat>
+                                                <v-list-item-content class="justify-center">
+                                                    <div class="mx-auto text-center">
+                                                        <v-btn small depressed text color="error" @click="() => removeImage(img.id)">Remover</v-btn>
+                                                        <v-btn small depressed text color="success" v-if="!img.is_principal" @click="() => setPrincipalImage(img.id)">Imagem Principal</v-btn>
+                                                    </div>
+                                                </v-list-item-content>
+                                            </v-card>
+                                        </v-menu>
+    
+                                    </div>
+                                    <div class="col-md-4 d-flex align-items-center">
+                                        <v-btn block outlined color="primary" @click="imageModal=true">
+                                            Adicionar Foto
+                                        </v-btn>
+                                    </div>
                                 </div>
-                                
-                            </div>
-                        </v-card-text>
-                        <v-card-actions class="justify-end">
-                            <v-btn @click="generalUpdate" color="primary" :loading="generalLoading">
-                                <v-icon small class="mr-2">fa fa-check</v-icon>
-                                Salvar
-                            </v-btn>
-                        </v-card-actions>
-                    </v-card>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
 
-                    <v-card class="mt-4">
-                        <v-card-title>Imagens</v-card-title>
-                        <v-card-text>
-
-                            <div class="row">
-                                <div class="col-md-2 col-sm-4 col-4" v-for="(img, i) in product.images" :key="i">
-                                    <v-menu offset-y absolute>
-                                        <template v-slot:activator="{ on }">
+                        <!-- other data -->
+                        <v-expansion-panel>
+                            <v-expansion-panel-header>
+                                <v-card-title>Outros Dados</v-card-title>
+                            </v-expansion-panel-header>
+                            <v-expansion-panel-content>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <v-menu 
+                                            v-model="colorPicker"
+                                            :close-on-content-click="false"
+                                            max-width="300"
+                                            offset-x
+                                        >
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn
+                                                    color="primary"
+                                                    dark
+                                                    v-bind="attrs"
+                                                    v-on="on"
+                                                    block
+                                                    text
+                                                >
+                                                    Selecione a cor do produto
+                                                </v-btn>
+                                            </template>
                                             <v-card>
-                                                <v-img 
-                                                    v-on="on" 
-                                                    class="elevation-2 rounded-lg cursor-pointer"  
-                                                    contain
-                                                    :src="img.src"
-                                                />
-                                                <span v-if="!!img.is_principal" class="badge bg-success w-100 opacity-50" style="z-index: 100">Principal</span>
+                                                <v-color-picker
+                                                    show-swatches
+                                                    mode="hexa"
+                                                    @input="setColor"
+                                                    hide-inputs
+                                                ></v-color-picker>
                                             </v-card>
-                                        </template>
-                                        <v-card flat>
-                                            <v-list-item-content class="justify-center">
-                                                <div class="mx-auto text-center">
-                                                    <v-btn small depressed text color="error" @click="() => removeImage(img.id)">Remover</v-btn>
-                                                    <v-btn small depressed text color="success" v-if="!img.is_principal" @click="() => setPrincipalImage(img.id)">Imagem Principal</v-btn>
+                                        </v-menu>
+    
+                                        <div v-if="!product.color">Nenhuma cor selecionada</div>
+                                        <div v-else>
+                                            <div class="row">
+                                                <div class="col-10">
+                                                    <div class="mt-3" :style="`width: 100%; border-radius: 5px; height: 10px; background-color: ${product.color}`"></div>
                                                 </div>
-                                            </v-list-item-content>
-                                        </v-card>
-                                    </v-menu>
-
+                                                <div class="col-2">
+                                                    <v-btn text color="error" @click="removeColor">Limpar</v-btn>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <v-divider></v-divider>
+                                    <div class="col-12">
+                                        <p>Garantia</p>
+                                        <v-radio-group v-model="product.guarantee">
+                                            <v-radio label="Garantia do vendedor" :value="2"/>
+                                            <v-radio label="Garantia de fábrica" :value="1"/>
+                                            <v-radio label="Sem garantia" :value="0"/>
+                                        </v-radio-group>
+                                    </div>
+                                    <v-divider></v-divider>
+                                    <div class="col-12">
+                                        <v-textarea v-model="product.description" outlined label="Descrição"/>
+                                    </div>
                                 </div>
-                                <div class="col-md-4 d-flex align-items-center">
-                                    <v-btn block outlined color="primary" @click="imageModal=true">
-                                        Adicionar Foto
+                                <v-card-actions class="justify-end">
+                                    <v-btn @click="otherDataUpdate" color="primary" :loading="generalLoading">
+                                        <v-icon small class="mr-2">fa fa-check</v-icon>
+                                        Salvar
                                     </v-btn>
-                                </div>
-                            </div>
-                        </v-card-text>
-                    </v-card>
+                                </v-card-actions>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
 
-                    <v-card class="mt-4" :disabled="otherDataLoading">
-                        <v-card-title>Outros dados</v-card-title>
-                        <v-card-text>
-                            <div class="row">
-                                <div class="col-12 text-center">
-                                    <v-menu 
-                                        v-model="colorPicker"
-                                        :close-on-content-click="false"
-                                        max-width="300"
-                                        offset-x
-                                    >
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-btn
-                                                color="primary"
-                                                dark
-                                                v-bind="attrs"
-                                                v-on="on"
-                                                block
-                                                text
-                                            >
-                                                Selecione a cor do produto
-                                            </v-btn>
-                                        </template>
-                                        <v-card>
-                                            <v-color-picker
-                                                show-swatches
-                                                mode="hexa"
-                                                @input="setColor"
-                                                hide-inputs
-                                            ></v-color-picker>
-                                        </v-card>
-                                    </v-menu>
-
-                                    <div v-if="!product.color">Nenhuma cor selecionada</div>
-                                    <div v-else>
-                                        <div class="row">
-                                            <div class="col-10">
-                                                <div class="mt-3" :style="`width: 100%; border-radius: 5px; height: 10px; background-color: ${product.color}`"></div>
-                                            </div>
-                                            <div class="col-2">
-                                                <v-btn text color="error" @click="removeColor">Limpar</v-btn>
+                        <!-- specs -->
+                        <v-expansion-panel>
+                            <v-expansion-panel-header>
+                                <v-card-title>Ficha Técnica</v-card-title>
+                            </v-expansion-panel-header>
+                            <v-expansion-panel-content>
+                                <div class="row">
+                                    <div class="col-md-12" >
+                                        <div v-if="selectedCategory && selectedCategory.specs && selectedCategory.specs.length">
+                                            <div v-for="(spec, i) in selectedCategory.specs" :key="i" class="mb-4">
+                                                <v-card outlined>
+                                                    <v-card-text>
+                                                        <v-combobox
+                                                            :label="`${spec.name} ${spec.is_required?'(obrigatório)':''}`"
+                                                            :items="spec.items"
+                                                            item-text="name"
+                                                            item-value="name"
+                                                            :return-object="false"
+                                                            chips
+                                                            v-model="specs[spec.id]"
+                                                            :multiple="!!spec.is_multiple"
+                                                            persistent-hint
+                                                            :hint="!!spec.is_multiple ? 'Informe um ou mais' : ''"
+                                                            clearable
+                                                        />
+                                                        <v-alert 
+                                                            v-if="spec.is_multiple==2"
+                                                            border="left"
+                                                            outlined type="info" dense
+                                                            color="primary accent-4" 
+                                                            class="mt-2" elevation="2"
+                                                        >
+                                                            <small>Os itens selecionados servirão de opções na compra se informado mais de um.</small>
+                                                        </v-alert>
+                                                    </v-card-text>
+                                                </v-card>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <v-divider></v-divider>
-                                <div class="col-12">
-                                    <p>Garantia</p>
-                                    <v-radio-group v-model="product.guarantee">
-                                        <v-radio label="Garantia do vendedor" :value="2"/>
-                                        <v-radio label="Garantia de fábrica" :value="1"/>
-                                        <v-radio label="Sem garantia" :value="0"/>
-                                    </v-radio-group>
-                                </div>
-                                <v-divider></v-divider>
-                                <div class="col-12">
-                                    <v-textarea v-model="product.description" outlined label="Descrição"/>
-                                </div>
-                            </div>
-                        </v-card-text>
-                        <v-card-actions class="justify-end">
-                            <v-btn @click="otherDataUpdate" color="primary" :loading="generalLoading">
-                                <v-icon small class="mr-2">fa fa-check</v-icon>
-                                Salvar
-                            </v-btn>
-                        </v-card-actions>
-                    </v-card>
-
-                    <v-card class="mt-4">
-                        <v-card-title>Ficha Técnica</v-card-title>
-                        <v-card-text>
-                            <div class="row">
-                                <div class="col-md-12" >
-                                    <div v-if="selectedCategory && selectedCategory.specs && selectedCategory.specs.length">
-                                        <div v-for="(spec, i) in selectedCategory.specs" :key="i" class="mb-4">
-                                            <v-card outlined>
-                                                <v-card-text>
-                                                    <v-combobox
-                                                        :label="`${spec.name} ${spec.is_required?'(obrigatório)':''}`"
-                                                        :items="spec.items"
-                                                        item-text="name"
-                                                        item-value="name"
-                                                        :return-object="false"
-                                                        chips
-                                                        v-model="specs[spec.id]"
-                                                        :multiple="!!spec.is_multiple"
-                                                        persistent-hint
-                                                        :hint="!!spec.is_multiple ? 'Informe um ou mais' : ''"
-                                                        clearable
-                                                    />
-                                                    <v-alert 
-                                                        v-if="spec.is_multiple==2"
-                                                        border="left"
-                                                        outlined type="info" dense
-                                                        color="primary accent-4" 
-                                                        class="mt-2" elevation="2"
-                                                    >
-                                                        <small>Os itens selecionados servirão de opções na compra se informado mais de um.</small>
-                                                    </v-alert>
-                                                </v-card-text>
-                                            </v-card>
+                                        <div v-else>
+                                            <p class="h5 text-center">
+                                                <v-alert 
+                                                    dense color="success" border="left" elevation="2"
+                                                    type="success" outlined
+                                                >Nada a ser preencido</v-alert>
+                                            </p>
                                         </div>
+                                    </div> 
+    
+                                </div>
+                                <v-card-actions class="justify-end" v-if="selectedCategory && selectedCategory.specs && selectedCategory.specs.length">
+                                    <v-btn @click="updateSpecs" color="primary" :loading="generalLoading">
+                                        <v-icon small class="mr-2">fa fa-check</v-icon>
+                                        Salvar
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+
+                        <!-- category -->
+                        <v-expansion-panel>
+                            <v-expansion-panel-header>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <v-card-title>Categoria</v-card-title>
                                     </div>
-                                    <div v-else>
-                                        <p class="h5 text-center">
+                                    <div class="col-md-8 d-flex align-items-center">
+                                        <v-breadcrumbs :items="product.category_flow" divider=">" class="p-0">
+                                            <template v-slot:item="{ item }">
+                                                <v-breadcrumbs-item
+                                                    :href="item.href"
+                                                    :disabled="item.disabled"
+                                                >
+                                                    {{ item }}
+                                                </v-breadcrumbs-item>
+                                            </template>
+                                        </v-breadcrumbs>
+                                    </div>
+                                </div>
+                            </v-expansion-panel-header>
+                            <v-expansion-panel-content>
+                                <v-card flat>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            
+                                        </div>
+                                        <div class="col-md-12">
                                             <v-alert 
-                                                dense color="success" border="left" elevation="2"
-                                                type="success" outlined
-                                            >Nada a ser preencido</v-alert>
-                                        </p>
-                                    </div>
-                                </div> 
-
-                            </div>
-                        </v-card-text>
-                        <v-card-actions class="justify-end" v-if="selectedCategory && selectedCategory.specs && selectedCategory.specs.length">
-                            <v-btn @click="updateSpecs" color="primary" :loading="generalLoading">
-                                <v-icon small class="mr-2">fa fa-check</v-icon>
-                                Salvar
-                            </v-btn>
-                        </v-card-actions>
-                    </v-card>
-
-                    <v-card class="mt-4">
-                        <v-card-title>Categoria</v-card-title>
-                        <v-card-text>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <v-breadcrumbs :items="product.category_flow" divider=">" class="p-0">
-                                        <template v-slot:item="{ item }">
-                                            <v-breadcrumbs-item
-                                                :href="item.href"
-                                                :disabled="item.disabled"
+                                                border="left"
+                                                outlined type="info" dense
+                                                color="error accent-4" 
+                                                class="mt-2" elevation="2"
                                             >
-                                                {{ item }}
-                                            </v-breadcrumbs-item>
-                                        </template>
-                                    </v-breadcrumbs>
-                                </div>
-                                <div class="col-md-12">
-                                    <v-alert 
-                                        border="left"
-                                        outlined type="info" dense
-                                        color="error accent-4" 
-                                        class="mt-2" elevation="2"
-                                    >
-                                        A ficha técnica varia de acordo com a categoria do produto. <br>
-                                        Ao alterar a categoria será neccessário preencher os novos campos.
-                                    </v-alert>
-                                    <router-link
-                                        is='v-btn'
-                                        :to="`/dashboard/produtos/${product.id}/editar/categoria`"
-                                        color="error" block text outlined
-                                    >
-                                        Alterar Categoria
-                                    </router-link>
-                                </div>
-                            </div>
-                        </v-card-text>
-                    </v-card>
+                                                A ficha técnica varia de acordo com a categoria do produto. <br>
+                                                Ao alterar a categoria será neccessário preencher os novos campos.
+                                            </v-alert>
+                                            <router-link
+                                                is='v-btn'
+                                                :to="`/dashboard/produtos/${product.id}/editar/categoria`"
+                                                color="error" block text outlined
+                                            >
+                                                Alterar Categoria
+                                            </router-link>
+                                        </div>
+                                    </div>
+                                </v-card>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+
+                    </v-expansion-panels>
                 </div>
             </div>
         </div>
@@ -334,6 +390,7 @@
 export default {
     data: () => ({
         product: {},
+        staticProduct: {},
         brands: [],
         loading: false,
         colorPicker: false,
@@ -374,6 +431,7 @@ export default {
                 success: resp => {
                     this.loading = false
                     this.product = {...resp}
+                    this.staticProduct = {...resp}
                 }
             })
         },

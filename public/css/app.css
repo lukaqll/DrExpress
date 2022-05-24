@@ -11369,6 +11369,7 @@ textarea.form-control-lg {
 }
 .theme--dark .v-card,
 .theme--dark .v-navigation-drawer,
+.theme--dark .v-expansion-panel-header,
 .theme--dark .v-expansion-panel-content,
 .theme--dark .v-data-table,
 .theme--dark .v-list,
@@ -11378,7 +11379,6 @@ textarea.form-control-lg {
   background-color: #292f45 !important;
 }
 .theme--dark .v-toolbar,
-.theme--dark .v-expansion-panel-header,
 .theme--dark .v-data-table tr:hover,
 .theme--dark .v-btn--has-bg {
   background-color: #353d54 !important;
