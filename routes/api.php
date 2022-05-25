@@ -120,6 +120,7 @@ Route::group(['middleware' => ['apiJwt']], function(){
     Route::put('/seller/{id}/toggle-status', [SellerController::class, 'toggleStatus']);
     Route::get('/seller/me', [SellerController::class, 'getMe']);
     Route::put('/seller/me/update', [SellerController::class, 'updateMe']);
+    Route::put('/seller/me/config', [SellerController::class, 'updateConfigMe']);
     Route::get('/seller/{id}', [SellerController::class, 'getById']);
     Route::put('/seller/{id}', [SellerController::class, 'update']);
     Route::post('/seller', [SellerController::class, 'create']);

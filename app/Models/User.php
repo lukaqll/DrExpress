@@ -35,9 +35,6 @@ class User extends Authenticatable implements JWTSubject
         'status',
         'picture',
         'banner',
-        'is_delivery',
-        'is_physical',
-        'is_student',
         'notification_token',
         'cro_validated_at',
         'email_verified_at',
@@ -144,5 +141,9 @@ class User extends Authenticatable implements JWTSubject
             return '/storage/'.$this->banner;
         }
         return '/defaultImages/default-banner.jpg';
+    }
+
+    public function config(){
+        return $this->hasOne(SellerConfig::class, 'id_user');
     }
 }

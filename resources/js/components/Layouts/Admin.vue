@@ -34,6 +34,13 @@
                         <v-icon small class="mr-3">fa fa-sign-out-alt</v-icon>
                         Sair
                     </v-list-item>
+                    <router-link
+                        v-if="$hasRole('seller')"
+                        is="v-list-item"
+                        to="/dashboard"
+                    >
+                        Área do lojista
+                    </router-link>
                 </v-list>
           </v-menu>
           
@@ -72,7 +79,7 @@
                         link 
                         class="my-2"
                         active-class="menu-active"
-                        exact
+                        :exact="item.exact"
                     >
 
                         <v-list-item-icon>
@@ -127,6 +134,7 @@ export default {
                     title: "Home", 
                     icon: "fa fa-home",
                     link: '/admin',
+                    exact: true
                 },
                 { 
                     title: "Vendedores", 

@@ -2,6 +2,7 @@
  namespace App\Services;
 
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
 class ProductService extends AbstractService
@@ -139,5 +140,28 @@ class ProductService extends AbstractService
         $slug = Str::slug($product->name.' '.$product->id);
         $product->update(['slug' => $slug]);
         return $slug;
+    }
+
+
+    /**
+     * list solf products
+     */
+    public function listByUser(User $user, array $data){
+
+        $filter = $this->model->join('categories AS cat', 'cat.id', 'products.id_category')
+                              ->where('id_user', $user->id)
+                              ->where('deleted', 0);
+
+
+        if(!empty($data['term']) && $data['term'] != 'null'){
+            $filter = $filter->where(function($where) use($data){
+                $where->orWhere('products.name', 'like', "%{$data['term']}%")
+                      ->orWhere('products.brand', 'like', "%{$data['term']}%")
+                      ->orWhere('products.model', 'like', "%{$data['term']}%")
+                      ->orWhere('cat.name', 'like', "%{$data['term']}%");
+            });
+        }
+
+        return $filter->selectRaw('products.*')->get();
     }
 }

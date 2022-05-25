@@ -29,7 +29,7 @@ class ProductController extends Controller
             $user = auth('api')->user();
 
             $dataFilter = $request->all();
-            $result = $this->productService->list( ['id_user' => $user->ud], ['id'], 'desc' );
+            $result = $this->productService->listByUser($user, $dataFilter);
 
             $response = [ 'status' => 'success', 'data' => ProductResource::collection($result) ];
             

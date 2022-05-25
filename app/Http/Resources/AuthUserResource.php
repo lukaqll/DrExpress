@@ -27,6 +27,7 @@ class AuthUserResource extends JsonResource
             'roles' => $this->roles->pluck('slug'),
             'permissions' => $this->permissions(),
             'picture' => $this->defaultPicture(),
+            'config' => $this->config
         ];
     }
 }

@@ -24,8 +24,6 @@ class SellerResource extends JsonResource
             'doc_number' => $this->doc_number,
             'birthdate' => $this->birthdate,
             'cro' => $this->cro,
-            'is_delivery' => $this->is_delivery,
-            'is_physical' => $this->is_physical,
 
             'id_city' => $this->id_city,
             'id_uf' => $this->city && $this->city->id_uf ? $this->city->id_uf : null,
@@ -36,6 +34,8 @@ class SellerResource extends JsonResource
             'status_text' => $this->statusText(),
             'picture' => $this->defaultPicture(),
             'banner' => $this->defaultBanner(),
+
+            'config' => $this->config
         ];
     }
 }

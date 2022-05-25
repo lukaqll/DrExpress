@@ -180,6 +180,14 @@ const routes = [
             base: 'dashboard',
         }
     },
+    {
+        path: '/dashboard/configuracoes',
+        name: 'dash.config',
+        component: page('Dashboard/Config'),
+        meta: {
+            base: 'dashboard'
+        }
+    },
 
     // products
     {
@@ -219,6 +227,7 @@ const routes = [
             can: ['update-products']
         }
     },
+    
 ]
 
 

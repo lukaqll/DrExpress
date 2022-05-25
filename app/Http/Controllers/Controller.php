@@ -13,6 +13,7 @@ use App\Services\ProductService;
 use App\Services\ProductSpecItemService;
 use App\Services\ProductSpecService;
 use App\Services\RoleService;
+use App\Services\SellerConfigService;
 use App\Services\SpecItemService;
 use App\Services\SpecService;
 use App\Services\StockLogService;
@@ -46,6 +47,7 @@ class Controller extends BaseController
     protected $productSpecItemService;
     protected $stockLogService;
     protected $productImageService;
+    protected $sellerConfigService;
 
     public function __construct()
     {
@@ -65,6 +67,7 @@ class Controller extends BaseController
         $this->productSpecItemService = new ProductSpecItemService;    
         $this->stockLogService = new StockLogService;    
         $this->productImageService = new ProductImageService;    
+        $this->sellerConfigService = new SellerConfigService;    
     }
 
     protected function gate($slug, $attr=[]){

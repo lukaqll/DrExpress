@@ -89,3 +89,19 @@ ADD CONSTRAINT `fk_products_1`
 ALTER TABLE `dr_express`.`products` 
 ADD COLUMN `status` VARCHAR(45) NOT NULL AFTER `slug`,
 ADD COLUMN `deleted` TINYINT(1) NULL DEFAULT 0 AFTER `status`;
+
+
+CREATE TABLE `dr_express`.`seller_config` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `id_user` INT NOT NULL,
+  `is_open` TINYINT(1) NULL DEFAULT 0,
+  `is_delivery` TINYINT(1) NULL DEFAULT 0,
+  `is_physical` TINYINT(1) NULL DEFAULT 0,
+  `visibility` VARCHAR(1) NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_seller_config_1_idx` (`id_user` ASC),
+  CONSTRAINT `fk_seller_config_1`
+    FOREIGN KEY (`id_user`)
+    REFERENCES `dr_express`.`users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);

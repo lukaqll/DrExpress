@@ -33,6 +33,13 @@
                         <v-icon small class="mr-3">fa fa-sign-out-alt</v-icon>
                         Sair
                     </v-list-item>
+                    <router-link
+                        v-if="$hasRole(['admin', 'operator'])"
+                        is="v-list-item"
+                        to="/admin"
+                    >
+                        Área administrativa
+                    </router-link>
                 </v-list>
           </v-menu>
           
@@ -69,7 +76,7 @@
                     link 
                     class="my-2"
                     active-class="menu-active"
-                    exact
+                    :exact="item.exact"
                 >
 
                     <v-list-item-icon>
@@ -125,6 +132,7 @@ export default {
                     title: "Início", 
                     icon: "fa fa-home",
                     link: '/dashboard',
+                    exact: true,
                 },
                 { 
                     title: "Vendas", 
@@ -133,7 +141,7 @@ export default {
                 },
                 { 
                     title: "Produtos", 
-                    icon: "far fa-gem",
+                    icon: "fa fa-tooth",
                     link: '/dashboard/produtos',
                 },
                 { 
@@ -156,6 +164,11 @@ export default {
                     title: "Meu Perfil", 
                     icon: "far fa-user",
                     link: '/dashboard/meu-perfil'
+                },
+                { 
+                    title: "Configurações", 
+                    icon: "fa fa-gear",
+                    link: '/dashboard/configuracoes'
                 },
             ],
         };

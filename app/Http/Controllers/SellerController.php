@@ -64,8 +64,15 @@ class SellerController extends Controller
     public function getMe(){
 
         try {
-            $result = auth('api')->user();
-            $response = [ 'status' => 'success', 'data' => new SellerResource($result) ];
+            $user = auth('api')->user();
+            $config = $user->config;
+            if( empty($config) ){
+                $user->config()->create([
+                    'is_open' => 0, 'visibility' => 'O'
+                ]);
+            }
+
+            $response = [ 'status' => 'success', 'data' => new SellerResource($user) ];
         } catch ( ValidationException $e ){
             $response = [ 'status' => 'error', 'message' => $e->errors() ];
         }
@@ -90,11 +97,33 @@ class SellerController extends Controller
                 'phone' => 'nullable|string|min:15',   
                 'id_city' => 'nullable|numeric|exists:cities,id',
                 'cro' => 'nullable|string',
-                'is_delivery' => 'nullable',
-                'is_physical' => 'nullable',
             ]);
             $updated = $this->userService->updateById( $user->id, $validData);
             $response = [ 'status' => 'success', 'data' => new SellerResource($updated) ];
+        } catch ( ValidationException $e ){
+            $response = [ 'status' => 'error', 'message' => $e->errors() ];
+        }
+        return response()->json( $response ); 
+    }
+
+    /**
+     * update self config
+     * 
+     * @return  json
+     */
+    public function updateConfigMe( Request $request ){
+
+        try {
+            $user = auth('api')->user();
+            $config = $user->config;
+            $validData = $request->validate([
+                'is_open' => 'nullable',
+                'is_physical' => 'nullable',
+                'is_delivery' => 'nullable',
+                'visibility' => 'nullable',
+            ]);
+            $updated = $this->sellerConfigService->updateById( $config->id, $validData);
+            $response = [ 'status' => 'success', 'data' => true ];
         } catch ( ValidationException $e ){
             $response = [ 'status' => 'error', 'message' => $e->errors() ];
         }
@@ -136,6 +165,7 @@ class SellerController extends Controller
                 'phone' => 'required|string|min:15',
                 'birthdate' => 'nullable|string',
                 'picture' => 'nullable|image',
+
                 'is_delivery' => 'nullable',
                 'is_physical' => 'nullable',
 
@@ -175,6 +205,7 @@ class SellerController extends Controller
                 'phone' => 'nullable|string|min:15',   
                 'id_city' => 'nullable|numeric|exists:cities,id',
                 'cro' => 'nullable|string',
+
                 'is_delivery' => 'nullable',
                 'is_physical' => 'nullable',
 

@@ -4,11 +4,19 @@ const commom = {
 
     request:  ( opt = {url, type, data, auth, log, success, savedAlert, error, setError, file, load} ) => {
 
+        const method = opt.type||'get';
+        let queryParams = '?'
+
+        // build url params
+        if(method == 'get' && opt.data){
+            queryParams += new URLSearchParams(opt.data)
+        }
+
         // send request
         axios({
-            url: '/api'+opt.url,
-            method: opt.type,
-            data: opt.data||'get',
+            url: '/api'+opt.url+queryParams,
+            method: method,
+            data: opt.data,
             
             headers:  {
                 'Content-Type': opt.file ? 'multipart/form-data' : undefined,

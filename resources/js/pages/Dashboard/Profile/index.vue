@@ -88,24 +88,6 @@
                                             <v-text-field label="CRO" v-model="user.cro"/>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="row">
-                                            <div class="col-12 py-0">
-                                                <v-checkbox
-                                                    class="m-0"
-                                                    v-model="user.is_delivery"
-                                                    label="Delivery"
-                                                />
-                                            </div>
-                                            <div class="col-12 py-0">
-                                                <v-checkbox
-                                                    class="m-0"
-                                                    v-model="user.is_physical"
-                                                    label="Loja Física"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
 
 

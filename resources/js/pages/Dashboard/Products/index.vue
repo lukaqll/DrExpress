@@ -4,7 +4,7 @@
             <v-card-title>
                 <div class="row">
                     <div class="col-12">
-                        Vendedores
+                        Meus Produtos
                         <router-link
                             is="v-btn"
                             color="primary" text
@@ -17,19 +17,21 @@
                 </div>
             </v-card-title>
             <v-card-text>
-                <v-text-field v-model="search" clearable label="Buscar"/>
+                <v-form @submit.prevent="getProducts">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <v-text-field
+                                outlined dense label="Buscar"
+                                v-model="filter.term" clearable
+                            />
+                        </div>
+                        <div class="col-md-2">
+                            <v-btn color="primary" type="submit">Buscar</v-btn>
+                        </div>
+                    </div>
+                </v-form>
 
                 <v-simple-table>
-                    <thead>
-                        <tr>
-                            <th>Produto</th>
-                            <th>Categoria</th>
-                            <th>Preço</th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
                     <tbody>
                         <tr v-for="(prod, i) in products" :key="i">
                             <td class="my-2">
@@ -119,7 +121,7 @@ export default {
     data: () => ({
         products: [],
         loading: true,
-        search: '',
+        filter: {},
 
         productHeaders: [
             {text: '', value: 'img'},
@@ -139,6 +141,7 @@ export default {
             this.loading = true
             this.$commom.request({
                 url: '/product/me',
+                data: this.filter,
                 auth: true,
                 success: resp => {
                     this.loading = false
@@ -162,7 +165,7 @@ export default {
 
             this.$commom.confirm({
                 title: 'Deseja deletar este produto?',
-                message: 'Esteja ciente que esta ação é irreversível. Você pode pausar o anúncio ao invés de deletá-lo.',
+                message: 'Esteja ciente que esta ação é irreversível.',
                 onConfirm: () => {
 
                     this.$commom.request({
