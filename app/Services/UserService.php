@@ -80,9 +80,12 @@ class UserService extends AbstractService
 
         $user->roles()->attach($sellerRole);
 
-        $user->config()->create([
-            'is_open' => 0, 'visibility' => 'O'
-        ]);
+        $dataConfig = [
+            'is_physical' => $data['is_physical']??0,
+            'is_delivery' => $data['is_delivery']??0,
+            'visibility' => $data['visibility']??'O',
+        ];
+        $user->config()->create($dataConfig);
 
         // create address
         if(!empty($data['id_district'])){

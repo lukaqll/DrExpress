@@ -267,6 +267,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: '/seller/me',
         auth: true,
         success: function success(resp) {
+          _this.$commom.refreshUser();
+
           _this.loading = false;
           _this.user = _objectSpread({}, resp);
         }

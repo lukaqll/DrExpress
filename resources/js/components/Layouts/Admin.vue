@@ -93,18 +93,16 @@
                     <v-list-item v-if="!mini || (mini && !drawer)">
                         <v-switch 
                             color="light"
-                            inset
+                            dense inset
                             v-model="$vuetify.theme.isDark" 
                             :label="$vuetify.theme.isDark ? 'Dark Mode' : 'Light Mode'"
                         >
                             <template v-slot:label>
                                 <span v-if="!$vuetify.theme.isDark">
                                     <v-icon color="orange" class="mr-2">fa fa-sun</v-icon>
-                                    Light Mode
                                 </span>
                                 <span v-else>
                                     <v-icon class="mr-2">fa fa-moon</v-icon>
-                                    Dark Mode
                                 </span>
                             </template>
                         </v-switch>

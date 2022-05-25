@@ -11,6 +11,7 @@
                         <v-tab>Dados</v-tab>
                         <v-tab>Endereços</v-tab>
                         <v-tab>Funções</v-tab>
+                        <v-tab>Configurações</v-tab>
                     </v-tabs>
                 </v-card-title>
                 <v-card-text>
@@ -43,21 +44,6 @@
         
                                     <div class="col-md-6">
                                         <v-text-field v-model="user.cro" label="CRO"/>
-                                    </div>
-        
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <v-checkbox
-                                                v-model="user.is_delivery"
-                                                label="Delivery"
-                                            />
-                                        </div>
-                                        <div class="col-md-3">
-                                            <v-checkbox
-                                                v-model="user.is_physical"
-                                                label="Loja Física"
-                                            />
-                                        </div>
                                     </div>
         
                                 </div>
@@ -96,7 +82,7 @@
                                 </v-card>
                             </v-tab-item>
                             <v-tab-item>
-                                <v-card>
+                                <v-card flat>
                                     <v-autocomplete 
                                         label="Funções" 
                                         :items="rolesOptions"
@@ -116,6 +102,54 @@
                                             </v-chip>
                                         </template>
                                     </v-autocomplete>
+                                </v-card>
+                            </v-tab-item>
+                            <v-tab-item>
+                                <v-card  class="m-2" flat v-if="user.config">
+                                    <div class="row">
+
+                                        <div class="col-md-8">
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+                                                    <v-switch
+                                                        label="Aberto"
+                                                        v-model="user.config.is_open"
+                                                        hint="Indica se está disponível para receber novos pedidos de venda."
+                                                        persistent-hint
+                                                    />
+                                                    <v-switch
+                                                        label="Loja Física"
+                                                        v-model="user.config.is_physical"
+                                                        hint="Informa se possui uma loja física ou não."
+                                                        persistent-hint
+                                                    />
+                                                    <v-switch
+                                                        label="Delivery"
+                                                        v-model="user.config.is_delivery"
+                                                        hint="Indica se faz entregas ou somente aceita busca presencial."
+                                                        persistent-hint
+                                                    />
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <v-select 
+                                                        v-model="user.config.visibility" 
+                                                        :items="visibilityOptions" 
+                                                        label="Visibilidade"
+                                                        hint="Informa a visibilidade no aplicativo."
+                                                        persistent-hint
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-12" v-if="errors && errors.length">
+                                            <v-alert v-html="errors" type="error"></v-alert>
+                                        </div>
+                                        
+                                    </div>
                                 </v-card>
                             </v-tab-item>
                         </v-tabs-items>
@@ -200,7 +234,13 @@ export default {
                 v => !!v || 'Confirme a senha',
                 v => (v && v.length >= 6) || 'A senha deve conter pelo menos 6 caracteres'
             ],
-        }
+        },
+
+        visibilityOptions: [
+            {text: 'Visível', value: 'V'},
+            {text: 'Oculto', value: 'O'},
+            {text: 'Em breve', value: 'B'},
+        ]
     }),
 
     mounted(){

@@ -1,8 +1,8 @@
 <template>
-    <div v-if="$useStore.user" class="dashboard">
+    <div v-if="user" class="dashboard">
         <v-app-bar 
             app
-            class="m-3"
+            class="m-3 align-items-center"
             rounded
             hide-on-scroll
             scroll-threshold="0"
@@ -12,6 +12,12 @@
             <v-toolbar-title>Dr. Express | Vendedor</v-toolbar-title>
             <v-spacer></v-spacer>
 
+            <v-switch 
+                :label="!!user.config.is_open ? 'Aberto' : 'Fechado'" 
+                v-model="user.config.is_open"
+                dense inset class="mt-4"
+            />
+           
             <v-menu
                 offset-x
                 :nudge-width="150"
@@ -24,6 +30,7 @@
                     icon
                     v-bind="attrs"
                     v-on="on"
+                    class="ml-5"
               >
                 <v-icon>mdi-dots-vertical</v-icon>
               </v-btn>
@@ -90,19 +97,16 @@
                 <v-list-item v-if="!mini || (mini && !drawer)">
                     <v-switch 
                         color="white"
-                        dark
-                        inset
+                        inset dense
                         v-model="$vuetify.theme.isDark" 
                         :label="$vuetify.theme.isDark ? 'Dark Mode' : 'Light Mode'"
                     >
                         <template v-slot:label>
                             <span v-if="!$vuetify.theme.isDark">
-                                <v-icon color="orange" class="mr-2">fa fa-sun</v-icon>
-                                Light Mode
+                                <v-icon color="yellow" class="mr-2">fa fa-sun</v-icon>
                             </span>
                             <span v-else>
                                 <v-icon class="mr-2">fa fa-moon</v-icon>
-                                Dark Mode
                             </span>
                         </template>
                     </v-switch>
@@ -167,7 +171,7 @@ export default {
                 },
                 { 
                     title: "Configurações", 
-                    icon: "fa fa-gear",
+                    icon: "fa fa-sliders",
                     link: '/dashboard/configuracoes'
                 },
             ],
@@ -183,7 +187,11 @@ export default {
         initialDrawer(v){
             
             return this.windowWidth <= 1250 ? true : false
-        },
+        }, 
+
+        user(){
+            return this.$useStore.user
+        }
 
     },
     watch: {
@@ -193,6 +201,9 @@ export default {
         },
         defaultMini(v){
             if(v) this.mini = v
+        },
+        'user.config.is_open': function(v){
+            this.updateOpen()
         }
         
     },
@@ -226,6 +237,17 @@ export default {
                 this.drawer = true;
                 this.mini = !this.mini
             }
+        },
+
+        updateOpen(){
+            this.loading = true
+            this.$commom.request({
+                url: '/seller/me/config',
+                type: 'put',
+                auth: true,
+                setError: true,
+                data: {is_open: this.user.config.is_open}
+            })
         },
 
         

@@ -247,6 +247,7 @@ export default {
                 url: '/seller/me',
                 auth: true,
                 success: resp => {
+                    this.$commom.refreshUser()
                     this.loading = false
                     this.user = {...resp}
                 }

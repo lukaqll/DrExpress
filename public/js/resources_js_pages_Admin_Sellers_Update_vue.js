@@ -418,6 +418,40 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -447,7 +481,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, function (v) {
           return v && v.length >= 6 || 'A senha deve conter pelo menos 6 caracteres';
         }]
-      }
+      },
+      visibilityOptions: [{
+        text: 'Visível',
+        value: 'V'
+      }, {
+        text: 'Oculto',
+        value: 'O'
+      }, {
+        text: 'Em breve',
+        value: 'B'
+      }]
     };
   },
   mounted: function mounted() {
@@ -1406,6 +1450,8 @@ var render = function () {
                       _c("v-tab", [_vm._v("Endereços")]),
                       _vm._v(" "),
                       _c("v-tab", [_vm._v("Funções")]),
+                      _vm._v(" "),
+                      _c("v-tab", [_vm._v("Configurações")]),
                     ],
                     1
                   ),
@@ -1566,44 +1612,6 @@ var render = function () {
                                 ],
                                 1
                               ),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "row" }, [
-                                _c(
-                                  "div",
-                                  { staticClass: "col-md-3" },
-                                  [
-                                    _c("v-checkbox", {
-                                      attrs: { label: "Delivery" },
-                                      model: {
-                                        value: _vm.user.is_delivery,
-                                        callback: function ($$v) {
-                                          _vm.$set(_vm.user, "is_delivery", $$v)
-                                        },
-                                        expression: "user.is_delivery",
-                                      },
-                                    }),
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "div",
-                                  { staticClass: "col-md-3" },
-                                  [
-                                    _c("v-checkbox", {
-                                      attrs: { label: "Loja Física" },
-                                      model: {
-                                        value: _vm.user.is_physical,
-                                        callback: function ($$v) {
-                                          _vm.$set(_vm.user, "is_physical", $$v)
-                                        },
-                                        expression: "user.is_physical",
-                                      },
-                                    }),
-                                  ],
-                                  1
-                                ),
-                              ]),
                             ]),
                           ]),
                           _vm._v(" "),
@@ -1742,6 +1750,7 @@ var render = function () {
                             [
                               _c(
                                 "v-card",
+                                { attrs: { flat: "" } },
                                 [
                                   _c("v-autocomplete", {
                                     attrs: {
@@ -1802,6 +1811,147 @@ var render = function () {
                                 ],
                                 1
                               ),
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-tab-item",
+                            [
+                              _vm.user.config
+                                ? _c(
+                                    "v-card",
+                                    { staticClass: "m-2", attrs: { flat: "" } },
+                                    [
+                                      _c("div", { staticClass: "row" }, [
+                                        _c("div", { staticClass: "col-md-8" }, [
+                                          _c("div", { staticClass: "row" }, [
+                                            _c(
+                                              "div",
+                                              { staticClass: "col-md-6" },
+                                              [
+                                                _c("v-switch", {
+                                                  attrs: {
+                                                    label: "Aberto",
+                                                    hint: "Indica se está disponível para receber novos pedidos de venda.",
+                                                    "persistent-hint": "",
+                                                  },
+                                                  model: {
+                                                    value:
+                                                      _vm.user.config.is_open,
+                                                    callback: function ($$v) {
+                                                      _vm.$set(
+                                                        _vm.user.config,
+                                                        "is_open",
+                                                        $$v
+                                                      )
+                                                    },
+                                                    expression:
+                                                      "user.config.is_open",
+                                                  },
+                                                }),
+                                                _vm._v(" "),
+                                                _c("v-switch", {
+                                                  attrs: {
+                                                    label: "Loja Física",
+                                                    hint: "Informa se possui uma loja física ou não.",
+                                                    "persistent-hint": "",
+                                                  },
+                                                  model: {
+                                                    value:
+                                                      _vm.user.config
+                                                        .is_physical,
+                                                    callback: function ($$v) {
+                                                      _vm.$set(
+                                                        _vm.user.config,
+                                                        "is_physical",
+                                                        $$v
+                                                      )
+                                                    },
+                                                    expression:
+                                                      "user.config.is_physical",
+                                                  },
+                                                }),
+                                                _vm._v(" "),
+                                                _c("v-switch", {
+                                                  attrs: {
+                                                    label: "Delivery",
+                                                    hint: "Indica se faz entregas ou somente aceita busca presencial.",
+                                                    "persistent-hint": "",
+                                                  },
+                                                  model: {
+                                                    value:
+                                                      _vm.user.config
+                                                        .is_delivery,
+                                                    callback: function ($$v) {
+                                                      _vm.$set(
+                                                        _vm.user.config,
+                                                        "is_delivery",
+                                                        $$v
+                                                      )
+                                                    },
+                                                    expression:
+                                                      "user.config.is_delivery",
+                                                  },
+                                                }),
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "div",
+                                              { staticClass: "col-md-6" },
+                                              [
+                                                _c("v-select", {
+                                                  attrs: {
+                                                    items:
+                                                      _vm.visibilityOptions,
+                                                    label: "Visibilidade",
+                                                    hint: "Informa a visibilidade no aplicativo.",
+                                                    "persistent-hint": "",
+                                                  },
+                                                  model: {
+                                                    value:
+                                                      _vm.user.config
+                                                        .visibility,
+                                                    callback: function ($$v) {
+                                                      _vm.$set(
+                                                        _vm.user.config,
+                                                        "visibility",
+                                                        $$v
+                                                      )
+                                                    },
+                                                    expression:
+                                                      "user.config.visibility",
+                                                  },
+                                                }),
+                                              ],
+                                              1
+                                            ),
+                                          ]),
+                                        ]),
+                                        _vm._v(" "),
+                                        _vm.errors && _vm.errors.length
+                                          ? _c(
+                                              "div",
+                                              { staticClass: "col-md-12" },
+                                              [
+                                                _c("v-alert", {
+                                                  attrs: { type: "error" },
+                                                  domProps: {
+                                                    innerHTML: _vm._s(
+                                                      _vm.errors
+                                                    ),
+                                                  },
+                                                }),
+                                              ],
+                                              1
+                                            )
+                                          : _vm._e(),
+                                      ]),
+                                    ]
+                                  )
+                                : _vm._e(),
                             ],
                             1
                           ),
@@ -2134,21 +2284,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/VBtn.js");
 /* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/VCard.js");
 /* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
-/* harmony import */ var vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VCheckbox */ "./node_modules/vuetify/lib/components/VCheckbox/VCheckbox.js");
-/* harmony import */ var vuetify_lib_components_VChip__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VChip */ "./node_modules/vuetify/lib/components/VChip/VChip.js");
-/* harmony import */ var vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VDialog */ "./node_modules/vuetify/lib/components/VDialog/VDialog.js");
-/* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/VForm.js");
-/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
-/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/VList.js");
-/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/VListItem.js");
-/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/VListItemAction.js");
-/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/index.js");
-/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTab.js");
-/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTabItem.js");
-/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTabs.js");
-/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTabsItems.js");
-/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTabsSlider.js");
-/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
+/* harmony import */ var vuetify_lib_components_VChip__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VChip */ "./node_modules/vuetify/lib/components/VChip/VChip.js");
+/* harmony import */ var vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VDialog */ "./node_modules/vuetify/lib/components/VDialog/VDialog.js");
+/* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/VForm.js");
+/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
+/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/VList.js");
+/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/VListItem.js");
+/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/VListItemAction.js");
+/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/index.js");
+/* harmony import */ var vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vuetify/lib/components/VSelect */ "./node_modules/vuetify/lib/components/VSelect/VSelect.js");
+/* harmony import */ var vuetify_lib_components_VSwitch__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! vuetify/lib/components/VSwitch */ "./node_modules/vuetify/lib/components/VSwitch/VSwitch.js");
+/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTab.js");
+/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTabItem.js");
+/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTabs.js");
+/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTabsItems.js");
+/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTabsSlider.js");
+/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
 
 
 
@@ -2194,7 +2345,8 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAlert: vuetify_lib_components_VAlert__WEBPACK_IMPORTED_MODULE_4__["default"],VAutocomplete: vuetify_lib_components_VAutocomplete__WEBPACK_IMPORTED_MODULE_5__["default"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_6__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__["default"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__.VCardActions,VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__.VCardText,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__.VCardTitle,VCheckbox: vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_9__["default"],VChip: vuetify_lib_components_VChip__WEBPACK_IMPORTED_MODULE_10__["default"],VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_11__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_12__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_13__["default"],VList: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_14__["default"],VListItem: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_15__["default"],VListItemAction: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_16__["default"],VListItemActionText: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_17__.VListItemActionText,VListItemContent: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_17__.VListItemContent,VListItemSubtitle: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_17__.VListItemSubtitle,VListItemTitle: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_17__.VListItemTitle,VTab: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_18__["default"],VTabItem: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_19__["default"],VTabs: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_20__["default"],VTabsItems: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_21__["default"],VTabsSlider: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_22__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_23__["default"]})
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAlert: vuetify_lib_components_VAlert__WEBPACK_IMPORTED_MODULE_4__["default"],VAutocomplete: vuetify_lib_components_VAutocomplete__WEBPACK_IMPORTED_MODULE_5__["default"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_6__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__["default"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__.VCardActions,VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__.VCardText,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__.VCardTitle,VChip: vuetify_lib_components_VChip__WEBPACK_IMPORTED_MODULE_9__["default"],VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_10__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_11__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_12__["default"],VList: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_13__["default"],VListItem: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_14__["default"],VListItemAction: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_15__["default"],VListItemActionText: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_16__.VListItemActionText,VListItemContent: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_16__.VListItemContent,VListItemSubtitle: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_16__.VListItemSubtitle,VListItemTitle: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_16__.VListItemTitle,VSelect: vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_17__["default"],VSwitch: vuetify_lib_components_VSwitch__WEBPACK_IMPORTED_MODULE_18__["default"],VTab: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_19__["default"],VTabItem: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_20__["default"],VTabs: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_21__["default"],VTabsItems: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_22__["default"],VTabsSlider: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_23__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_24__["default"]})
 
 
 /* hot reload */

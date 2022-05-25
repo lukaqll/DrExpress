@@ -195,6 +195,8 @@ class SellerController extends Controller
     public function update( Request $request, $id ){
         $this->gate('update-seller');
         try {
+
+            DB::beginTransaction();
             
             $validData = $request->validate([
                 'name' => 'required|string',
@@ -206,22 +208,30 @@ class SellerController extends Controller
                 'id_city' => 'nullable|numeric|exists:cities,id',
                 'cro' => 'nullable|string',
 
-                'is_delivery' => 'nullable',
-                'is_physical' => 'nullable',
+                'config' => 'nullable|array',
 
                 'id_roles' => 'required|array',
                 'id_roles.*' => 'required|numeric|exists:roles,id',
             ]);
+            
 
             $updated = $this->userService->updateById( $id, $validData);
 
             $updated->roles()->detach( $updated->roles->pluck('id') );
             $updated->roles()->attach( $validData['id_roles'] );
 
+            $config = $updated->config;
+            if(empty($config)){
+                $updated->config()->create($validData['config']);
+            } else {
+                $config->update($validData['config']);
+            }
+
             $response = [ 'status' => 'success', 'data' => new SellerResource($updated) ];
 
+            DB::commit();
         } catch ( ValidationException $e ){
-            
+            DB::rollBack();
             $response = [ 'status' => 'error', 'message' => $e->errors() ];
         }
 

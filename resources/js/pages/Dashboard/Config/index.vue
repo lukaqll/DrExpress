@@ -15,20 +15,20 @@
                                             <v-switch
                                                 label="Aberto"
                                                 v-model="config.is_open"
-                                                hint="Indica se está disponível para receber novos pedidos de venda."
-                                                persistent-hint
+                                                messages="Indica se está disponível para receber novos pedidos de venda."
+                                                dense inset
                                             />
                                             <v-switch
                                                 label="Loja Física"
                                                 v-model="config.is_physical"
-                                                hint="Informa se possui uma loja física ou não."
-                                                persistent-hint
+                                                messages="Informa se possui uma loja física ou não."
+                                                dense inset
                                             />
                                             <v-switch
                                                 label="Delivery"
                                                 v-model="config.is_delivery"
-                                                hint="Indica se você faz entregas ou somente aceita busca presencial."
-                                                persistent-hint
+                                                messages="Indica se você faz entregas ou somente aceita busca presencial."
+                                                dense inset
                                             />
                                         </div>
 
@@ -37,7 +37,7 @@
                                                 v-model="config.visibility" 
                                                 :items="visibilityOptions" 
                                                 label="Visibilidade"
-                                                hint="Informa sua visibilidade no aplicative."
+                                                hint="Informa sua visibilidade no aplicativo."
                                                 persistent-hint
                                             />
                                         </div>
@@ -80,12 +80,6 @@ export default {
         this.get()
     },
 
-    watch: {
-        config(v){
-            console.log(v)
-        }
-    },
-
     methods: {
         get(){
             this.loading = true
@@ -100,26 +94,22 @@ export default {
         },
 
         update(){
-            if( this.$refs.from.validate() ){
-                this.loading = true
-                this.$commom.request({
-                    url: '/seller/me/config',
-                    type: 'put',
-                    auth: true,
-                    data: this.config,
-                    successAlert: true,
-                    success: resp => {
-                        this.get()
-                        this.loading = false
-                        this.errors = ''
-                        this.config = {...resp}
-                    }, 
-                    error: e => {
-                        this.errors = this.$commom.errorMessages(e)
-                        this.loading = false
-                    }
-                })
-            }
+            this.loading = true
+            this.$commom.request({
+                url: '/seller/me/config',
+                type: 'put',
+                auth: true,
+                data: this.config,
+                success: resp => {
+                    this.loading = false
+                    this.$commom.refreshUser()
+                    this.errors = ''
+                }, 
+                error: e => {
+                    this.loading = false
+                    this.errors = this.$commom.errorMessages(e)
+                }
+            })
         },
 
     }

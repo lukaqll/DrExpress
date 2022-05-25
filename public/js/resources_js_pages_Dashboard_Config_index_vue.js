@@ -102,11 +102,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {
     this.get();
   },
-  watch: {
-    config: function config(v) {
-      console.log(v);
-    }
-  },
   methods: {
     get: function get() {
       var _this = this;
@@ -124,27 +119,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     update: function update() {
       var _this2 = this;
 
-      if (this.$refs.from.validate()) {
-        this.loading = true;
-        this.$commom.request({
-          url: '/seller/me/config',
-          type: 'put',
-          auth: true,
-          data: this.config,
-          successAlert: true,
-          success: function success(resp) {
-            _this2.get();
+      this.loading = true;
+      this.$commom.request({
+        url: '/seller/me/config',
+        type: 'put',
+        auth: true,
+        data: this.config,
+        success: function success(resp) {
+          _this2.loading = false;
 
-            _this2.loading = false;
-            _this2.errors = '';
-            _this2.config = _objectSpread({}, resp);
-          },
-          error: function error(e) {
-            _this2.errors = _this2.$commom.errorMessages(e);
-            _this2.loading = false;
-          }
-        });
-      }
+          _this2.$commom.refreshUser();
+
+          _this2.errors = '';
+        },
+        error: function error(e) {
+          _this2.loading = false;
+          _this2.errors = _this2.$commom.errorMessages(e);
+        }
+      });
     }
   }
 });
@@ -492,8 +484,10 @@ var render = function () {
                               _c("v-switch", {
                                 attrs: {
                                   label: "Aberto",
-                                  hint: "Indica se está disponível para receber novos pedidos de venda.",
-                                  "persistent-hint": "",
+                                  messages:
+                                    "Indica se está disponível para receber novos pedidos de venda.",
+                                  dense: "",
+                                  inset: "",
                                 },
                                 model: {
                                   value: _vm.config.is_open,
@@ -507,8 +501,10 @@ var render = function () {
                               _c("v-switch", {
                                 attrs: {
                                   label: "Loja Física",
-                                  hint: "Informa se possui uma loja física ou não.",
-                                  "persistent-hint": "",
+                                  messages:
+                                    "Informa se possui uma loja física ou não.",
+                                  dense: "",
+                                  inset: "",
                                 },
                                 model: {
                                   value: _vm.config.is_physical,
@@ -522,8 +518,10 @@ var render = function () {
                               _c("v-switch", {
                                 attrs: {
                                   label: "Delivery",
-                                  hint: "Indica se você faz entregas ou somente aceita busca presencial.",
-                                  "persistent-hint": "",
+                                  messages:
+                                    "Indica se você faz entregas ou somente aceita busca presencial.",
+                                  dense: "",
+                                  inset: "",
                                 },
                                 model: {
                                   value: _vm.config.is_delivery,
@@ -545,7 +543,7 @@ var render = function () {
                                 attrs: {
                                   items: _vm.visibilityOptions,
                                   label: "Visibilidade",
-                                  hint: "Informa sua visibilidade no aplicative.",
+                                  hint: "Informa sua visibilidade no aplicativo.",
                                   "persistent-hint": "",
                                 },
                                 model: {

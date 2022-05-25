@@ -121,6 +121,7 @@ export default {
                 url: '/operators/me',
                 auth: true,
                 success: resp => {
+                    this.$commom.refreshUser()
                     this.loading = false
                     this.user = {...resp}
                 }

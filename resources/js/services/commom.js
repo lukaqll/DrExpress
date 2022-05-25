@@ -51,9 +51,14 @@ const commom = {
             opt.log && console.error( e )
             opt.error && opt.error( e )
 
-            if( e.response && (e.response.status == 403 ||  e.response.status == 401) ){
-                commom.loginRedirect(e.response.data.message)
+            if( e.response ){
+                if(e.response.status == 403 ||  e.response.status == 401)
+                    commom.loginRedirect(e.response.data.message)
+
+                if(e.response.status == 413)
+                    commom.setError({title: 'Arquivo muito grande'})
             }
+
         })
     
     },
@@ -162,6 +167,18 @@ const commom = {
 
         return day + '/' + month + '/' + year + (dateTimeSplit[1] && time ? (' ' + dateTimeSplit[1].split('.')[0]) : '')
     },
+
+    refreshUser: () => {
+
+        commom.verifyLogin()
+            .then(result => {
+                if( result.status == 'success' ){
+                    const user = result.data
+                    Vue.prototype.$useStore.setUser(user).then()
+                }
+            })
+
+    }
 }
 
 export default commom
