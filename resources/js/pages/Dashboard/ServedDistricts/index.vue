@@ -413,7 +413,7 @@ export default {
                 if (locale.id_district && this.districts.length == locale.id_district.length) {
                     locale.id_district = []
                 } else {
-                    locale.id_district = this.districts.slice()
+                    locale.id_district = this.districts.map(i => i.id)
                 }
                 this.locale = {...locale}
             })

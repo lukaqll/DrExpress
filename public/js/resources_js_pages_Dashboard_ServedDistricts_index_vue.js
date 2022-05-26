@@ -469,7 +469,9 @@ var initialLocale = {
         if (locale.id_district && _this9.districts.length == locale.id_district.length) {
           locale.id_district = [];
         } else {
-          locale.id_district = _this9.districts.slice();
+          locale.id_district = _this9.districts.map(function (i) {
+            return i.id;
+          });
         }
 
         _this9.locale = _objectSpread({}, locale);
