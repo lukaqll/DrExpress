@@ -6,11 +6,13 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\DistrictController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SellerController;
+use App\Http\Controllers\ServedDistrictController;
 use App\Http\Controllers\SpecController;
 use App\Http\Controllers\StockLogController;
 use App\Http\Controllers\UfController;
@@ -32,6 +34,8 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::group(['middleware' => ['apiJwt']], function(){
+
+    Route::get('/admin/home', [HomeController::class, 'adminHome']);
 
     Route::get('/me', [AuthController::class, 'me']);
 
@@ -156,5 +160,16 @@ Route::group(['middleware' => ['apiJwt']], function(){
      */
     Route::post('/stock/entry', [StockLogController::class, 'entry']);
     Route::post('/stock/out', [StockLogController::class, 'out']);
+
+
+    /**
+     * served districts
+     */
+    Route::post('/served-district', [ServedDistrictController::class, 'create']);
+    Route::get('/served-district', [ServedDistrictController::class, 'list']);
+    Route::get('/served-district/{id}', [ServedDistrictController::class, 'getById']);
+    Route::put('/served-district/{id}', [ServedDistrictController::class, 'update']);
+    Route::delete('/served-district/multiple', [ServedDistrictController::class, 'multipleDelete']);
+    Route::delete('/served-district/{id}', [ServedDistrictController::class, 'delete']);
 
 });

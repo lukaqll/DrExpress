@@ -181,7 +181,6 @@ export default {
                             url: '/brand/'+id,
                             type: 'delete',
                             auth: true,
-                            data: this.editBrand,
                             setError: true,
                             success: resp => {
                                 this.getBrands()

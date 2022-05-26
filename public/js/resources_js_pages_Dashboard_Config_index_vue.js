@@ -102,6 +102,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {
     this.get();
   },
+  watch: {
+    '$useStore.user.config.is_open': function $useStoreUserConfigIs_open(v) {
+      this.config = _objectSpread(_objectSpread({}, this.config), {}, {
+        is_open: v
+      });
+    }
+  },
   methods: {
     get: function get() {
       var _this = this;

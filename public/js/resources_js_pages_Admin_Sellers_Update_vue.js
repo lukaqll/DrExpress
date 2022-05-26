@@ -675,12 +675,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     });
   }), _defineProperty(_methods, "removeRole", function removeRole(item) {
-    var newEditUser = this.editUser;
-    var index = newEditUser.id_roles.findIndex(function (i) {
+    var newUser = this.user;
+    var index = newUser.id_roles.findIndex(function (i) {
       return i == item.value;
     });
-    newEditUser.id_roles.splice(index, 1);
-    this.editRole = _objectSpread({}, newEditUser);
+    newUser.id_roles.splice(index, 1);
+    this.editRole = _objectSpread({}, newUser);
   }), _methods)
 });
 

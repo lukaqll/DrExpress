@@ -14,6 +14,18 @@ class ServedDistrictResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id'          => $this->id,
+            'id_district' => $this->id_district,
+            'freight'    => $this->freight,
+            'min_delivery_time'    => $this->min_delivery_time,
+            'max_delivery_time'    => $this->max_delivery_time,
+            'time_type' => $this->time_type,
+            'time_type_text' => $this->timeTypeText(),
+
+            'district'  => $this->district,
+            'city_name' => $this->district->city->name,
+            'uf_name'   => $this->district->city->uf->name,
+        ];
     }
 }

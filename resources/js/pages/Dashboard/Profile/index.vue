@@ -34,7 +34,7 @@
                                                 </v-card>
                                             </v-menu>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-6">
                                             <v-menu min-width="200px" offset-y absolute>
                                                 <template v-slot:activator="{ on }">
                                                     <v-img 

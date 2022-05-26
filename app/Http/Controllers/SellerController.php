@@ -222,7 +222,11 @@ class SellerController extends Controller
 
             $config = $updated->config;
             if(empty($config)){
-                $updated->config()->create($validData['config']);
+                $configData = ['visibility' => 'O'];
+                if( !empty($validData['config']) ){
+                    $configData = $validData['config'];
+                }
+                $updated->config()->create($configData);
             } else {
                 $config->update($validData['config']);
             }

@@ -80,6 +80,12 @@ export default {
         this.get()
     },
 
+    watch: {
+        '$useStore.user.config.is_open': function(v){
+            this.config = {...this.config, is_open: v}
+        }
+    },
+
     methods: {
         get(){
             this.loading = true

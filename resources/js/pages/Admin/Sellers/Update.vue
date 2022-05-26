@@ -415,10 +415,10 @@ export default {
             })
         },
         removeRole(item){
-            let newEditUser = this.editUser
-            const index = newEditUser.id_roles.findIndex(i => i == item.value)
-            newEditUser.id_roles.splice(index, 1)
-            this.editRole = {...newEditUser}
+            let newUser = this.user
+            const index = newUser.id_roles.findIndex(i => i == item.value)
+            newUser.id_roles.splice(index, 1)
+            this.editRole = {...newUser}
         },
 
     }

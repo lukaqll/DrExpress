@@ -105,3 +105,8 @@ CREATE TABLE `dr_express`.`seller_config` (
     REFERENCES `dr_express`.`users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
+
+-------
+
+ALTER TABLE `dr_express`.`served_districts` 
+ADD COLUMN `time_type` VARCHAR(1) NULL AFTER `max_delivery_time`;

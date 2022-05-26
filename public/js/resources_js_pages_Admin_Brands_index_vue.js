@@ -219,7 +219,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
               url: '/brand/' + id,
               type: 'delete',
               auth: true,
-              data: _this4.editBrand,
               setError: true,
               success: function success(resp) {
                 _this4.getBrands();

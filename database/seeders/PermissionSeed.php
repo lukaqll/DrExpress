@@ -167,14 +167,14 @@ class PermissionSeed extends Seeder
             // products create-products
             [
                 'name' => 'Cria Produtos',
-                'slug' => 'create-products',
+                'slug' => 'create-product',
                 'topic' => 'address',
                 'description' => 'Pode criar produtos',
                 'active' => 1
             ],
             [
                 'name' => 'Ver Produtos',
-                'slug' => 'view-products',
+                'slug' => 'view-product',
                 'topic' => 'address',
                 'description' => 'Pode ver produtos',
                 'active' => 1
@@ -184,30 +184,54 @@ class PermissionSeed extends Seeder
             // brands
             [
                 'name' => 'Ver Marcas',
-                'slug' => 'view-brands',
+                'slug' => 'view-brand',
                 'topic' => 'brands',
                 'description' => 'Pode ver marcas',
                 'active' => 1
             ],
             [
                 'name' => 'Criar Marcas',
-                'slug' => 'create-brands',
+                'slug' => 'create-brand',
                 'topic' => 'brands',
                 'description' => 'Pode criar marcas',
                 'active' => 1
             ],
             [
                 'name' => 'Editar Marcas',
-                'slug' => 'update-brands',
+                'slug' => 'update-brand',
                 'topic' => 'brands',
                 'description' => 'Pode editar marcas',
                 'active' => 1
             ],
             [
                 'name' => 'Deletar Marcas',
-                'slug' => 'delete-brands',
+                'slug' => 'delete-brand',
                 'topic' => 'brands',
                 'description' => 'Pode deletar marcas',
+                'active' => 1
+            ],
+
+
+            // served districts
+            [
+                'name' => 'Criar Locais Atendidos',
+                'slug' => 'create-serverd-district',
+                'topic' => 'address',
+                'description' => 'Pode criar locais atendidos',
+                'active' => 1
+            ],
+            [
+                'name' => 'Editar Locais Atendidos',
+                'slug' => 'update-serverd-district',
+                'topic' => 'address',
+                'description' => 'Pode editar locais atendidos',
+                'active' => 1
+            ],
+            [
+                'name' => 'Deletar Locais Atendidos',
+                'slug' => 'delete-serverd-district',
+                'topic' => 'address',
+                'description' => 'Pode deletar locais atendidos',
                 'active' => 1
             ],
             

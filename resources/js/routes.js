@@ -188,6 +188,14 @@ const routes = [
             base: 'dashboard'
         }
     },
+    {
+        path: '/dashboard/locais-atendidos',
+        name: 'dash.config',
+        component: page('Dashboard/ServedDistricts'),
+        meta: {
+            base: 'dashboard'
+        }
+    },
 
     // products
     {

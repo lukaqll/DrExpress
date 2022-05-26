@@ -711,7 +711,7 @@ var render = function () {
                               _vm._v(" "),
                               _c(
                                 "div",
-                                { staticClass: "col-md-6" },
+                                { staticClass: "col-6" },
                                 [
                                   _c(
                                     "v-menu",

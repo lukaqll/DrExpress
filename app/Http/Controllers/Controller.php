@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Services\AddressService;
 use App\Services\BrandService;
 use App\Services\CategoryService;
@@ -12,8 +13,10 @@ use App\Services\ProductImageService;
 use App\Services\ProductService;
 use App\Services\ProductSpecItemService;
 use App\Services\ProductSpecService;
+use App\Services\ReportService;
 use App\Services\RoleService;
 use App\Services\SellerConfigService;
+use App\Services\ServedDistrictService;
 use App\Services\SpecItemService;
 use App\Services\SpecService;
 use App\Services\StockLogService;
@@ -48,30 +51,42 @@ class Controller extends BaseController
     protected $stockLogService;
     protected $productImageService;
     protected $sellerConfigService;
+    protected $reportService;
+    protected $servedDistrictService;
 
     public function __construct()
     {
-        $this->roleService = new RoleService;    
-        $this->permissionService = new PermissionService;    
-        $this->userService = new UserService;    
-        $this->categoryService = new CategoryService;    
-        $this->specService = new SpecService;    
-        $this->specItemService = new SpecItemService;    
-        $this->productService = new ProductService;    
-        $this->ufService = new UfService;    
-        $this->cityService = new CityService;    
-        $this->districtService = new DistrictService;    
-        $this->addressService = new AddressService;    
-        $this->brandService = new BrandService;    
-        $this->productSpecService = new ProductSpecService;    
-        $this->productSpecItemService = new ProductSpecItemService;    
-        $this->stockLogService = new StockLogService;    
-        $this->productImageService = new ProductImageService;    
-        $this->sellerConfigService = new SellerConfigService;    
+        $this->roleService = new RoleService;
+        $this->permissionService = new PermissionService;
+        $this->userService = new UserService;
+        $this->categoryService = new CategoryService;
+        $this->specService = new SpecService;
+        $this->specItemService = new SpecItemService;
+        $this->productService = new ProductService;
+        $this->ufService = new UfService;
+        $this->cityService = new CityService;
+        $this->districtService = new DistrictService;
+        $this->addressService = new AddressService;
+        $this->brandService = new BrandService;
+        $this->productSpecService = new ProductSpecService;
+        $this->productSpecItemService = new ProductSpecItemService;
+        $this->stockLogService = new StockLogService;
+        $this->productImageService = new ProductImageService;
+        $this->sellerConfigService = new SellerConfigService;
+        $this->reportService = new ReportService;
+        $this->servedDistrictService = new ServedDistrictService;
     }
 
     protected function gate($slug, $attr=[]){
         if( Gate::denies($slug, $attr) )
+            throw new HttpException(403, 'Ação não autorizada');
+    }
+
+    protected function hasRole( $roles ){
+
+        $user = auth('api')->user();
+        $rolesModels = Role::whereIn('slug', $roles)->get();
+        if( !$user->hasAnyRoles($rolesModels) )
             throw new HttpException(403, 'Ação não autorizada');
     }
 

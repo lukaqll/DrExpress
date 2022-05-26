@@ -40,6 +40,18 @@ class UserService extends AbstractService
                            ->get();
     }
 
+    public function listByRoles(array $roles){
+
+        return $this->model->join('user_roles AS ur', 'ur.id_user', 'users.id')
+                           ->join('roles AS r', function($join) use($roles) {
+                               $join->on('r.id', 'ur.id_role')
+                                    ->whereIn('r.slug', $roles);
+                           })
+                           ->select('users.*')
+                           ->groupBy('users.id')
+                           ->get();
+    }
+
     public function createOperator( $data ){
 
         
