@@ -173,3 +173,8 @@ Route::group(['middleware' => ['apiJwt']], function(){
     Route::delete('/served-district/{id}', [ServedDistrictController::class, 'delete']);
 
 });
+
+/**
+ * public
+ */
+Route::get('/product/slug/{slug}', [ProductController::class, 'getBySlug']);

@@ -33,7 +33,8 @@ $color-darkmode-card-light : #636d89;
 
     .v-toolbar,
     .v-data-table tr:hover,
-    .v-btn--has-bg
+    .v-data-table__selected,
+    .v-btn--has-bg,
     {
         background-color: $color-darkmode-card-header !important;
     }

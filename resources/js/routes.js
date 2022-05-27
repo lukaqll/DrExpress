@@ -236,6 +236,19 @@ const routes = [
         }
     },
     
+
+    /**
+     * testes
+     */
+     {
+        path: '/:slug',
+        name: 'dash.product.update-category',
+        component: page('Commerce/Product'),
+        meta: {
+            base: 'dashboard',
+        }
+    },
+
 ]
 
 

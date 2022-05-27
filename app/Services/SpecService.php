@@ -60,6 +60,9 @@ class SpecService extends AbstractService
 
         foreach( $specs as $idSpec => $specItems ){
             
+            if( empty($specItems) )
+                continue;
+                
             // verify spec category
             $spec = $this->find($idSpec);
             if( $spec->id_category != $category->id )

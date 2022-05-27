@@ -3,6 +3,7 @@
  namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductCommerceResource;
 use App\Http\Resources\ProductResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -310,4 +311,25 @@ class ProductController extends Controller
 
         return response()->json( $response );
     }
+
+    /**
+     * get by slug
+     */
+   public function getBySlug( Request $request, $slug ){
+
+       try {
+
+           $dataFilter = $request->all();
+           $dataFilter['slug'] = $slug;
+           $result = $this->productService->get( $dataFilter );
+   
+           $response = [ 'status' => 'success', 'data' => new ProductCommerceResource($result) ];
+       } catch ( ValidationException $e ){
+
+           $response = [ 'status' => 'error', 'message' => $e->errors() ];
+       }
+       return response()->json( $response ); 
+   }
 }
+
+

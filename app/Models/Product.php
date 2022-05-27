@@ -150,4 +150,76 @@ class Product extends Model
 
         return !empty($status[$this->status]) ? $status[$this->status] : $this->status;
     }
+
+    public function getSelectableSpecs(){
+
+        $specs = $this->specs->where('is_multiple', 2);
+
+        foreach( $specs as &$spec ){
+
+            $productSpecItems = DB::select("
+                select psi.* from
+                    spec_items si
+                join product_specs ps
+                    on ps.id_product = :id_product
+                    and ps.id_spec = :id_spec
+                join product_spec_items psi
+                    on psi.id_product_spec = ps.id
+                group by psi.id
+            ", [
+                ':id_product' => $this->id,
+                ':id_spec' => $spec->id
+            ]);
+
+            $spec->productSpecItems = $productSpecItems;
+        }
+
+        return $specs;
+    }
+
+    public function getNotSelectableSpecs(){
+
+        $specs = $this->specs->where('is_multiple', '!=', 2);
+
+        foreach( $specs as &$spec ){
+
+            $productSpecItems = DB::select("
+                select psi.* from
+                    spec_items si
+                join product_specs ps
+                    on ps.id_product = :id_product
+                    and ps.id_spec = :id_spec
+                join product_spec_items psi
+                    on psi.id_product_spec = ps.id
+                group by psi.id
+            ", [
+                ':id_product' => $this->id,
+                ':id_spec' => $spec->id
+            ]);
+
+            $spec->productSpecItems = $productSpecItems;
+        }
+
+        return $specs;
+    }
+
+    public function verifyRequiredCro(){
+
+        $result = DB::select("
+            with recursive parents as (
+        
+                select cat.* from categories cat
+                    join products p on p.id_category = cat.id
+                where p.id = :id
+                
+                union all
+                    select c.* from categories c
+                        join parents p on p.id_category = c.id
+            )
+            select * from parents 
+                where required_cro = 1
+        ", [':id' => $this->id]);
+            
+        return !empty($result);
+    }
 }

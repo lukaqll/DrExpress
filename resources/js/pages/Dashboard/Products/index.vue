@@ -96,12 +96,22 @@
                                                 Reativar
                                             </v-list-item-title>
                                         </v-list-item>
+                                        <router-view
+                                            is="v-list-item"
+                                            :to="'/'+prod.slug"
+                                        >
+                                            <v-list-item-title>
+                                                <v-icon small class="mr-2">fa fa-eye</v-icon>
+                                                Prévia
+                                            </v-list-item-title>
+                                        </router-view>
                                         <v-list-item link @click="() => deleteProduct(prod.id)" v-if="prod.status == 'paused'">
                                             <v-list-item-title>
                                                 <v-icon color="error" small class="mr-2">fa fa-trash</v-icon>
                                                 Remover
                                             </v-list-item-title>
                                         </v-list-item>
+                                        
                                     </v-list>
                                 </v-menu>
 

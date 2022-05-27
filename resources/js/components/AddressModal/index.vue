@@ -21,6 +21,7 @@
                                 v-model="address.id_city"
                                 item-text="name"
                                 item-value="id"
+                                no-data-text="Selecione um estado"
                             />
                         </div>
                         <div class="col-md-6">
@@ -30,6 +31,7 @@
                                 v-model="address.id_district"
                                 item-text="name"
                                 item-value="id"
+                                no-data-text="Selecione uma cidade"
                             />
                         </div>
                         <div class="col-md-6">

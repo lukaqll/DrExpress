@@ -229,6 +229,40 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var initialLocale = {
   time_type: 'i',
   freight: 0
@@ -259,7 +293,10 @@ var initialLocale = {
       ufs: [],
       cities: [],
       districts: [],
-      selectedItems: []
+      selectedItems: [],
+      filterCities: [],
+      filterDistricts: [],
+      filter: {}
     };
   },
   mounted: function mounted() {
@@ -286,6 +323,35 @@ var initialLocale = {
       } else {
         this.districts = [];
       }
+    },
+    'filter.id_uf': function filterId_uf(id_uf) {
+      var newFilter = this.filter;
+      newFilter.id_city = null;
+      newFilter.id_district = null;
+      this.filter = _objectSpread({}, newFilter);
+
+      if (id_uf) {
+        this.getFilterCities();
+      } else {
+        this.filterCities = [];
+      }
+    },
+    'filter.id_city': function filterId_city(id_city) {
+      var newFilter = this.filter;
+      newFilter.id_district = null;
+      this.filter = _objectSpread({}, newFilter);
+
+      if (id_city) {
+        this.getFilterDistricts();
+      } else {
+        this.filterDistricts = [];
+      }
+    },
+    filter: {
+      handler: function handler(v) {
+        this.getLocales();
+      },
+      deep: true
     }
   },
   methods: {
@@ -296,6 +362,7 @@ var initialLocale = {
       this.$commom.request({
         url: '/served-district',
         auth: true,
+        data: this.filter,
         success: function success(resp) {
           _this.loading = false;
           _this.locales = _toConsumableArray(resp);
@@ -460,21 +527,43 @@ var initialLocale = {
         }
       });
     },
-    selectAll: function selectAll() {
+    getFilterCities: function getFilterCities() {
       var _this9 = this;
 
-      this.$nextTick(function () {
-        var locale = _this9.locale;
+      this.$commom.request({
+        url: "/uf/".concat(this.filter.id_uf, "/cities"),
+        auth: true,
+        success: function success(resp) {
+          _this9.filterCities = _toConsumableArray(resp.cities);
+        }
+      });
+    },
+    getFilterDistricts: function getFilterDistricts() {
+      var _this10 = this;
 
-        if (locale.id_district && _this9.districts.length == locale.id_district.length) {
+      this.$commom.request({
+        url: "/city/".concat(this.filter.id_city),
+        auth: true,
+        success: function success(resp) {
+          _this10.filterDistricts = _toConsumableArray(resp.districts);
+        }
+      });
+    },
+    selectAll: function selectAll() {
+      var _this11 = this;
+
+      this.$nextTick(function () {
+        var locale = _this11.locale;
+
+        if (locale.id_district && _this11.districts.length == locale.id_district.length) {
           locale.id_district = [];
         } else {
-          locale.id_district = _this9.districts.map(function (i) {
+          locale.id_district = _this11.districts.map(function (i) {
             return i.id;
           });
         }
 
-        _this9.locale = _objectSpread({}, locale);
+        _this11.locale = _objectSpread({}, locale);
       });
     }
   }
@@ -1054,11 +1143,95 @@ var render = function () {
               _c(
                 "v-card-text",
                 [
+                  _c("div", { staticClass: "row" }, [
+                    _c(
+                      "div",
+                      { staticClass: "col-md-3" },
+                      [
+                        _c("v-autocomplete", {
+                          attrs: {
+                            label: "Estado",
+                            outlined: "",
+                            dense: "",
+                            items: _vm.ufs,
+                            "item-text": "name",
+                            "item-value": "id",
+                            clearable: "",
+                          },
+                          model: {
+                            value: _vm.filter.id_uf,
+                            callback: function ($$v) {
+                              _vm.$set(_vm.filter, "id_uf", $$v)
+                            },
+                            expression: "filter.id_uf",
+                          },
+                        }),
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-md-3" },
+                      [
+                        _c("v-autocomplete", {
+                          attrs: {
+                            label: "Cidade",
+                            outlined: "",
+                            dense: "",
+                            items: _vm.filterCities,
+                            "item-text": "name",
+                            "item-value": "id",
+                            clearable: "",
+                            "no-data-text": "Selecione um estado",
+                          },
+                          model: {
+                            value: _vm.filter.id_city,
+                            callback: function ($$v) {
+                              _vm.$set(_vm.filter, "id_city", $$v)
+                            },
+                            expression: "filter.id_city",
+                          },
+                        }),
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-md-3" },
+                      [
+                        _c("v-autocomplete", {
+                          attrs: {
+                            label: "Bairro",
+                            outlined: "",
+                            dense: "",
+                            items: _vm.filterDistricts,
+                            "item-text": "name",
+                            "item-value": "id",
+                            clearable: "",
+                            "no-data-text": "Selecione uma cidade",
+                          },
+                          model: {
+                            value: _vm.filter.id_district,
+                            callback: function ($$v) {
+                              _vm.$set(_vm.filter, "id_district", $$v)
+                            },
+                            expression: "filter.id_district",
+                          },
+                        }),
+                      ],
+                      1
+                    ),
+                  ]),
+                  _vm._v(" "),
                   _c("v-data-table", {
                     attrs: {
                       headers: _vm.localeHeaders,
                       items: _vm.locales,
                       "show-select": "",
+                      "items-per-page": -1,
+                      "disable-sort": "",
                     },
                     scopedSlots: _vm._u([
                       {
@@ -1242,6 +1415,7 @@ var render = function () {
                                       items: _vm.cities,
                                       "item-text": "name",
                                       "item-value": "id",
+                                      "no-data-text": "Selecione um estado",
                                     },
                                     model: {
                                       value: _vm.locale.id_city,
@@ -1269,6 +1443,7 @@ var render = function () {
                                       chips: "",
                                       "small-chips": "",
                                       "return-object": false,
+                                      "no-data-text": "Selecione uma cidade",
                                     },
                                     scopedSlots: _vm._u(
                                       [

@@ -11380,6 +11380,7 @@ textarea.form-control-lg {
 }
 .theme--dark .v-toolbar,
 .theme--dark .v-data-table tr:hover,
+.theme--dark .v-data-table__selected,
 .theme--dark .v-btn--has-bg {
   background-color: #353d54 !important;
 }

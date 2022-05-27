@@ -25,7 +25,7 @@ class ServedDistrictController extends Controller
         try {
 
             $user = auth('api')->user();
-            $result = $this->servedDistrictService->list( ['id_user' => $user->id] );
+            $result = $this->servedDistrictService->filterByUser( $user, $request->all() );
 
             $response = [ 'status' => 'success', 'data' => ServedDistrictResource::collection($result) ];
             

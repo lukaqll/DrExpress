@@ -12,10 +12,42 @@
                     </div>
                 </v-card-title>
                 <v-card-text>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <v-autocomplete
+                                label='Estado' outlined dense
+                                :items="ufs"
+                                v-model="filter.id_uf"
+                                item-text="name"
+                                item-value="id" clearable
+                            />
+                        </div>
+                        <div class="col-md-3">
+                            <v-autocomplete
+                                label='Cidade' outlined dense
+                                :items="filterCities"
+                                v-model="filter.id_city"
+                                item-text="name"
+                                item-value="id" clearable
+                                no-data-text="Selecione um estado"
+                            />
+                        </div>
+                        <div class="col-md-3">
+                            <v-autocomplete
+                                label='Bairro' outlined dense
+                                :items="filterDistricts"
+                                v-model="filter.id_district"
+                                item-text="name"
+                                item-value="id" clearable
+                                no-data-text="Selecione uma cidade"
+                            />
+                        </div>
+                    </div>
                     <v-data-table
                         :headers="localeHeaders"
                         :items="locales"
                         show-select v-model="selectedItems"
+                        :items-per-page="-1" disable-sort
                     >
                         <template v-slot:item.locale="{ item }">
                             <small>{{item.uf_name}}</small> > <small>{{item.city_name}}</small> > <b>{{item.district.name}}</b>
@@ -65,6 +97,7 @@
                                         v-model="locale.id_city"
                                         item-text="name"
                                         item-value="id"
+                                        no-data-text="Selecione um estado"
                                     />
                                 </div>
                                 <div class="col-md-12">
@@ -75,6 +108,7 @@
                                         item-text="name"
                                         item-value="id"
                                         multiple chips small-chips :return-object="false"
+                                        no-data-text="Selecione uma cidade"
                                     >
                                         <template v-slot:prepend-item>
                                             <v-list-item
@@ -221,7 +255,11 @@ export default {
         ufs: [],
         cities: [],
         districts: [],
-        selectedItems: []
+        selectedItems: [],
+
+        filterCities: [],
+        filterDistricts: [],
+        filter: {},
 
     }),
 
@@ -252,6 +290,35 @@ export default {
                 this.districts = []
             }
         },
+
+        'filter.id_uf': function(id_uf){
+            const newFilter = this.filter
+            newFilter.id_city = null
+            newFilter.id_district = null
+            this.filter = {...newFilter}
+            if(id_uf){
+                this.getFilterCities()
+            } else {
+                this.filterCities = []
+            }
+        },
+        'filter.id_city': function(id_city){
+            const newFilter = this.filter
+            newFilter.id_district = null
+            this.filter = {...newFilter}
+
+            if(id_city){
+                this.getFilterDistricts()
+            } else {
+                this.filterDistricts = []
+            }
+        },
+        filter: {
+            handler(v){
+                this.getLocales()
+            },
+            deep: true
+        }
     },
 
     methods: {
@@ -260,6 +327,7 @@ export default {
             this.$commom.request({
                 url: '/served-district',
                 auth: true,
+                data: this.filter,
                 success: resp => {
                     this.loading = false
                     this.locales = [...resp]
@@ -402,6 +470,25 @@ export default {
                 auth: true,
                 success: resp => {
                     this.districts = [...resp.districts]
+                }
+            })
+        },
+
+        getFilterCities(){
+            this.$commom.request({
+                url: `/uf/${this.filter.id_uf}/cities`,
+                auth: true,
+                success: resp => {
+                    this.filterCities = [...resp.cities]
+                }
+            })
+        },
+        getFilterDistricts(){
+            this.$commom.request({
+                url: `/city/${this.filter.id_city}`,
+                auth: true,
+                success: resp => {
+                    this.filterDistricts = [...resp.districts]
                 }
             })
         },

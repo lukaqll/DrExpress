@@ -141,6 +141,16 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -774,6 +784,34 @@ var render = function () {
                                             ],
                                             1
                                           ),
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item",
+                                    {
+                                      tag: "router-view",
+                                      attrs: { to: "/" + prod.slug },
+                                    },
+                                    [
+                                      _c(
+                                        "v-list-item-title",
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            {
+                                              staticClass: "mr-2",
+                                              attrs: { small: "" },
+                                            },
+                                            [_vm._v("fa fa-eye")]
+                                          ),
+                                          _vm._v(
+                                            "\n                                            Prévia\n                                        "
+                                          ),
+                                        ],
+                                        1
+                                      ),
                                     ],
                                     1
                                   ),

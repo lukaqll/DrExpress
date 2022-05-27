@@ -46,4 +46,26 @@ class ServedDistrictService extends AbstractService
 
         return true;
     }
+
+    public function filterByUser(User $user, $data){
+
+        $filter = $this->model->where('id_user', $user->id)
+                              ->join('districts as d', 'd.id', 'served_districts.id_district')
+                              ->join('cities as c', 'c.id', 'd.id_city')
+                              ->join('ufs as uf', 'uf.id', 'c.id_uf');
+
+        if( !empty($data['id_uf']) && $data['id_uf'] != 'null' ){
+            $filter = $filter->where('uf.id', $data['id_uf']);
+        }
+        if( !empty($data['id_city']) && $data['id_city'] != 'null' ){
+            $filter = $filter->where('c.id', $data['id_city']);
+        }
+        if( !empty($data['id_district']) && $data['id_district'] != 'null' ){
+            $filter = $filter->where('d.id', $data['id_district']);
+        }
+
+        return $filter->select('served_districts.*')
+                      ->get();
+
+    }
 }

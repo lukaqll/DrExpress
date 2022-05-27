@@ -95,6 +95,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     visible: Boolean,
@@ -846,6 +848,7 @@ var render = function () {
                             items: _vm.cities,
                             "item-text": "name",
                             "item-value": "id",
+                            "no-data-text": "Selecione um estado",
                           },
                           model: {
                             value: _vm.address.id_city,
@@ -869,6 +872,7 @@ var render = function () {
                             items: _vm.districts,
                             "item-text": "name",
                             "item-value": "id",
+                            "no-data-text": "Selecione uma cidade",
                           },
                           model: {
                             value: _vm.address.id_district,
