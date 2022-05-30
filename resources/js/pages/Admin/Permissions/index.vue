@@ -269,6 +269,7 @@ export default {
             {text: 'Categoria', value: 'category'},
             {text: 'Endereço', value: 'address'},
             {text: 'Marca', value: 'brand'},
+            {text: 'Carrinho de Compras', value: 'cart'},
         ]
 
     }),

@@ -234,7 +234,30 @@ class PermissionSeed extends Seeder
                 'description' => 'Pode deletar locais atendidos',
                 'active' => 1
             ],
-            
+
+
+            // cart
+            [
+                'name' => 'Criar Carrinho de Compras',
+                'slug' => 'create-cart',
+                'topic' => 'cart',
+                'description' => 'Pode criar carrinhos de compra',
+                'active' => 1
+            ],
+            [
+                'name' => 'Editar Carrinho de Compras',
+                'slug' => 'update-cart',
+                'topic' => 'cart',
+                'description' => 'Pode editar carrinhos de compra',
+                'active' => 1
+            ],
+            [
+                'name' => 'Deletar Carrinho de Compras',
+                'slug' => 'delete-cart',
+                'topic' => 'cart',
+                'description' => 'Pode deletar carrinhos de compra',
+                'active' => 1
+            ],
         ];
 
         foreach($permissions as $permission){

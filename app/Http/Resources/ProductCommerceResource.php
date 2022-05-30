@@ -39,7 +39,8 @@ class ProductCommerceResource extends JsonResource
             'category_flow'   => $this->getCategoryFlow(),
             'amount'          => $this->getAmount(),
             'category'        => new CategoryResource($this->category),
-            'required_cro'    => $this->verifyRequiredCro()
+            'required_cro'    => $this->verifyRequiredCro(),
+            'is_favorite'     => $this->getIsFavorite()
         ];
     }
 }

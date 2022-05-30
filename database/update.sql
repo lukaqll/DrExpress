@@ -110,3 +110,49 @@ CREATE TABLE `dr_express`.`seller_config` (
 
 ALTER TABLE `dr_express`.`served_districts` 
 ADD COLUMN `time_type` VARCHAR(1) NULL AFTER `max_delivery_time`;
+
+
+------
+
+CREATE TABLE `dr_express`.`favorite_products` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `id_user` INT NOT NULL,
+  `id_product` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_favorite_products_1_idx` (`id_user` ASC) VISIBLE,
+  INDEX `fk_favorite_products_2_idx` (`id_product` ASC) VISIBLE,
+  CONSTRAINT `fk_favorite_products_1`
+    FOREIGN KEY (`id_user`)
+    REFERENCES `dr_express`.`users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_favorite_products_2`
+    FOREIGN KEY (`id_product`)
+    REFERENCES `dr_express`.`products` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+ALTER TABLE `dr_express`.`cart_items` 
+ADD COLUMN `amount` DECIMAL(12,2) NOT NULL DEFAULT 0 AFTER `id_product`;
+ALTER TABLE `dr_express`.`cart_items` 
+DROP COLUMN `price`;
+
+CREATE TABLE `dr_express`.`cart_item_specs` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `id_cart_item` INT NOT NULL,
+  `id_spec` INT NOT NULL,
+  `data` VARCHAR(60) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_cart_item_specs_1_idx` (`id_cart_item` ASC) VISIBLE,
+  INDEX `fk_cart_item_specs_2_idx` (`id_spec` ASC) VISIBLE,
+  CONSTRAINT `fk_cart_item_specs_1`
+    FOREIGN KEY (`id_cart_item`)
+    REFERENCES `dr_express`.`cart_items` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_cart_item_specs_2`
+    FOREIGN KEY (`id_spec`)
+    REFERENCES `dr_express`.`specs` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+

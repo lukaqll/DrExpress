@@ -40,6 +40,10 @@ class Product extends Model
         return $this->hasOne(Category::class, 'id', 'id_category');
     }
 
+    public function user(){
+        return $this->hasOne(User::class, 'id', 'id_user');
+    }
+
     public function specs(){
         return $this->belongsToMany(Spec::class, 'product_specs', 'id_product', 'id_spec');
     }
@@ -221,5 +225,18 @@ class Product extends Model
         ", [':id' => $this->id]);
             
         return !empty($result);
+    }
+
+    public function getIsFavorite(){
+        $user = auth('api')->user();
+        
+        if( empty($user) )
+            return false;
+
+        $isFavorite = FavoriteProduct::where('id_user', $user->id)
+                                    ->where('id_product', $this->id)
+                                    ->first();
+
+        return !empty($isFavorite);
     }
 }

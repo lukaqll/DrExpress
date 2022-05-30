@@ -20,10 +20,11 @@
     import Admin from './components/Layouts/Admin.vue'
     import Auth from './components/Layouts/Auth.vue'
     import Dashboard from './components/Layouts/Dashboard.vue'
+    import Commerce from './components/Layouts/Commerce.vue'
     import { useStore } from './services/store'
 
     export default {
-        components: {Admin, Auth, Dashboard},
+        components: {Admin, Auth, Dashboard, Commerce},
         data: () => ({
            useStore: useStore(),
            defaultMiniDrawer: false,

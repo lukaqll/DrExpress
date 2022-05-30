@@ -4,6 +4,7 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 class CartController extends Controller
@@ -11,47 +12,6 @@ class CartController extends Controller
     public function __construct()
     {
         parent::__construct();
-    }
-
-    /**
-     * list all
-     * 
-     * @return  json
-     */
-    public function list( Request $request )
-    {
-        try {
-
-            $dataFilter = $request->all();
-            $result = $this->cartService->list( $dataFilter, ['id'] );
-
-            $response = [ 'status' => 'success', 'data' => ($result) ];
-            
-        } catch ( ValidationException $e ){
-
-            $response = [ 'status' => 'error', 'message' => $e->errors() ];
-        }
-        return response()->json( $response );
-    }
-
-    /**
-     * get by key and value
-     * 
-     * @return  json
-     */
-    public function get( Request $request ){
-
-        try {
-
-            $dataFilter = $request->all();
-            $result = $this->cartService->get( $dataFilter );
-    
-            $response = [ 'status' => 'success', 'data' => ($result) ];
-        } catch ( ValidationException $e ){
-
-            $response = [ 'status' => 'error', 'message' => $e->errors() ];
-        }
-        return response()->json( $response ); 
     }
 
     /**
@@ -78,19 +38,29 @@ class CartController extends Controller
      * 
      * @return  json
      */
-    public function create( Request $request ){
+    public function addItem( Request $request ){
+        
+        $this->gate('create-cart');
 
         try {
+            DB::beginTransaction();
+            $user = auth('api')->user();
 
             $validData = $request->validate([
-                'name' => 'required|string|unique:table',
+                'id_product' => 'required|exists:products,id',
+                'amount' => 'required|numeric|min:1',
+
+                'specs'  => 'nullable|array'
             ]);
             
-            $created = $this->cartService->create( $validData );
+            
+            $created = $this->cartService->addItem( $user, $validData );
+            dd($created);
             $response = [ 'status' => 'success', 'data' => ($created) ];
 
+            DB::commit();
         } catch ( ValidationException $e ){
-            
+            DB::rollBack();
             $response = [ 'status' => 'error', 'message' => $e->errors() ];
         }
 

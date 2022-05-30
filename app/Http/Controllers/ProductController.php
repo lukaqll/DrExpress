@@ -298,14 +298,17 @@ class ProductController extends Controller
 
         try {
 
+            DB::beginTransaction();
             if($product->status != 'paused')
                 $this->throwException('O anúncio deve estar pausado para ser removido');
 
-            $deleted = $this->productService->updateById( $id, ['deleted' => 1] );
-            $response = [ 'status' => 'success', 'data' => ($deleted) ];
+            $deleted = $this->productService->deleteProduct( $product );
 
+
+            $response = [ 'status' => 'success', 'data' => ($deleted) ];
+            DB::commit();
         } catch ( ValidationException $e ){
-            
+            DB::rollBack();
             $response = [ 'status' => 'error', 'message' => $e->errors() ];
         }
 

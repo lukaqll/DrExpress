@@ -102,7 +102,10 @@
                                                                 <p class="h3">{{ product.name }}</p>
                                                             </div>
                                                             <div class="col-md-2">
-                                                                <v-icon class="ml-4">far fa-heart</v-icon>
+                                                                <v-btn icon @click="toggleFavorite">
+                                                                    <v-icon color="error" v-if="product.is_favorite">fa fa-heart</v-icon>
+                                                                    <v-icon v-else>far fa-heart</v-icon>
+                                                                </v-btn>
                                                             </div>
                                                         </div>
                                                         <v-rating
@@ -130,6 +133,7 @@
                                                                 item-text="name"
                                                                 item-value="name"
                                                                 outlined dense
+                                                                v-model="specs[spec.id]"
                                                             />
                                                         </div>
                                                     </div>
@@ -149,7 +153,7 @@
                                                                 <v-chip x-small>{{product.amount}} disponíveis</v-chip>
                                                             </div>
                                                             <div class="col-md-8">
-                                                                <v-btn large elevation="0" block class="mb-2">Adicionar ao carrinho</v-btn>
+                                                                <v-btn large elevation="0" block class="mb-2" @click="addInCart">Adicionar ao carrinho</v-btn>
                                                                 <v-btn large elevation="0" block color="primary lighten-1">Comprar</v-btn>
                                                             </div>
                                                         </div>
@@ -182,19 +186,64 @@ export default {
     data: () => ({
         product: {},
         carouselImage: 0,
-        amount: 1
+        amount: 1,
+        specs: {}
     }),
 
     mounted(){
-        this.getProduct();
+        
     },  
+    watch: {
+        '$route.params.slug': {
+            handler: function(slug) {
+                if(slug)
+                    this.getProduct(slug)
+            },
+            deep: true,
+            immediate: true
+        }
+    },
     methods: {
-        getProduct(){
-            const slug = this.$route.params.slug
+        getProduct(slug){
+            // const slug = this.$route.params.slug
             this.$commom.request({
                 url: '/product/slug/'+slug,
+                auth: true,
                 success: resp => {
                     this.product = {...resp}
+                }
+            })
+        },
+
+        toggleFavorite(){
+            this.$commom.request({
+                url: '/favorite-product/',
+                type: 'post',
+                data: {id_product: this.product.id},
+                auth: true,
+                success: resp => {
+                    const prod = this.product
+                    prod.is_favorite = !prod.is_favorite
+                    this.product = {...prod}
+                }
+            })
+        },
+
+        addInCart(){
+
+            const data = {
+                amount: this.amount,
+                specs: this.specs,
+                id_product: this.product.id
+            }
+
+            this.$commom.request({
+                url: '/cart/add-item',
+                type: 'post',
+                data: data,
+                auth: true,
+                success: resp => {
+                    console.log(resp)
                 }
             })
         }

@@ -30,6 +30,7 @@ class Permission extends Model
             'category' => 'Categoria',
             'address' => 'Endereço',
             'brand' => 'Marca',
+            'cart' => 'Carrinho de Compras',
         ];
 
         return !empty($topics[$this->topic]) ? $topics[$this->topic] : $this->topic;

@@ -3,9 +3,11 @@
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\DistrictController;
+use App\Http\Controllers\FavoriteProductController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
@@ -171,6 +173,17 @@ Route::group(['middleware' => ['apiJwt']], function(){
     Route::put('/served-district/{id}', [ServedDistrictController::class, 'update']);
     Route::delete('/served-district/multiple', [ServedDistrictController::class, 'multipleDelete']);
     Route::delete('/served-district/{id}', [ServedDistrictController::class, 'delete']);
+
+    /**
+     * favorite products
+     */
+    Route::get('/favorite-product', [FavoriteProductController::class, 'list']);
+    Route::post('/favorite-product', [FavoriteProductController::class, 'toggle']);
+
+    /**
+     * cart
+     */
+    Route::post('/cart/add-item', [CartController::class, 'addItem']);
 
 });
 

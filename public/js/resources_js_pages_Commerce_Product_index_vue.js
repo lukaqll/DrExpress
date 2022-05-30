@@ -196,26 +196,72 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       product: {},
       carouselImage: 0,
-      amount: 1
+      amount: 1,
+      specs: {}
     };
   },
-  mounted: function mounted() {
-    this.getProduct();
+  mounted: function mounted() {},
+  watch: {
+    '$route.params.slug': {
+      handler: function handler(slug) {
+        if (slug) this.getProduct(slug);
+      },
+      deep: true,
+      immediate: true
+    }
   },
   methods: {
-    getProduct: function getProduct() {
+    getProduct: function getProduct(slug) {
       var _this = this;
 
-      var slug = this.$route.params.slug;
+      // const slug = this.$route.params.slug
       this.$commom.request({
         url: '/product/slug/' + slug,
+        auth: true,
         success: function success(resp) {
           _this.product = _objectSpread({}, resp);
+        }
+      });
+    },
+    toggleFavorite: function toggleFavorite() {
+      var _this2 = this;
+
+      this.$commom.request({
+        url: '/favorite-product/',
+        type: 'post',
+        data: {
+          id_product: this.product.id
+        },
+        auth: true,
+        success: function success(resp) {
+          var prod = _this2.product;
+          prod.is_favorite = !prod.is_favorite;
+          _this2.product = _objectSpread({}, prod);
+        }
+      });
+    },
+    addInCart: function addInCart() {
+      var data = {
+        amount: this.amount,
+        specs: this.specs,
+        id_product: this.product.id
+      };
+      this.$commom.request({
+        url: '/cart/add-item',
+        type: 'post',
+        data: data,
+        auth: true,
+        success: function success(resp) {
+          console.log(resp);
         }
       });
     }
@@ -1006,9 +1052,29 @@ var render = function () {
                                           { staticClass: "col-md-2" },
                                           [
                                             _c(
-                                              "v-icon",
-                                              { staticClass: "ml-4" },
-                                              [_vm._v("far fa-heart")]
+                                              "v-btn",
+                                              {
+                                                attrs: { icon: "" },
+                                                on: {
+                                                  click: _vm.toggleFavorite,
+                                                },
+                                              },
+                                              [
+                                                _vm.product.is_favorite
+                                                  ? _c(
+                                                      "v-icon",
+                                                      {
+                                                        attrs: {
+                                                          color: "error",
+                                                        },
+                                                      },
+                                                      [_vm._v("fa fa-heart")]
+                                                    )
+                                                  : _c("v-icon", [
+                                                      _vm._v("far fa-heart"),
+                                                    ]),
+                                              ],
+                                              1
                                             ),
                                           ],
                                           1
@@ -1076,6 +1142,17 @@ var render = function () {
                                               "item-value": "name",
                                               outlined: "",
                                               dense: "",
+                                            },
+                                            model: {
+                                              value: _vm.specs[spec.id],
+                                              callback: function ($$v) {
+                                                _vm.$set(
+                                                  _vm.specs,
+                                                  spec.id,
+                                                  $$v
+                                                )
+                                              },
+                                              expression: "specs[spec.id]",
                                             },
                                           })
                                         }
@@ -1154,6 +1231,7 @@ var render = function () {
                                                     elevation: "0",
                                                     block: "",
                                                   },
+                                                  on: { click: _vm.addInCart },
                                                 },
                                                 [
                                                   _vm._v(
@@ -1709,43 +1787,6 @@ __webpack_require__.r(__webpack_exports__);
 
 }));
 //# sourceMappingURL=VBreadcrumbsItem.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/components/VCard/index.js":
-/*!************************************************************!*\
-  !*** ./node_modules/vuetify/lib/components/VCard/index.js ***!
-  \************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "VCard": () => (/* reexport safe */ _VCard__WEBPACK_IMPORTED_MODULE_1__["default"]),
-/* harmony export */   "VCardActions": () => (/* binding */ VCardActions),
-/* harmony export */   "VCardSubtitle": () => (/* binding */ VCardSubtitle),
-/* harmony export */   "VCardText": () => (/* binding */ VCardText),
-/* harmony export */   "VCardTitle": () => (/* binding */ VCardTitle),
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _VCard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./VCard */ "./node_modules/vuetify/lib/components/VCard/VCard.js");
-/* harmony import */ var _util_helpers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../util/helpers */ "./node_modules/vuetify/lib/util/helpers.js");
-
-
-const VCardActions = (0,_util_helpers__WEBPACK_IMPORTED_MODULE_0__.createSimpleFunctional)('v-card__actions');
-const VCardSubtitle = (0,_util_helpers__WEBPACK_IMPORTED_MODULE_0__.createSimpleFunctional)('v-card__subtitle');
-const VCardText = (0,_util_helpers__WEBPACK_IMPORTED_MODULE_0__.createSimpleFunctional)('v-card__text');
-const VCardTitle = (0,_util_helpers__WEBPACK_IMPORTED_MODULE_0__.createSimpleFunctional)('v-card__title');
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  $_vuetify_subcomponents: {
-    VCard: _VCard__WEBPACK_IMPORTED_MODULE_1__["default"],
-    VCardActions,
-    VCardSubtitle,
-    VCardText,
-    VCardTitle
-  }
-});
-//# sourceMappingURL=index.js.map
 
 /***/ }),
 

@@ -146,4 +146,8 @@ class User extends Authenticatable implements JWTSubject
     public function config(){
         return $this->hasOne(SellerConfig::class, 'id_user');
     }
+
+    public function favoriteProducts(){
+        return $this->belongsToMany(Product::class, 'favorite_products', 'id_user', 'id_product');
+    }
 }

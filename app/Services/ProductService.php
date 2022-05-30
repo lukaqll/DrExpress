@@ -1,6 +1,7 @@
 <?php 
  namespace App\Services;
 
+use App\Models\FavoriteProduct;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Validation\ValidationException;
@@ -163,5 +164,17 @@ class ProductService extends AbstractService
         }
 
         return $filter->selectRaw('products.*')->get();
+    }
+
+    /**
+     * set as deleted
+     */
+    public function deleteProduct(Product $product){
+
+        
+        FavoriteProduct::where('id_product', $product->id)->delete();
+        $product->update(['deleted' => 1]);
+        
+        return true;
     }
 }

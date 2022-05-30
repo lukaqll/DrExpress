@@ -98,7 +98,7 @@
                                         </v-list-item>
                                         <router-view
                                             is="v-list-item"
-                                            :to="'/'+prod.slug"
+                                            :to="'/p/'+prod.slug"
                                         >
                                             <v-list-item-title>
                                                 <v-icon small class="mr-2">fa fa-eye</v-icon>

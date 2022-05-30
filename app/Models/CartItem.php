@@ -16,9 +16,13 @@ class CartItem extends Model
         'id',
         'id_cart',
         'id_product',
-        'price',
+        'amount',
         'deleted',
     ];
 
     public $timestamps = false;
+
+    public function specs(){
+        return $this->hasMany(CartItemSpec::class, 'id_cart_item');
+    }
 }
