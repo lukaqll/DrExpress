@@ -3,6 +3,8 @@
  namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CartResource;
+use App\Http\Resources\CartSellerResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -19,12 +21,20 @@ class CartController extends Controller
      * 
      * @return  json
      */
-    public function getById( $id ){
+    public function get(){
+
+        $this->gate('view-cart');
 
         try {
 
-            $result = $this->cartService->get( ['id' => $id] );
-            $response = [ 'status' => 'success', 'data' => ($result) ];
+            $user = auth('api')->user();
+
+            // $result = $user->getCart();
+            // $response = [ 'status' => 'success', 'data' => new CartResource($result) ];
+
+            $result = $this->cartService->getFormatCart($user);
+            $response = [ 'status' => 'success', 'data' => new CartSellerResource($result) ];
+            
 
         } catch ( ValidationException $e ){
 
@@ -55,7 +65,6 @@ class CartController extends Controller
             
             
             $created = $this->cartService->addItem( $user, $validData );
-            dd($created);
             $response = [ 'status' => 'success', 'data' => ($created) ];
 
             DB::commit();
@@ -72,14 +81,33 @@ class CartController extends Controller
      * 
      * @return  json
      */
-    public function update( Request $request, $id ){
+    public function updateItemAmount( Request $request, $id ){
+        $this->gate('update-cart');
 
         try {
             
+            $user = auth('api')->user();
+
+            $cartItem = $this->cartItemService->find($id);
+            if( $cartItem->cart->id_user != $user->id )
+                $this->throwException("Falha ao atualizar item");
+
             $validData = $request->validate([
-                'name' => 'required|string|unique:table,name,'.$id,
+                'handle' => 'nullable|string',
             ]);
-            $updated = $this->cartService->updateById( $id, $validData);
+            
+            $amount = $cartItem->amount;
+            if(!empty($validData['handle']) && $validData['handle'] == 'minus'){
+
+                if( $amount > 1 )
+                    $amount--;
+
+            } else {
+                if( $cartItem->product->getAmount() > $amount )
+                    $amount++;
+            }
+            $updated = $this->cartItemService->updateById( $id, ['amount' => $amount]);
+
             $response = [ 'status' => 'success', 'data' => ($updated) ];
 
         } catch ( ValidationException $e ){
@@ -91,16 +119,24 @@ class CartController extends Controller
     }
 
     /**
-     * delete
+     * delete item
      * 
      * @return  json
      */
-    public function delete( $id ){
+    public function removeItem( $id ){
+        $this->gate('update-cart');
 
         try {
 
-            $deleted = $this->cartService->deleteById( $id );
-            $response = [ 'status' => 'success', 'data' => ($deleted) ];
+            $user = auth('api')->user();
+            $cartItem = $this->cartItemService->find($id);
+            if( $cartItem->cart->id_user != $user->id )
+                $this->throwException("Falha ao remove item");
+
+            $cartItem->specs()->delete();
+            $cartItem->update(['deleted' => 1]);
+
+            $response = [ 'status' => 'success', 'data' => true ];
 
         } catch ( ValidationException $e ){
             

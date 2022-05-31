@@ -37,7 +37,8 @@ class ProductResource extends JsonResource
             'specs'           => ProductSpecResource::collection($this->getSpecs()),
             'category_flow'   => $this->getCategoryFlow(),
             'amount'          => $this->getAmount(),
-            'category'        => new CategoryResource($this->category)
+            'category'        => new CategoryResource($this->category),
+            'user_name'       => $this->user->name
         ];
     }
 }

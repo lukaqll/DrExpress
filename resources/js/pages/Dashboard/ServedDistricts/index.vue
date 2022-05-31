@@ -6,8 +6,8 @@
                     <div class="row">
                         <div class="col-12">
                             Locais Atendidos
-                            <v-btn v-if="$can('create-served-distric')" text color="primary" class="float-right" @click="newLocaleModal = true">Adicionar Local</v-btn>
-                            <v-btn v-if="$can('delete-served-distric') && selectedItems.length" text color="error" class="float-right" @click="deleteSelectedLocale">Deletar selecionados</v-btn>
+                            <v-btn v-if="$can('create-served-district')" text color="primary" class="float-right" @click="newLocaleModal = true">Adicionar Local</v-btn>
+                            <v-btn v-if="$can('delete-served-district') && selectedItems.length" text color="error" class="float-right" @click="deleteSelectedLocale">Deletar selecionados</v-btn>
                         </div>
                     </div>
                 </v-card-title>

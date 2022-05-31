@@ -204,7 +204,7 @@ const routes = [
         component: page('Dashboard/Products'),
         meta: {
             base: 'dashboard',
-            can: ['view-products']
+            can: ['view-product']
         }
     },
     {
@@ -213,7 +213,7 @@ const routes = [
         component: page('Dashboard/Products/Create.vue'),
         meta: {
             base: 'dashboard',
-            can: ['create-products'],
+            can: ['create-product'],
             defaultDrawer: 'mini'
         }
     },
@@ -223,7 +223,7 @@ const routes = [
         component: page('Dashboard/Products/Update.vue'),
         meta: {
             base: 'dashboard',
-            can: ['update-products']
+            can: ['update-product']
         }
     },
     {
@@ -232,7 +232,7 @@ const routes = [
         component: page('Dashboard/Products/UpdateCategory.vue'),
         meta: {
             base: 'dashboard',
-            can: ['update-products']
+            can: ['update-product']
         }
     },
     
@@ -242,8 +242,16 @@ const routes = [
      */
      {
         path: '/p/:slug',
-        name: 'dash.product.update-category',
+        name: 'commerce.product',
         component: page('Commerce/Product'),
+        meta: {
+            base: 'commerce',
+        }
+    },
+    {
+        path: '/carrinho',
+        name: 'commerce.cart',
+        component: page('Commerce/Cart'),
         meta: {
             base: 'commerce',
         }

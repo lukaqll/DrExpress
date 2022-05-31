@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Services\AddressService;
 use App\Services\BrandService;
+use App\Services\CartItemService;
 use App\Services\CartService;
 use App\Services\CategoryService;
 use App\Services\CityService;
@@ -57,6 +58,7 @@ class Controller extends BaseController
     protected $servedDistrictService;
     protected $favoriteProductService;
     protected $cartService;
+    protected $cartItemService;
 
     public function __construct()
     {
@@ -81,6 +83,7 @@ class Controller extends BaseController
         $this->servedDistrictService = new ServedDistrictService;
         $this->favoriteProductService = new FavoriteProductService;
         $this->cartService = new CartService;
+        $this->cartItemService = new CartItemService;
     }
 
     protected function gate($slug, $attr=[]){

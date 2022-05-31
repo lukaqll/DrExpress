@@ -156,3 +156,10 @@ CREATE TABLE `dr_express`.`cart_item_specs` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
+ALTER TABLE `dr_express`.`carts` 
+DROP FOREIGN KEY `fk_carts_users1`;
+ALTER TABLE `dr_express`.`carts` 
+DROP COLUMN `id_seller`,
+DROP INDEX `fk_carts_users1_idx` ;
+;
+

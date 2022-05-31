@@ -10,6 +10,7 @@
             <v-toolbar-title>Dr. Express</v-toolbar-title>
             <v-spacer></v-spacer>
 
+            <!-- favorites -->
             <v-menu
                 offset-x
                 offset-y
@@ -25,7 +26,7 @@
                 v-bind="attrs"
                 v-on="on"
               >
-                <v-icon>far fa-heart</v-icon>
+                <v-icon small>far fa-heart</v-icon>
               </v-btn>
             </template>
                 <v-card :loading="favoriteProductsLoading">
@@ -35,22 +36,28 @@
                             v-for="(prod, i) in favoriteProducts" :key="i"
                         >
                             <v-list-item-icon>
-                                <v-img width="60" :src="prod.principal_image"/>
+                                <v-img width="100" :src="prod.principal_image"/>
                             </v-list-item-icon>
                             <v-list-item-title>
                                 <router-link link :to="`/p/${prod.slug}`">
                                     {{ prod.name }} 
                                 </router-link> <br>
+                                <small>Por {{prod.user_name}}</small> <br>
                                 <span>R$ {{ $commom.toMoney(prod.price) }}</span> <br>
-                                <a @click="() => removeFavorite(prod.id)">
+                                <v-btn color="primary" small plain class="p-0" @click="() => removeFavorite(prod.id)">
                                     <small>Remover</small>
-                                </a>
+                                </v-btn>
                             </v-list-item-title>
                         </v-list-item>
                     </v-list>
                     <v-card-title v-else>Nenhum produto favorito ainda</v-card-title>
                 </v-card>
-          </v-menu>
+            </v-menu>
+
+            <!-- cart -->
+            <v-btn icon to="/carrinho">
+                <v-icon small>fa fa-shopping-cart</v-icon>
+            </v-btn>
 
             <v-menu
                 offset-x
@@ -61,9 +68,9 @@
             >
             <template v-slot:activator="{ on, attrs }">
               <v-btn
-                    icon
-                    v-bind="attrs"
-                    v-on="on"
+                icon
+                v-bind="attrs"
+                v-on="on"
               >
                 <v-icon>mdi-dots-vertical</v-icon>
               </v-btn>
@@ -94,7 +101,9 @@
         <div>
             <v-main app style="padding-top: 100px;">
                 <v-container fluid>
-                    <slot />
+                    <div class="d-flex justify-content-center w-100">
+                        <slot />
+                    </div>
                 </v-container>
             </v-main>
         </div>
@@ -107,7 +116,7 @@ export default {
         return {
             windowWidth: window.innerWidth,
             favoriteProducts: [],
-            favoriteProductsLoading: false
+            favoriteProductsLoading: false,
         };
     },
 
@@ -165,7 +174,9 @@ export default {
                     this.getFavoriteProducts()
                 }
             })
-        }
+        },
+
+        
 
     },
 };

@@ -9,7 +9,7 @@ class CartItemSpec extends Model
 {
     use HasFactory;
 
-    protected $table = 'cart_item_spec';
+    protected $table = 'cart_item_specs';
     protected $primaryKey = 'id';
 
     protected $fillable = [
@@ -20,4 +20,8 @@ class CartItemSpec extends Model
     ];
 
     public $timestamps = false;
+
+    public function spec(){
+        return $this->hasOne(Spec::class, 'id', 'id_spec');
+    }
 }

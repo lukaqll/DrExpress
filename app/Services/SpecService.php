@@ -1,11 +1,13 @@
 <?php 
  namespace App\Services;
 
+use App\Models\CartItem;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductSpec;
 use App\Models\ProductSpecItem;
 use App\Models\Spec;
+use Illuminate\Support\Facades\DB;
 
 class SpecService extends AbstractService
 {
@@ -87,6 +89,64 @@ class SpecService extends AbstractService
                     'name' => $specItems
                 ]);
             }
+        }
+
+        return true;
+    }
+
+    /**
+     * validate specs on add product in cart
+     */
+    public function addCartItemSpecs(CartItem $cartItem, array $data){
+
+        $product = $cartItem->product;
+
+        // find selectable specs items
+        $productSpecs = Spec::join('product_specs AS ps', function($join) use($product){
+            $join->on('ps.id_spec', 'specs.id')
+                 ->where('ps.id_product', $product->id);
+        })->select('specs.*')
+          ->where('specs.is_multiple', 2)
+          ->get();
+
+        // is specs empty
+        if(!empty($productSpecs) && count($productSpecs)>0 && empty($data['specs'])){
+            $firstSpec = $productSpecs[0];
+            $this->throwException("Informe o campo {$firstSpec->name}");
+        }
+
+        $specs = $data['specs'];
+
+        foreach($productSpecs as $productSpec){
+            
+            if( empty( $specs[ $productSpec->id ] ) )
+                $this->throwException("Informe o campo {$productSpec->name}");
+            
+            // verify if sent spec data exists
+            $isSpecExists = DB::select("
+                select psi.* from 
+                    product_spec_items AS psi
+                join product_specs AS ps
+                    on ps.id = psi.id_product_spec
+                    and psi.name = :name
+                    and ps.id_product = :id_product
+                join specs sp
+                    on sp.id = ps.id_spec
+                    and sp.id_category = :id_category
+            ", [
+                ':name' => $specs[ $productSpec->id ],
+                ':id_category' => $product->id_category,
+                ':id_product' => $product->id,
+            ]);
+
+            if( empty($isSpecExists) )
+                $this->throwException("Falha ao adicionar ao carrinho");
+            
+            // save cart item spec data
+            $cartItem->specs()->create([
+                'id_spec' => $productSpec->id,
+                'data' => $specs[ $productSpec->id ]
+            ]);
         }
 
         return true;

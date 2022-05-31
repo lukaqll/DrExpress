@@ -168,14 +168,21 @@ class PermissionSeed extends Seeder
             [
                 'name' => 'Cria Produtos',
                 'slug' => 'create-product',
-                'topic' => 'address',
+                'topic' => 'product',
                 'description' => 'Pode criar produtos',
+                'active' => 1
+            ],
+            [
+                'name' => 'Edita Produtos',
+                'slug' => 'update-product',
+                'topic' => 'product',
+                'description' => 'Pode Editar produtos',
                 'active' => 1
             ],
             [
                 'name' => 'Ver Produtos',
                 'slug' => 'view-product',
-                'topic' => 'address',
+                'topic' => 'product',
                 'description' => 'Pode ver produtos',
                 'active' => 1
             ],
@@ -215,21 +222,21 @@ class PermissionSeed extends Seeder
             // served districts
             [
                 'name' => 'Criar Locais Atendidos',
-                'slug' => 'create-serverd-district',
+                'slug' => 'create-served-district',
                 'topic' => 'address',
                 'description' => 'Pode criar locais atendidos',
                 'active' => 1
             ],
             [
                 'name' => 'Editar Locais Atendidos',
-                'slug' => 'update-serverd-district',
+                'slug' => 'update-served-district',
                 'topic' => 'address',
                 'description' => 'Pode editar locais atendidos',
                 'active' => 1
             ],
             [
                 'name' => 'Deletar Locais Atendidos',
-                'slug' => 'delete-serverd-district',
+                'slug' => 'delete-served-district',
                 'topic' => 'address',
                 'description' => 'Pode deletar locais atendidos',
                 'active' => 1
@@ -237,6 +244,13 @@ class PermissionSeed extends Seeder
 
 
             // cart
+            [
+                'name' => 'Ver Carrinho de Compras',
+                'slug' => 'view-cart',
+                'topic' => 'cart',
+                'description' => 'Pode ver carrinhos de compra',
+                'active' => 1
+            ],
             [
                 'name' => 'Criar Carrinho de Compras',
                 'slug' => 'create-cart',

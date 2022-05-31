@@ -308,6 +308,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }, {
         text: 'Carrinho de Compras',
         value: 'cart'
+      }, {
+        text: 'Produto',
+        value: 'product'
       }]
     };
   },

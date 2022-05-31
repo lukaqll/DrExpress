@@ -270,6 +270,7 @@ export default {
             {text: 'Endereço', value: 'address'},
             {text: 'Marca', value: 'brand'},
             {text: 'Carrinho de Compras', value: 'cart'},
+            {text: 'Produto', value: 'product'},
         ]
 
     }),

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Http\Resources\ServedDistrictResource;
+use App\Services\CartService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -135,6 +137,7 @@ class User extends Authenticatable implements JWTSubject
         }
         return '/defaultImages/default-picture.png';
     }
+
     public function defaultBanner(){
         $fileExists = Storage::disk('public')->exists($this->banner);
         if( $fileExists ){
@@ -149,5 +152,36 @@ class User extends Authenticatable implements JWTSubject
 
     public function favoriteProducts(){
         return $this->belongsToMany(Product::class, 'favorite_products', 'id_user', 'id_product');
+    }
+
+    public function getCart(){
+        $cartService = new CartService;
+        return $cartService->getCart($this);
+    }
+
+    public function defaultAddress(){
+        return $this->hasOne(Address::class, 'id', 'id_address');
+    }
+
+    public function districtServed(){
+
+        $user = auth('api')->user();
+        $seller = $this;
+
+        if(empty($user))
+            return false;
+
+        if( empty($user->defaultAddress) )
+            return false;
+
+        $result = ServedDistrict::where('id_user', $seller->id)
+                            ->where('id_district', $user->defaultAddress->id_district)
+                            ->first();
+
+        if( !empty($result) ){
+            return new ServedDistrictResource($result);
+        }
+        
+        return false;
     }
 }

@@ -1106,7 +1106,7 @@ var render = function () {
                       _vm._v(
                         "\n                        Locais Atendidos\n                        "
                       ),
-                      _vm.$can("create-served-distric")
+                      _vm.$can("create-served-district")
                         ? _c(
                             "v-btn",
                             {
@@ -1122,7 +1122,7 @@ var render = function () {
                           )
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm.$can("delete-served-distric") &&
+                      _vm.$can("delete-served-district") &&
                       _vm.selectedItems.length
                         ? _c(
                             "v-btn",

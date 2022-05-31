@@ -40,7 +40,9 @@ class ProductCommerceResource extends JsonResource
             'amount'          => $this->getAmount(),
             'category'        => new CategoryResource($this->category),
             'required_cro'    => $this->verifyRequiredCro(),
-            'is_favorite'     => $this->getIsFavorite()
+            'is_favorite'     => $this->getIsFavorite(),
+            'user_name'       => $this->user->name,
+            'served'          => $this->user->districtServed()
         ];
     }
 }

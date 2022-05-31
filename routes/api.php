@@ -184,6 +184,9 @@ Route::group(['middleware' => ['apiJwt']], function(){
      * cart
      */
     Route::post('/cart/add-item', [CartController::class, 'addItem']);
+    Route::get('/cart', [CartController::class, 'get']);
+    Route::put('/cart-item/amount/{id}', [CartController::class, 'updateItemAmount']);
+    Route::delete('/cart-item/{id}', [CartController::class, 'removeItem']);
 
 });
 

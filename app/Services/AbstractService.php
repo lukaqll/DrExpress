@@ -152,7 +152,7 @@ abstract class AbstractService{
 
 
     public function throwException($message=''){
-        if( is_string($message) )
+        if( !is_array($message))
             throw ValidationException::withMessages([$message]);
         
         if( is_array($message) )

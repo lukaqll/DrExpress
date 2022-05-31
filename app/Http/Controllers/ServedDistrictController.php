@@ -84,7 +84,7 @@ class ServedDistrictController extends Controller
      * @return  json
      */
     public function create( Request $request ){
-        $this->gate('create-serverd-district');
+        $this->gate('create-served-district');
         try {
 
             $user = auth('api')->user();
@@ -118,7 +118,7 @@ class ServedDistrictController extends Controller
      * @return  json
      */
     public function update( Request $request, $id ){
-        $this->gate('create-serverd-district');
+        $this->gate('create-served-district');
         try {
             
             $servedDistrict = $this->servedDistrictService->find($id);
@@ -152,7 +152,7 @@ class ServedDistrictController extends Controller
      * @return  json
      */
     public function delete( $id ){
-        $this->gate('delete-serverd-district');
+        $this->gate('delete-served-district');
         try {
 
             $servedDistrict = $this->servedDistrictService->find($id);
@@ -175,7 +175,7 @@ class ServedDistrictController extends Controller
      * @return  json
      */
     public function multipleDelete( Request $request ){
-        $this->gate('delete-serverd-district');
+        $this->gate('delete-served-district');
         try {
             DB::beginTransaction();
             $user = auth('api')->user();

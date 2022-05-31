@@ -1,6 +1,7 @@
 <?php 
  namespace App\Services;
 
+use App\Models\CartItem;
 use App\Models\FavoriteProduct;
 use App\Models\Product;
 use App\Models\User;
@@ -173,8 +174,16 @@ class ProductService extends AbstractService
 
         
         FavoriteProduct::where('id_product', $product->id)->delete();
+        
+        $cartItems = CartItem::where('id_product', $product->id)->get(); 
+        foreach($cartItems as $cartItem){
+            $cartItem->specs()->delete();
+            $cartItem->update(['deleted' => 1]);
+        }
+
         $product->update(['deleted' => 1]);
         
+
         return true;
     }
 }

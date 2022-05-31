@@ -1,7 +1,9 @@
 <?php 
  namespace App\Services;
 
+use App\Http\Resources\CartItemResource;
 use App\Models\Cart;
+use App\Models\CartItem;
 use App\Models\ProductSpecItem;
 use App\Models\Spec;
 use App\Models\User;
@@ -14,6 +16,7 @@ class CartService extends AbstractService
     private $productService;
     private $cartItemService;
     private $cartItemSpecService;
+    private $specService;
 
     public function __construct()
     {
@@ -22,11 +25,12 @@ class CartService extends AbstractService
         $this->productService = new ProductService;
         $this->cartItemService = new CartItemService;
         $this->cartItemSpecService = new CartItemSpecService;
+        $this->specService = new SpecService;
     }
 
 
     /**
-     * add item
+     * add item in cart
      */
     public function addItem(User $user, array $data){
 
@@ -35,80 +39,37 @@ class CartService extends AbstractService
         if( empty($product) )
             $this->throwException('Falha ao adicionar ao carrinho');
 
-        $category = $product->category;
+        if( $data['amount'] > $product->getAmount() )
+            $this->throwException("Não possuem {$data['amount']} itens disponíveis deste produto");
+
         $seller = $product->user;
+        $servedDistrict = $seller->districtServed();
+
+        if( empty($servedDistrict) )
+            $this->throwException('Este vendedor não atende à sua localidade');
 
         // get/create cart
         $cart = $this->getCart($user, $seller);
 
         // create item
-        $item = $this->cartItemService->create([
+        $cartItem = $cart->items()->create([
             'id_cart'    => $cart->id,
             'id_product' => $product->id,
             'amount'     => $data['amount']
         ]);
 
-        $categorySpecs = Spec::where('id_category', $category->id)
-                              ->where('is_multiple', 2)
-                              ->get();
-
-        foreach($categorySpecs as $spec){
-            $isSpecOk = false;
-
-            if( empty($data['specs']) )
-                $this->throwException("Informe o campo {$spec->name} 1");
-
-            foreach( $data['specs'] as $idSpec => $data ){
-                if( $spec->id == $idSpec && !empty($data) )
-                    $isSpecOk = true;
-            }
-
-            if( !$isSpecOk )
-                $this->throwException("Informe o campo {$spec->name} 2");
-        }
-
-        // spec items
-        if( !empty($data['specs']) && !empty($categorySpecs) ){
-
-            foreach($data['specs'] as $idSpec => $data){
-
-                $isSpecExists = DB::select("
-                    select * from 
-                        product_spec_items AS psi
-                    join product_specs AS ps
-                        on ps.id = psi.id_product_spec
-                        and psi.name = :name
-                    join specs sp
-                        on sp on sp.id = ps.id_spec
-                        and sp.id_category = :id_category
-                ", [
-                    ':name' => $data,
-                    ':id_category' => $category->id
-                ]);
-
-                if( empty($isSpecExists) )
-                    $this->throwException("Falha ao adicionar ao carrinho");
-
-                $item->specs()->create([
-                    'id_spec' => $idSpec,
-                    'data' => $data
-                ]);
-
-            }
-        }
-
-        $this->throwException('teste');
+        $this->specService->addCartItemSpecs($cartItem, $data);
 
         return $cart;
-        
     }
 
-
-    public function getCart(User $user, User $seller){
+    /**
+     * get or create a cart
+     */
+    public function getCart(User $user){
 
         $cart = $this->get([
             'id_user'   => $user->id,
-            'id_seller' => $seller->id,
             'status'    => 'A',
             'deleted'   => 0
         ]);
@@ -117,11 +78,50 @@ class CartService extends AbstractService
 
             $cart = $this->create([
                 'id_user'   => $user->id,
-                'id_seller' => $seller->id,
                 'status'    => 'A'
             ]);
         }
 
         return $cart;
+    }
+
+    /**
+     * get formated cart
+     */
+    public function getFormatCart( User $user ){
+
+        $cart = $this->getCart( $user );
+        $sellers = $cart->getSellers();
+
+        foreach($sellers as &$seller){
+            $cartItems = $this->getCartItemsBySeller( $seller, $cart );
+            $seller->cartItems = $cartItems;
+        }
+        
+        $cart->sellers = $sellers;
+
+        return $cart;
+    }
+
+    /**
+     * get products by cart and seller
+     */
+    public function getCartItemsBySeller( User $seller, Cart $cart ){
+
+        $result = CartItem::join('carts AS car', function($join) use($cart){
+            $join->on('car.id', 'cart_items.id_cart')
+                 ->where('car.id', $cart->id);
+        })
+        ->join('products AS prd', function($join) use($seller){
+            $join->on('prd.id', 'cart_items.id_product')
+                 ->where('prd.id_user', $seller->id)
+                 ->where('cart_items.deleted', 0)
+                 ->where('prd.deleted', 0);
+        })
+        ->groupBy('cart_items.id')
+        ->select('cart_items.*')
+        ->get();
+
+        return $result;
     }
 }
